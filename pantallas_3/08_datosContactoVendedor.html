@@ -1,0 +1,347 @@
+<!doctype html>
+
+<html class="dark" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PC-SWAPS | Protocolo de Contacto</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#ff7763",
+              "surface-dim": "#0e0e0f",
+              "on-surface": "#ffffff",
+              "on-primary-fixed-variant": "#600000",
+              "surface-container": "#1a191b",
+              "surface-container-lowest": "#000000",
+              "secondary-fixed": "#ffc2c6",
+              "secondary-dim": "#f47785",
+              "secondary-container": "#842133",
+              "on-secondary": "#570017",
+              tertiary: "#dba2ff",
+              "on-surface-variant": "#adaaab",
+              "on-secondary-container": "#ffc0c4",
+              "secondary-fixed-dim": "#ffaeb4",
+              "error-container": "#a70138",
+              "on-secondary-fixed-variant": "#912b3c",
+              "tertiary-dim": "#c384eb",
+              "surface-container-low": "#131314",
+              "on-background": "#ffffff",
+              "on-tertiary-fixed": "#2a0044",
+              "primary-fixed-dim": "#ff5b47",
+              "inverse-surface": "#fcf8f9",
+              error: "#ff6e84",
+              "tertiary-container": "#d191fa",
+              surface: "#0e0e0f",
+              "surface-tint": "#ff8e7d",
+              "primary-dim": "#eb0000",
+              "surface-container-high": "#201f21",
+              "error-dim": "#d73357",
+              "on-primary-fixed": "#000000",
+              "on-tertiary-container": "#47026f",
+              "surface-bright": "#2c2c2d",
+              "on-primary-container": "#4f0000",
+              "tertiary-fixed-dim": "#c889f1",
+              "primary-container": "#ff7763",
+              "outline-variant": "#484849",
+              "inverse-primary": "#c10100",
+              "on-secondary-fixed": "#6a0c22",
+              "on-error-container": "#ffb2b9",
+              "on-tertiary-fixed-variant": "#56197d",
+              background: "#0e0e0f",
+              secondary: "#fe7e8c",
+              "inverse-on-surface": "#565556",
+              "on-primary": "#650000",
+              "on-tertiary": "#53157a",
+              "on-error": "#490013",
+              outline: "#767576",
+              "surface-variant": "#262627",
+              primary: "#ff8e7d",
+              "tertiary-fixed": "#d697ff",
+              "surface-container-highest": "#262627",
+            },
+            borderRadius: {
+              DEFAULT: "0px",
+              lg: "0px",
+              xl: "0px",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Space Grotesk"],
+              body: ["Inter"],
+              label: ["Space Grotesk"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .hud-scanline {
+        background: linear-gradient(
+          to bottom,
+          transparent 50%,
+          rgba(235, 0, 0, 0.05) 51%
+        );
+        background-size: 100% 4px;
+      }
+      .voltage-bar {
+        width: 4px;
+        background: #eb0000;
+        box-shadow: 0 0 15px #eb0000;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background text-on-surface font-body selection:bg-primary-dim selection:text-white"
+  >
+    <!-- BARRA DE NAVEGACIÓN SUPERIOR (PC-SWAPS STYLE) -->
+    <nav
+      class="bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/50 shadow-[0_4px_30px_rgba(235,0,0,0.1)] fixed top-0 left-0 z-50 flex justify-between items-center w-full px-6 py-4 max-w-none"
+    >
+      <a
+        class="text-3xl font-black italic tracking-tighter text-red-600 uppercase font-headline"
+        href="/"
+        >PC-SWAPS</a
+      >
+      <div
+        class="flex items-center gap-8 font-headline uppercase tracking-widest text-xs"
+      >
+        <div class="hidden md:flex gap-8 items-center">
+          <a class="text-zinc-500 hover:text-red-500 transition-colors" href="#"
+            >Mis anuncios</a
+          >
+          <a class="text-zinc-500 hover:text-red-500 transition-colors" href="#"
+            >Modificar perfil</a
+          >
+          <a class="text-zinc-500 hover:text-red-500 transition-colors" href="#"
+            >Modificar datos acceso</a
+          >
+        </div>
+        <a class="flex items-center" href="#">
+          <span
+            class="material-symbols-outlined text-zinc-400 hover:text-red-500 cursor-pointer transition-colors"
+            data-icon="mail"
+            >mail</span
+          >
+        </a>
+      </div>
+    </nav>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main
+      class="min-h-screen pt-24 pb-32 px-6 flex items-center justify-center relative overflow-hidden"
+    >
+      <!-- Elementos Estéticos de Fondo -->
+      <div
+        class="absolute inset-0 hud-scanline opacity-20 pointer-events-none"
+      ></div>
+      <div
+        class="absolute top-1/4 -left-20 w-96 h-96 bg-primary-dim/5 rounded-full blur-[120px]"
+      ></div>
+      <div
+        class="absolute bottom-1/4 -right-20 w-96 h-96 bg-tertiary/5 rounded-full blur-[120px]"
+      ></div>
+      <!-- VENTANA DE INFORMACIÓN DE CONTACTO -->
+      <div
+        class="relative w-full max-w-4xl bg-surface-container-high shadow-[0_0_60px_rgba(0,0,0,0.8)] border-0 overflow-hidden flex flex-col md:flex-row"
+      >
+        <!-- PANEL IZQUIERDO: IDENTIDAD DEL USUARIO -->
+        <div
+          class="w-full md:w-2/5 bg-surface-container-lowest p-8 flex flex-col items-center justify-center relative border-r border-outline-variant/10"
+        >
+          <div class="absolute top-0 left-0 voltage-bar h-full"></div>
+          <div class="relative mb-6">
+            <div
+              class="absolute inset-0 border-2 border-primary-dim translate-x-2 translate-y-2"
+            ></div>
+            <img
+              alt="Identidad del Usuario"
+              class="w-48 h-48 object-cover relative z-10 border border-white/10"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFQTyRmYfAdd0Z6ash-Orou4OEzM38hoKZi_8f_sXnXR1oTH8TpYUvunSWaWAn8F6my1rP0LDOlGb0WlsBeRHgH2BROdF-UkYNV2d7A78hHsq9TNjQUZr8r4lbeyXBKd4p3o-lpAfk2iX2P9BoWBU3z_DXcAQCOX6Is2hIw4YJcPfnZ11Pb-MAGsfmm6H-niAZ29y0TyQDfcPztUDwzG6vl-Tnbr8hpOnz0QupjZiQKfGQpWitgO5I_I4j8rK1ycJmlSQdk3S22zBW"
+            />
+            <div
+              class="absolute -bottom-2 -right-2 bg-primary-dim text-black px-3 py-1 font-label font-bold text-[10px] z-20 uppercase"
+            >
+              USUARIO VERIFICADO
+            </div>
+          </div>
+          <h1
+            class="font-headline text-4xl font-black italic text-on-surface uppercase tracking-tighter mb-1 text-center"
+          >
+            KRYPT_COMMANDER
+          </h1>
+          <p
+            class="font-label text-primary-dim text-xs tracking-[0.2em] uppercase font-bold mb-8"
+          >
+            MIEMBRO ELITE
+          </p>
+          <!-- ESTADÍSTICAS DEL USUARIO (COMENTADAS) -->
+          <!-- 
+                <div class="grid grid-cols-2 gap-4 w-full text-center">
+                    <div class="bg-surface-container p-3 border-b border-outline-variant/30">
+                        <p class="text-[9px] font-label text-zinc-500 uppercase tracking-widest">Intercambios Éxito</p>
+                        <p class="text-xl font-headline font-bold text-on-surface">1,204</p>
+                    </div>
+                    <div class="bg-surface-container p-3 border-b border-outline-variant/30">
+                        <p class="text-[9px] font-label text-zinc-500 uppercase tracking-widest">Reputación</p>
+                        <p class="text-xl font-headline font-bold text-tertiary">99.8%</p>
+                    </div>
+                </div>
+                -->
+        </div>
+        <!-- PANEL DERECHO: CAMPOS DE INFORMACIÓN -->
+        <div class="w-full md:w-3/5 p-10 relative">
+          <div class="flex justify-between items-start mb-12">
+            <div>
+              <h2
+                class="font-headline text-2xl font-bold text-on-surface uppercase tracking-tight"
+              >
+                Información de contacto
+              </h2>
+              <div class="h-1 w-12 bg-primary-dim mt-2"></div>
+            </div>
+            <button class="text-zinc-500 hover:text-white transition-colors">
+              <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
+          </div>
+          <div class="space-y-6">
+            <!-- CAMPO: NOMBRE -->
+            <div class="group">
+              <label
+                class="font-label text-[10px] text-primary-dim uppercase font-black tracking-widest block mb-2 opacity-70"
+                >Nombre</label
+              >
+              <div
+                class="flex items-center gap-4 bg-surface-container-lowest p-4 transition-all group-hover:bg-zinc-900 border-l-2 border-transparent group-hover:border-primary-dim"
+              >
+                <span
+                  class="material-symbols-outlined text-zinc-400 group-hover:text-primary-dim"
+                  >person</span
+                >
+                <span
+                  class="font-headline text-lg tracking-tight text-on-surface"
+                  >Krypt</span
+                >
+              </div>
+            </div>
+            <!-- CAMPO: APELLIDOS -->
+            <div class="group">
+              <label
+                class="font-label text-[10px] text-primary-dim uppercase font-black tracking-widest block mb-2 opacity-70"
+                >Apellidos</label
+              >
+              <div
+                class="flex items-center gap-4 bg-surface-container-lowest p-4 transition-all group-hover:bg-zinc-900 border-l-2 border-transparent group-hover:border-primary-dim"
+              >
+                <span
+                  class="material-symbols-outlined text-zinc-400 group-hover:text-primary-dim"
+                  >badge</span
+                >
+                <span
+                  class="font-headline text-lg tracking-tight text-on-surface"
+                  >Commander Ops</span
+                >
+              </div>
+            </div>
+            <!-- CAMPO: DIRECCIÓN -->
+            <div class="group">
+              <label
+                class="font-label text-[10px] text-primary-dim uppercase font-black tracking-widest block mb-2 opacity-70"
+                >Dirección</label
+              >
+              <div
+                class="flex items-start gap-4 bg-surface-container-lowest p-4 transition-all group-hover:bg-zinc-900 border-l-2 border-transparent group-hover:border-primary-dim"
+              >
+                <span
+                  class="material-symbols-outlined text-zinc-400 group-hover:text-primary-dim mt-1"
+                  >location_on</span
+                >
+                <span
+                  class="font-headline text-lg tracking-tight text-on-surface leading-tight"
+                  >Sector 7-G, Plaza Neon Heights<br />Neo-Tokyo Dist. 404</span
+                >
+              </div>
+            </div>
+            <!-- CAMPO: TELÉFONO -->
+            <div class="group">
+              <label
+                class="font-label text-[10px] text-primary-dim uppercase font-black tracking-widest block mb-2 opacity-70"
+                >Número de teléfono</label
+              >
+              <div
+                class="flex items-center gap-4 bg-surface-container-lowest p-4 transition-all group-hover:bg-zinc-900 border-l-2 border-transparent group-hover:border-primary-dim"
+              >
+                <span
+                  class="material-symbols-outlined text-zinc-400 group-hover:text-primary-dim"
+                  >call</span
+                >
+                <span
+                  class="font-headline text-lg tracking-tight text-on-surface"
+                  >+34 600 000 000</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- ACCIONES TRANSACCIONALES -->
+          <div class="mt-14 flex flex-col gap-4">
+            <button
+              class="w-full bg-gradient-to-br from-primary-dim to-primary-container text-black font-headline font-black uppercase tracking-widest py-4 px-6 hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all active:scale-95"
+            >
+              INICIAR CHAT
+            </button>
+            <!-- BOTÓN "DESCARGAR TARJETA" ELIMINADO SEGÚN REQUERIMIENTO -->
+          </div>
+          <!-- Footer Meta -->
+          <div
+            class="absolute bottom-4 right-8 opacity-20 flex gap-2 items-center pointer-events-none"
+          >
+            <span class="text-[8px] font-label uppercase tracking-widest"
+              >Protocolo-Activo</span
+            >
+            <div
+              class="w-1.5 h-1.5 rounded-full bg-primary-dim animate-pulse"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- FOOTER -->
+    <footer class="w-full py-12 px-8 bg-black border-t border-zinc-800">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full max-w-7xl mx-auto gap-6"
+      >
+        <div class="flex gap-6">
+          <a
+            class="text-xs text-zinc-500 hover:text-red-500 transition-colors uppercase tracking-widest"
+            href="#"
+            >Soporte</a
+          >
+        </div>
+        <div
+          class="text-[10px] text-zinc-600 uppercase tracking-[0.2em] font-label"
+        >
+          ©2024 PC-SWAPS KINETIC SYSTEM. TODOS LOS DERECHOS RESERVADOS.
+        </div>
+      </div>
+    </footer>
+    <!-- BARRA DE NAVEGACIÓN INFERIOR ELIMINADA SEGÚN REQUERIMIENTO -->
+  </body>
+</html>

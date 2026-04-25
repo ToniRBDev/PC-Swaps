@@ -1,0 +1,517 @@
+<!doctype html>
+
+<html class="dark" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              outline: "#767576",
+              "surface-dim": "#0e0e0f",
+              "surface-variant": "#262627",
+              "surface-bright": "#2c2c2d",
+              "on-secondary-container": "#ffc0c4",
+              "primary-fixed-dim": "#ff5b47",
+              "on-error": "#490013",
+              "inverse-primary": "#c10100",
+              "surface-container": "#1a191b",
+              error: "#ff6e84",
+              "surface-container-high": "#201f21",
+              "secondary-container": "#842133",
+              "on-secondary-fixed": "#6a0c22",
+              "on-secondary": "#570017",
+              "tertiary-fixed": "#d697ff",
+              "tertiary-dim": "#c384eb",
+              "on-tertiary-fixed": "#2a0044",
+              "on-primary": "#650000",
+              surface: "#0e0e0f",
+              "primary-dim": "#eb0000",
+              tertiary: "#dba2ff",
+              "outline-variant": "#484849",
+              "on-secondary-fixed-variant": "#912b3c",
+              "on-primary-fixed-variant": "#600000",
+              primary: "#ff8e7d",
+              "surface-container-low": "#131314",
+              "secondary-dim": "#f47785",
+              secondary: "#fe7e8c",
+              "surface-container-lowest": "#000000",
+              "on-tertiary": "#53157a",
+              "tertiary-fixed-dim": "#c889f1",
+              background: "#0e0e0f",
+              "secondary-fixed": "#ffc2c6",
+              "on-surface-variant": "#adaaab",
+              "secondary-fixed-dim": "#ffaeb4",
+              "inverse-on-surface": "#565556",
+              "inverse-surface": "#fcf8f9",
+              "primary-fixed": "#ff7763",
+              "on-surface": "#ffffff",
+              "on-primary-container": "#4f0000",
+              "on-primary-fixed": "#000000",
+              "primary-container": "#ff7763",
+              "on-error-container": "#ffb2b9",
+              "error-container": "#a70138",
+              "surface-container-highest": "#262627",
+              "on-tertiary-container": "#47026f",
+              "surface-tint": "#ff8e7d",
+              "tertiary-container": "#d191fa",
+              "error-dim": "#d73357",
+              "on-tertiary-fixed-variant": "#56197d",
+              "on-background": "#ffffff",
+            },
+            borderRadius: {
+              DEFAULT: "0px",
+              lg: "0px",
+              xl: "0px",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Space Grotesk"],
+              display: ["Space Grotesk"],
+              body: ["Inter"],
+              label: ["Space Grotesk"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        background-color: #0e0e0f;
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+      }
+      .hud-text {
+        text-shadow: 0 0 10px rgba(235, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-background">
+    <!-- TopNavBar -->
+    <nav
+      class="bg-[#0e0e0f] dark:bg-[#000000] border-b border-white/5 flex justify-between items-center w-full px-8 py-6 sticky top-0 z-50"
+    >
+      <div class="text-3xl font-black tracking-tighter text-[#eb0000] italic">
+        PC-SWAPS
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a
+          class="font-['Space_Grotesk'] uppercase tracking-widest text-sm text-zinc-500 hover:text-[#eb0000] hover:bg-white/5 transition-all duration-100 Active: scale-95 duration-75"
+          href="#"
+          >Mis anuncios</a
+        >
+        <a
+          class="font-['Space_Grotesk'] uppercase tracking-widest text-sm text-[#eb0000] border-b-2 border-[#eb0000] pb-1 hover:text-[#eb0000] hover:bg-white/5 transition-all duration-100 Active: scale-95 duration-75"
+          href="#"
+          >Seguimiento</a
+        >
+        <a
+          class="font-['Space_Grotesk'] uppercase tracking-widest text-sm text-zinc-500 hover:text-[#eb0000] hover:bg-white/5 transition-all duration-100 Active: scale-95 duration-75"
+          href="#"
+          >Modificar perfil</a
+        >
+        <a
+          class="font-['Space_Grotesk'] uppercase tracking-widest text-sm text-zinc-500 hover:text-[#eb0000] hover:bg-white/5 transition-all duration-100 Active: scale-95 duration-75"
+          href="#"
+          >Modificar datos acceso</a
+        >
+      </div>
+      <div class="flex items-center gap-4 text-[#eb0000] dark:text-[#ff7763]">
+        <button
+          class="material-symbols-outlined p-2 hover:bg-white/5 transition-all"
+        >
+          mail
+        </button>
+        <button class="md:hidden material-symbols-outlined p-2">menu</button>
+      </div>
+    </nav>
+    <main class="max-w-[1440px] mx-auto px-8 py-12">
+      <!-- Hero Header -->
+      <header class="mb-16 relative">
+        <div class="absolute -left-4 top-0 w-1 h-full bg-primary-dim"></div>
+        <h1
+          class="font-display text-7xl md:text-9xl font-black uppercase tracking-tighter leading-none mb-4 italic opacity-10 absolute -top-8 -left-2 select-none pointer-events-none"
+        >
+          WATCHLIST
+        </h1>
+        <h2
+          class="font-display text-5xl md:text-7xl font-bold uppercase tracking-tight text-on-background relative z-10"
+        >
+          SEGUIMIENTO
+        </h2>
+        <div class="flex items-center gap-4 mt-6">
+          <span
+            class="font-label text-[10px] uppercase tracking-[0.3em] text-primary-dim font-bold"
+            >Protocolo de Vigilancia Activo</span
+          >
+          <div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+        </div>
+      </header>
+      <!-- Category Grid Section -->
+      <div class="space-y-24">
+        <!-- Tarjetas Gráficas Section -->
+        <section>
+          <div
+            class="flex items-center justify-between mb-8 border-l-4 border-primary-dim pl-6"
+          >
+            <h3
+              class="font-display text-2xl font-black uppercase tracking-widest"
+            >
+              Tarjetas gráficas
+            </h3>
+            <span class="font-label text-xs text-zinc-500">Items: 02</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Item Card 1 -->
+            <div
+              class="group bg-surface-container-high hover:bg-surface-bright transition-all relative overflow-hidden"
+            >
+              <div
+                class="absolute left-0 top-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300"
+              ></div>
+              <div
+                class="aspect-video relative overflow-hidden bg-surface-container-lowest"
+              >
+                <img
+                  alt="GPU"
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  data-alt="High-end gaming graphics card with glowing RGB fans on a dark technical background, sleek industrial design"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoZFQ3jSV64AHAUwRF0oplZW4k0iV55Tub2JmSypxgeWH5kld4eaBf9srpOc7f-0jWnMsDdjpJh0RXrLhp7ru8Nw5NvQZGAfmCXaWlduUAo13XDTwGKOyzLMGDQ7NBybX2WNGaoLfu5-VNasLyQ0zuUgXR8iRLXHwwSFLZawqHgiuGajfrT-VgjYZRCEJ3jP7_ozlADOP3L0b0-XgHW8FKfZFOIG_eG5Z6p3hIi6d-cDUOYTFc3Fg4jhPlKlAoPP5hsQUr7YnD6win"
+                />
+                <div
+                  class="absolute top-0 right-0 bg-primary-dim px-3 py-1 font-label text-[10px] font-bold uppercase tracking-widest"
+                >
+                  EN STOCK
+                </div>
+              </div>
+              <div class="p-6">
+                <h4 class="font-body font-bold text-xl mb-2 line-clamp-1">
+                  RTX 4090 Phantom OC 24GB
+                </h4>
+                <div class="flex items-baseline gap-2 mb-6">
+                  <span
+                    class="font-display text-2xl font-black text-primary-dim"
+                    >1.849€</span
+                  >
+                  <span class="text-xs text-zinc-500 line-through">1.999€</span>
+                </div>
+                <button
+                  class="w-full bg-primary-dim text-on-primary-fixed font-label font-bold py-4 px-6 uppercase tracking-widest text-xs hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all flex items-center justify-center gap-2 group-hover:bg-primary-container"
+                >
+                  VER ARTÍCULO
+                  <span class="material-symbols-outlined text-sm"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+            </div>
+            <!-- Item Card 2 -->
+            <div
+              class="group bg-surface-container-high hover:bg-surface-bright transition-all relative overflow-hidden"
+            >
+              <div
+                class="absolute left-0 top-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300"
+              ></div>
+              <div
+                class="aspect-video relative overflow-hidden bg-surface-container-lowest"
+              >
+                <img
+                  alt="GPU"
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  data-alt="Powerful graphics card detail showing heat pipes and cooling fins, dramatic red lighting in a dark room"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOAHz1T8uOxmNCzjs0A9JYxi9-9QanZDlHJOqpJEMdPjA28MRJK4hOJWhf4uIGdlGDc06xUdcuCqYjRB7jiLz9OjmKSFGUTqkRNgD9ZnUdadriDryKCzGkk5m3Xxvf0twhcpNjNKsKS6FuDHffC2cDwWrvgK8m3yX4tJKn_umay8eKGWBNFYDBPvjEKvHbFE8g0Khmnu_bxCWb4_BGadiGKIsXNkBII7fnU5gYEedzCfmZA1T6l8JHSBKqYAxZaobeL5WdOlKvJkLL"
+                />
+                <div
+                  class="absolute top-0 right-0 bg-zinc-800 px-3 py-1 font-label text-[10px] font-bold uppercase tracking-widest"
+                >
+                  AGOTADO
+                </div>
+              </div>
+              <div class="p-6">
+                <h4 class="font-body font-bold text-xl mb-2 line-clamp-1">
+                  RX 7900 XTX Red Devil
+                </h4>
+                <div class="flex items-baseline gap-2 mb-6">
+                  <span
+                    class="font-display text-2xl font-black text-primary-dim"
+                    >999€</span
+                  >
+                </div>
+                <button
+                  class="w-full bg-primary-dim text-on-primary-fixed font-label font-bold py-4 px-6 uppercase tracking-widest text-xs hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all flex items-center justify-center gap-2 group-hover:bg-primary-container"
+                >
+                  VER ARTÍCULO
+                  <span class="material-symbols-outlined text-sm"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Placas Base Section -->
+        <section>
+          <div
+            class="flex items-center justify-between mb-8 border-l-4 border-primary-dim pl-6"
+          >
+            <h3
+              class="font-display text-2xl font-black uppercase tracking-widest"
+            >
+              Placas base
+            </h3>
+            <span class="font-label text-xs text-zinc-500">Items: 01</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div
+              class="group bg-surface-container-high hover:bg-surface-bright transition-all relative overflow-hidden"
+            >
+              <div
+                class="absolute left-0 top-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300"
+              ></div>
+              <div
+                class="aspect-video relative overflow-hidden bg-surface-container-lowest"
+              >
+                <img
+                  alt="Motherboard"
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  data-alt="Modern motherboard circuit board with detailed components and metallic heatsinks, macro shot with neon highlights"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIkVnRP1Ksk2V3hy3BSdlXkoPA5naCMSBmd1-RhdkThu_cAUHiIbTS4tKjBbqIsJN8fAU8QxleFNUQGV4ez-83-tS65V3-2sIwmLfyneu6-PmTFR56oJ44lkJvkmQEu862mKKGDIDQ5PseS1xjGYDEEQatr7s62-QvwS6q4mkymua14YXSx532zsKQq53JUW8bATi2kkmeROt-Af17yhaJcCLt6_r-1Ro23l_bxT9EmuF5TSZTFbedZWs2JvfNEIA1KhqkMauxKp6M"
+                />
+              </div>
+              <div class="p-6">
+                <h4 class="font-body font-bold text-xl mb-2 line-clamp-1">
+                  ROG CROSSHAIR X670E HERO
+                </h4>
+                <div class="flex items-baseline gap-2 mb-6">
+                  <span
+                    class="font-display text-2xl font-black text-primary-dim"
+                    >645€</span
+                  >
+                </div>
+                <button
+                  class="w-full bg-primary-dim text-on-primary-fixed font-label font-bold py-4 px-6 uppercase tracking-widest text-xs hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all flex items-center justify-center gap-2 group-hover:bg-primary-container"
+                >
+                  VER ARTÍCULO
+                  <span class="material-symbols-outlined text-sm"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Procesadores Section -->
+        <section>
+          <div
+            class="flex items-center justify-between mb-8 border-l-4 border-primary-dim pl-6"
+          >
+            <h3
+              class="font-display text-2xl font-black uppercase tracking-widest"
+            >
+              Procesadores
+            </h3>
+            <span class="font-label text-xs text-zinc-500">Items: 01</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div
+              class="group bg-surface-container-high hover:bg-surface-bright transition-all relative overflow-hidden"
+            >
+              <div
+                class="absolute left-0 top-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300"
+              ></div>
+              <div
+                class="aspect-video relative overflow-hidden bg-surface-container-lowest"
+              >
+                <img
+                  alt="CPU"
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  data-alt="Close up of a modern CPU chip sitting on a circuit board, silicon architecture visible with sharp shadows"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS4_5S_zA_XXJUYi0brnpONKT6iprn-taaXWBPQHSsK7_Pk0hswGVpRH99QLkDJiknH-cscw8taBvBg55elS1bumzbbJE5UFI3X-mxWR-RMCuShLCOYO_AAiYX9ynxjH7DXPHayEVKnYqisf2ADp5ONwqYyTQ2GrlxgIBr6_jTy5SRvr6m7cL9EZW11hmb1o6QviEyUSSEbKVt3Y0AphErOoibTgvtxK-e3m2YNw1zJUc8E6qp3cw6JCcaVXomhIvmr7MemkLqrpEC"
+                />
+              </div>
+              <div class="p-6">
+                <h4 class="font-body font-bold text-xl mb-2 line-clamp-1">
+                  AMD Ryzen 9 7950X3D
+                </h4>
+                <div class="flex items-baseline gap-2 mb-6">
+                  <span
+                    class="font-display text-2xl font-black text-primary-dim"
+                    >599€</span
+                  >
+                </div>
+                <button
+                  class="w-full bg-primary-dim text-on-primary-fixed font-label font-bold py-4 px-6 uppercase tracking-widest text-xs hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all flex items-center justify-center gap-2 group-hover:bg-primary-container"
+                >
+                  VER ARTÍCULO
+                  <span class="material-symbols-outlined text-sm"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- RAM Section -->
+        <section>
+          <div
+            class="flex items-center justify-between mb-8 border-l-4 border-primary-dim pl-6"
+          >
+            <h3
+              class="font-display text-2xl font-black uppercase tracking-widest"
+            >
+              RAM
+            </h3>
+            <span class="font-label text-xs text-zinc-500">Items: 01</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div
+              class="group bg-surface-container-high hover:bg-surface-bright transition-all relative overflow-hidden"
+            >
+              <div
+                class="absolute left-0 top-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300"
+              ></div>
+              <div
+                class="aspect-video relative overflow-hidden bg-surface-container-lowest"
+              >
+                <img
+                  alt="RAM"
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  data-alt="RGB DDR5 memory modules installed in a motherboard slot, glowing with vibrant red and purple light"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6lwA4MqLqXL7AOCjyfhVWKoVp_Dc68yytDeRD6IjFT7PGlO95CmEo5vReu_9IjnCpCG64qek6AF4dS8xPz4R7gv5nbcpFd78CQvqmAl4nrthTOsgn7-4mqqzhtDIrafBjlv_WxqiIgy8DxjArTnyz8L9so-mH-0MT5nU1EHVMW0ts1OtxYfhel2p-x17VX95fAIWX3fpu2JnN-F6wEvgjGXNQ65qK6zXxPTDIGxL9NlRhNeMrb1wu2qKqkDYuYmz1Lc-bXXiZGRde"
+                />
+              </div>
+              <div class="p-6">
+                <h4 class="font-body font-bold text-xl mb-2 line-clamp-1">
+                  Trident Z5 RGB 64GB DDR5
+                </h4>
+                <div class="flex items-baseline gap-2 mb-6">
+                  <span
+                    class="font-display text-2xl font-black text-primary-dim"
+                    >285€</span
+                  >
+                </div>
+                <button
+                  class="w-full bg-primary-dim text-on-primary-fixed font-label font-bold py-4 px-6 uppercase tracking-widest text-xs hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all flex items-center justify-center gap-2 group-hover:bg-primary-container"
+                >
+                  VER ARTÍCULO
+                  <span class="material-symbols-outlined text-sm"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Monitores Section -->
+        <section>
+          <div
+            class="flex items-center justify-between mb-8 border-l-4 border-primary-dim pl-6"
+          >
+            <h3
+              class="font-display text-2xl font-black uppercase tracking-widest"
+            >
+              Monitores
+            </h3>
+            <span class="font-label text-xs text-zinc-500">Items: 01</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div
+              class="group bg-surface-container-high hover:bg-surface-bright transition-all relative overflow-hidden"
+            >
+              <div
+                class="absolute left-0 top-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300"
+              ></div>
+              <div
+                class="aspect-video relative overflow-hidden bg-surface-container-lowest"
+              >
+                <img
+                  alt="Monitor"
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  data-alt="Ultra-wide curved gaming monitor on a desk, displaying high-contrast tech graphics, atmospheric lighting in the room"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0Rt8QMNBe-LkpE4hkm_kibR0v_e4JG_1rqDrv413PghMFcMi50HQjZrVC5lQzSf2mLAF8Smy8TGidpgp-AA0_3ALzX9BrTolqCOpnV9gaShYpO-dVzGBRHmhIYQexFi9cqbYKnfxEoml__6MTHH4Sx4zctXaLzFJ2_9WbHs4HVzsylb1a3suIr2aV6HZaIbQA0RoIIB2bbpmpLUFMvSFDNsVYg9Pu9XMzUDRYfxhVqxXDW7967rDaSSCFbz9a3KDNIdGxECtLsz0j"
+                />
+              </div>
+              <div class="p-6">
+                <h4 class="font-body font-bold text-xl mb-2 line-clamp-1">
+                  Samsung Odyssey Neo G9
+                </h4>
+                <div class="flex items-baseline gap-2 mb-6">
+                  <span
+                    class="font-display text-2xl font-black text-primary-dim"
+                    >1.499€</span
+                  >
+                </div>
+                <button
+                  class="w-full bg-primary-dim text-on-primary-fixed font-label font-bold py-4 px-6 uppercase tracking-widest text-xs hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all flex items-center justify-center gap-2 group-hover:bg-primary-container"
+                >
+                  VER ARTÍCULO
+                  <span class="material-symbols-outlined text-sm"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer
+      class="bg-[#0e0e0f] dark:bg-[#000000] border-t border-white/5 flex flex-col md:flex-row justify-between items-center px-10 py-12 w-full mt-24"
+    >
+      <div class="text-lg font-bold text-white mb-6 md:mb-0">PC-SWAPS</div>
+      <div class="flex gap-12">
+        <div class="flex flex-col gap-2">
+          <span
+            class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600"
+            >Comunidad</span
+          >
+          <a
+            class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600 hover:text-[#eb0000] underline decoration-2 underline-offset-4 transition-all opacity-70 hover:opacity-100"
+            href="#"
+            >Soporte</a
+          >
+        </div>
+        <div class="flex flex-col gap-2">
+          <span
+            class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600"
+            >Legal</span
+          >
+          <a
+            class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600 hover:text-[#eb0000] underline decoration-2 underline-offset-4 transition-all opacity-70 hover:opacity-100"
+            href="#"
+            >Términos</a
+          >
+        </div>
+      </div>
+      <div
+        class="mt-8 md:mt-0 font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600"
+      >
+        © 2024 PC-SWAPS
+      </div>
+    </footer>
+  </body>
+</html>

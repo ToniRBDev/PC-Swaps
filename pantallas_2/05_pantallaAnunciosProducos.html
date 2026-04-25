@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PC-SWAPS | Explorar componentes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            background-color: #0e0e0f;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-space-grotesk { font-family: 'Space Grotesk', sans-serif; }
+        .neon-glow {
+            box-shadow: 0 0 30px 0 rgba(235, 0, 0, 0.15);
+        }
+        .voltage-bar {
+            width: 4px;
+            height: 100%;
+        }
+        /* Custom scrollbar for cyber feel */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: #eb0000; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#ff7763",
+                      "surface-dim": "#0e0e0f",
+                      "on-surface": "#ffffff",
+                      "on-primary-fixed-variant": "#600000",
+                      "surface-container": "#1a191b",
+                      "surface-container-lowest": "#000000",
+                      "secondary-fixed": "#ffc2c6",
+                      "secondary-dim": "#f47785",
+                      "secondary-container": "#842133",
+                      "on-secondary": "#570017",
+                      "tertiary": "#dba2ff",
+                      "on-surface-variant": "#adaaab",
+                      "on-secondary-container": "#ffc0c4",
+                      "secondary-fixed-dim": "#ffaeb4",
+                      "error-container": "#a70138",
+                      "on-secondary-fixed-variant": "#912b3c",
+                      "tertiary-dim": "#c384eb",
+                      "surface-container-low": "#131314",
+                      "on-background": "#ffffff",
+                      "on-tertiary-fixed": "#2a0044",
+                      "primary-fixed-dim": "#ff5b47",
+                      "inverse-surface": "#fcf8f9",
+                      "error": "#ff6e84",
+                      "tertiary-container": "#d191fa",
+                      "surface": "#0e0e0f",
+                      "surface-tint": "#ff8e7d",
+                      "primary-dim": "#eb0000",
+                      "surface-container-high": "#201f21",
+                      "error-dim": "#d73357",
+                      "on-primary-fixed": "#000000",
+                      "on-tertiary-container": "#47026f",
+                      "surface-bright": "#2c2c2d",
+                      "on-primary-container": "#4f0000",
+                      "tertiary-fixed-dim": "#c889f1",
+                      "primary-container": "#ff7763",
+                      "outline-variant": "#484849",
+                      "inverse-primary": "#c10100",
+                      "on-secondary-fixed": "#6a0c22",
+                      "on-error-container": "#ffb2b9",
+                      "on-tertiary-fixed-variant": "#56197d",
+                      "background": "#0e0e0f",
+                      "secondary": "#fe7e8c",
+                      "inverse-on-surface": "#565556",
+                      "on-primary": "#650000",
+                      "on-tertiary": "#53157a",
+                      "on-error": "#490013",
+                      "outline": "#767576",
+                      "surface-variant": "#262627",
+                      "primary": "#ff8e7d",
+                      "tertiary-fixed": "#d697ff",
+                      "surface-container-highest": "#262627"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px",
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Space Grotesk"],
+                      "body": ["Inter"],
+                      "label": ["Space Grotesk"]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body">
+<!-- Barra de navegación superior -->
+<header class="bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/50 shadow-[0_4px_30px_rgba(235,0,0,0.1)] fixed top-0 left-0 w-full z-[100] flex justify-between items-center px-6 py-4">
+<div class="text-3xl font-black italic tracking-tighter text-red-600 uppercase font-headline">PC-SWAPS</div>
+<nav class="hidden md:flex gap-8 font-space-grotesk uppercase tracking-widest text-sm">
+<a class="text-red-500 border-b-2 border-red-600 pb-1" href="#">Inicio</a>
+<a class="text-zinc-500 hover:text-zinc-100 transition-colors" href="#">Explorar</a>
+<a class="text-zinc-500 hover:text-zinc-100 transition-colors" href="#">Favoritos</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center bg-surface-container-lowest px-4 py-2 border-b border-outline-variant/30">
+<span class="material-symbols-outlined text-zinc-500 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs font-headline tracking-widest text-white w-48" placeholder="BUSCAR COMPONENTES..." type="text"/>
+</div>
+<div class="flex gap-4">
+<button class="text-zinc-400 hover:text-red-500 transition-all active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-zinc-400 hover:text-red-500 transition-all active:scale-95">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<div class="w-10 h-10 border-2 border-red-600/30 p-0.5">
+<img alt="Perfil de usuario" class="w-full h-full object-cover" data-alt="extreme close up of a high tech user interface profile picture featuring a stylized male gamer portrait with red lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjkdi0PzPfIFOPRMmf2VY3VJubdh_Y63B27bTrfmN31uLYjvT_mNFNnYWW5Xu_PGwGtfyDcmGSZhFRwVJ0ATWPpADjnzgkC4l06NCguVJEZ_UMAy9Fdv3ze8-eRH7pUivgLUOLXOEUrmYY8ucl9mkbF4rsbcrCYnLJ9Bwc3qZYE7xyW5ttxr0WhJ3yR5L_ZqLhHjX0buJmWur_1dpVd3yFu-16spwk9GjUZQF1fHVxFLsUmNoibg8V2Hj0rsbXbgZ2lkyy78rSbpk6"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Contenido principal -->
+<main class="flex-grow pt-24 pb-20 md:pb-12 px-4 md:px-8 max-w-7xl mx-auto w-full">
+<!-- Cabecera de búsqueda -->
+<section class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="relative">
+<span class="text-primary-fixed font-headline text-sm tracking-[0.3em] font-bold uppercase block mb-2">Inicioplace / Category</span>
+<h1 class="text-6xl md:text-8xl font-headline font-black uppercase tracking-tighter leading-none -ml-1 text-on-surface">
+                    COMPONENTES<br/><span class="text-primary-dim">DESTACADOS</span>
+</h1>
+<div class="absolute -top-4 -right-8 opacity-10 pointer-events-none">
+<span class="text-9xl font-headline font-black">X-09</span>
+</div>
+</div>
+<div class="flex flex-col gap-4 w-full md:w-80">
+<div class="flex justify-between items-center text-[10px] font-headline tracking-widest text-outline">
+<span>ESTADO: BUSCANDO</span>
+<span>1.248 PRODUCTOS</span>
+</div>
+<div class="h-1 bg-surface-container-highest w-full relative">
+<div class="absolute left-0 top-0 h-full bg-primary-dim w-2/3"></div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-surface-container-high py-3 font-headline text-xs tracking-widest uppercase hover:bg-surface-bright transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filtros
+                    </button>
+<button class="flex-1 bg-surface-container-high py-3 font-headline text-xs tracking-widest uppercase hover:bg-surface-bright transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">sort</span> Relevancia
+                    </button>
+</div>
+</div>
+</section>
+<!-- Cuadrícula de productos -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Tarjeta de producto 1 -->
+<div class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300 z-10"></div>
+<div class="relative h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="professional high-end gaming mouse with RGB red lighting on a dark metallic surface close up technical shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ9063-iTQ-ajHJZdtHBxiLY1YAX5qRol-GDsMGHxgvrADgv7iBS9BvklJgGTD_wbwxc6SA8K6QoOvMgNW-WH-rpjaX-dR5Ii0By0mUUnrDnYegrA8AJJH1npzsroEDSD9b3f5VyGDtmbUp3eCrGywGc9dIrO24ZwLOCeng8e2kXdzgPxv6OkMO9bmc1-3uuDHSFIajN-AeINqQlDXkU0yfGbZDxo87DH-uk4aOsRTbqucj58kKTUa_wJC8NMebX9staY_IQVczwdU"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<div class="bg-primary-dim text-black font-headline text-[10px] font-black px-2 py-1 uppercase tracking-tighter">New</div>
+<div class="bg-black/80 backdrop-blur text-white font-headline text-[10px] px-2 py-1 uppercase tracking-tighter border border-zinc-700">Rare</div>
+</div>
+</div>
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline font-bold text-lg uppercase tracking-tight group-hover:text-primary-fixed transition-colors">PC-SWAPS X-1 PRO</h3>
+<p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">Optical Sensor 25K</p>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-primary-dim">favorite</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] font-headline uppercase tracking-widest">Precio actual</span>
+<span class="text-xl font-headline font-black text-white">$149.00</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim opacity-30"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tarjeta de producto 2 -->
+<div class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300 z-10"></div>
+<div class="relative h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="modern mechanical gaming keyboard with red backlight glowing in a dark room architectural shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHHPDSyl2ZAzbigsI25FsZsHIPE3_cIBxHWQa7ENudNhFPdQmCxmNPr_aMeVl4Q-6ol1fjdtcitHK7k0qGalsncSa9dSx8m7I4vfJ_fsEgTK2PTwPTXaIujXwM9ySCWrkQKSJQzntScl76qLBnHCjH8lD18l_kvC_HvqPkojMY8-pYko5yafE63npfgxoxFUPbsWNT3C4aKV8y6kdoKWAjU4zy4wdAp8QNsiHVKBpQqEV9MPTB6sTIhWIg9IEKCrrpEH92HgzmkXiU"/>
+</div>
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline font-bold text-lg uppercase tracking-tight group-hover:text-primary-fixed transition-colors">Teclado mecánico TKL</h3>
+<p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">Hot-Swappable Red Switches</p>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-primary-dim">favorite</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] font-headline uppercase tracking-widest">Precio fijo</span>
+<span class="text-xl font-headline font-black text-white">$210.00</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tarjeta de producto 3 -->
+<div class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300 z-10"></div>
+<div class="relative h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="minimalist gaming headset with red glow accents studio lighting cinematic shadows on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3eFNU0v7khZZVRSGD0bd9-xorHpAlUIAk3yG3xBLiSgdSuNrWV6kSEPTuK1eJDCOjqF7ejr98kH0H8WeGcSaEubY2W3vwDTWPqEuJc3vK3bfoySTdJtKqvj5d92eqgHUIn_WKdhhVDwq0nitobABvSTzfjHPL7aksf9Zk-GwrIv3Y97GZ3KWY2QKqXGU43svh0nj0wPBrntbxcuN-dp1pNo4lchARQ6RDDHQzdfmS4LIQTuOvuHWLA-yj1F4xwL266euCaD1BnPpl"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<div class="bg-tertiary text-black font-headline text-[10px] font-black px-2 py-1 uppercase tracking-tighter">Legendary</div>
+</div>
+</div>
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline font-bold text-lg uppercase tracking-tight group-hover:text-primary-fixed transition-colors">SONIC PULSE 7.1</h3>
+<p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">Spatial Audio Engine</p>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-primary-dim" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] font-headline uppercase tracking-widest">Precio actual</span>
+<span class="text-xl font-headline font-black text-white">$459.00</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="voltage-bar bg-tertiary"></div>
+<div class="voltage-bar bg-tertiary"></div>
+<div class="voltage-bar bg-tertiary"></div>
+<div class="voltage-bar bg-tertiary"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tarjeta de producto 4 -->
+<div class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300 z-10"></div>
+<div class="relative h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="ultrawide gaming monitor displaying a red abstract landscape neon glow sharp angles dark desk setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbDMRBW0gm5ekeid-_Sdpp4OBP9L18rROzBEFIJ8aTG4XiQ7Z069kS1Kj8YbWwF_xxL_YbUQjIsueW6SsrWdlLUjTVLQS0jmfPmaDoOHF4VMlQYl0X3yVfB296_XsAaBH6zuN3SuqrSHmjhjmKTxqIjNJ5jMJekOQwphQPwq5dtao9tBPBqvHGnDuj9WszYb2606yPPQreIgRtKX_Yec0OQykC_1PK_SLL31PtdZBhIEAP48pZqh21eMCnMin0WUSh3MTndkwe3TQs"/>
+</div>
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline font-bold text-lg uppercase tracking-tight group-hover:text-primary-fixed transition-colors">TITAN VIEW 34"</h3>
+<p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">175Hz Curved OLED</p>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-primary-dim">favorite</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] font-headline uppercase tracking-widest">Precio fijo</span>
+<span class="text-xl font-headline font-black text-white">$899.00</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Productos adicionales para simular paginación -->
+<div class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300 z-10"></div>
+<div class="relative h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="macro shot of high performance gaming RAM with red heat sinks and RGB glow on dark motherboard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGN9cZxqNKN0cRoFu6b3jhEfGL2VXSV-HSn58pFPkAOBBHhFQIRXf1xcHh6gkK_PyT3slZseUpBS5BmZd2fVLFiQU_Ul3iASeF5svVbW3cs3gizVfhcWlL22zHICBEiPt2nPRq6VwmeX0b-KuGtV9QU8ZXjg8sj4w5puSnyQ3X8qmeEhbiQji_9ozlwH_pE_Y7fs6Mxte7HnHi_1LNdjsEhmXGvyWuQMIhQ6V7Zzer5PzroHKl3wl09pyXcGj3Y_2HUVelzFAwOelF"/>
+</div>
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline font-bold text-lg uppercase tracking-tight group-hover:text-primary-fixed transition-colors">HYPER DDR5 64GB</h3>
+<p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">6400MHz Overclocked</p>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-primary-dim">favorite</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] font-headline uppercase tracking-widest">Precio fijo</span>
+<span class="text-xl font-headline font-black text-white">$245.00</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim opacity-30"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300 z-10"></div>
+<div class="relative h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="professional esports gaming chair with red accents in a dark room neon glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCTznvafmfRYH84zPoyptSiOJRiuhnYzK7BF17-fn56x2coO_ee8WXG5o5MJtRTosa54YynnSWSy1E8Jbda32uM0_SrvyMCkSImel89EJHjesMkrKTNJ_XyiFjXR5ACZs9AxS1ycuLXaHfZQpkCeR3rxQPGBfm9L75gz2E8M_JUo-U2quKcOqarHQMMCMgsS42ja0f7Wdw-ReM8pOhKMFEdTMMoSFXAcLPjfVF9AnTPG39TtZSdsHjfSdhlCRJS5YSzG1PbfUsPusU"/>
+</div>
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline font-bold text-lg uppercase tracking-tight group-hover:text-primary-fixed transition-colors">PC-SWAPS THRONE</h3>
+<p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">Carbon Fiber Series</p>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-primary-dim">favorite</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] font-headline uppercase tracking-widest">Desde</span>
+<span class="text-xl font-headline font-black text-white">$599.00</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300 z-10"></div>
+<div class="relative h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="custom gaming PC build with red liquid cooling tubes and fans glowing in dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLlspV7Y6rss1NWvtLgtdwXBPB3Lnqz2AFWWGVvV3pDe0CsuZjq4tTEQZAbjK5Gjnz6aYv3aWzmmSprMtmN3DXUqQq6p8p0yHu3iPM9DFtaaPdmvL5WXC4H24TX22LFXRaXh4C8gKwQq4aoHrcaOQU2k3oxgXFn6_SwR2N0K4_NY0yKVGmoNYQkcI3F1rZG7GXgsumnax9kG0ESvqF_u-pvmrviKOZdWJJ_jUcTE5WB8cglUTjf4HxYVE0lAZZnFEvuZql9VEKx7fg"/>
+</div>
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline font-bold text-lg uppercase tracking-tight group-hover:text-primary-fixed transition-colors">CORE REACTOR X</h3>
+<p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">Liquid Cooled RT-4090</p>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-primary-dim">favorite</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] font-headline uppercase tracking-widest">Inicio Value</span>
+<span class="text-xl font-headline font-black text-white">$3,499.00</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim"></div>
+<div class="voltage-bar bg-primary-dim"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-[2px] h-0 group-hover:h-full bg-primary-dim transition-all duration-300 z-10"></div>
+<div class="relative h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="professional gamer desk mat with geometric red design on a dark surface top down view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ576fVLYquAU52bAePQz2TEwpu4jCo6zHl-nxdE1pkJ2anAmddk93sWZPNX8B9O-nQtkTMKNXVVCJc1AwTslVKkiT93EZGgvv6C5SBv-3Ke7fNKF0nOB2j1Jm73QY4XRMurJdm2GXGgJB2qK0ni9Us4lzIHt0JkFsnHzaKmvAzhOtNhfb6i52ITtNpCAFvXBVDeSll-bgnoUDFZTXrsSiLRPs38MCzpiW4xfdyX3Hs-QhZ8kFTXEVXO3ncCuT0kKkEoQUfOLjWPVz"/>
+</div>
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline font-bold text-lg uppercase tracking-tight group-hover:text-primary-fixed transition-colors">HEX MAT PRO</h3>
+<p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">Precision Weave Surface</p>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-primary-dim">favorite</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] font-headline uppercase tracking-widest">Precio fijo</span>
+<span class="text-xl font-headline font-black text-white">$35.00</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="voltage-bar bg-primary-dim opacity-30"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+<div class="voltage-bar bg-primary-dim opacity-10"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Paginación -->
+<div class="mt-16 flex items-center justify-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container hover:bg-primary-dim group transition-colors">
+<span class="material-symbols-outlined text-zinc-500 group-hover:text-black">chevron_left</span>
+</button>
+<div class="flex gap-2 font-headline font-black text-sm">
+<button class="w-10 h-10 flex items-center justify-center bg-primary-dim text-black">01</button>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container text-zinc-500 hover:text-white transition-colors">02</button>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container text-zinc-500 hover:text-white transition-colors">03</button>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container text-zinc-500 hover:text-white transition-colors">...</button>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container text-zinc-500 hover:text-white transition-colors">12</button>
+</div>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container hover:bg-primary-dim group transition-colors">
+<span class="material-symbols-outlined text-zinc-500 group-hover:text-black">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Navegación inferior móvil -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 bg-black border-t border-zinc-800 z-50">
+<button class="flex flex-col items-center justify-center text-zinc-600 p-2 active:brightness-125 transition-all">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Inicio</span>
+</button>
+<button class="flex flex-col items-center justify-center text-red-500 bg-zinc-900 border-t-2 border-red-600 p-2 active:brightness-125 transition-all">
+<span class="material-symbols-outlined">search</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Explorar</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-600 p-2 active:brightness-125 transition-all">
+<span class="material-symbols-outlined">add_box</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Vender</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-600 p-2 active:brightness-125 transition-all">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Favoritos</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-600 p-2 active:brightness-125 transition-all">
+<span class="material-symbols-outlined">person_filled</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Perfil</span>
+</button>
+</nav>
+<!-- Pie de página -->
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-black border-t-4 border-red-600/20 mt-auto">
+<div class="text-lg font-black text-zinc-200 font-headline uppercase tracking-tighter">PC-SWAPS</div>
+<div class="flex flex-wrap justify-center gap-8 font-inter text-xs tracking-tight text-zinc-500">
+<a class="hover:text-zinc-100 transition-colors underline decoration-red-600" href="#">Inicio</a>
+<a class="hover:text-zinc-100 transition-colors underline decoration-red-600" href="#">Privacidad</a>
+<a class="hover:text-zinc-100 transition-colors underline decoration-red-600" href="#">Términos</a>
+<a class="hover:text-zinc-100 transition-colors underline decoration-red-600" href="#">Soporte</a>
+</div>
+<div class="font-inter text-xs tracking-tight text-zinc-500">©2024 PC-SWAPS. ALL RIGHTS RESERVED.</div>
+</footer>
+</body></html>

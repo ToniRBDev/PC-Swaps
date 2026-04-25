@@ -1,0 +1,21 @@
+@Service
+public class ArticuloService {
+
+    public void guardarArticulo(Articulo articulo) {
+        // Obtenemos las claves que el usuario ha enviado en el mapa
+        Set<String> clavesEnviadas = articulo.getEspecificaciones().keySet();
+
+        // Lógica de asociación: comprobamos el idCategoria
+        if (articulo.getIdCategoria() == 1) { // Supongamos 1 = Tarjeta Gráfica
+            if (!clavesEnviadas.contains("vram")) {
+                throw new RuntimeException("Falta el campo VRAM para la categoría Gráfica");
+            }
+        } else if (articulo.getIdCategoria() == 2) { // Supongamos 2 = RAM
+            if (!clavesEnviadas.contains("frecuencia")) {
+                throw new RuntimeException("Falta la frecuencia para la categoría RAM");
+            }
+        }
+        
+        articuloRepository.save(articulo);
+    }
+}

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#ff7763",
+                      "surface-dim": "#0e0e0f",
+                      "on-surface": "#ffffff",
+                      "on-primary-fixed-variant": "#600000",
+                      "surface-container": "#1a191b",
+                      "surface-container-lowest": "#000000",
+                      "secondary-fixed": "#ffc2c6",
+                      "secondary-dim": "#f47785",
+                      "secondary-container": "#842133",
+                      "on-secondary": "#570017",
+                      "tertiary": "#dba2ff",
+                      "on-surface-variant": "#adaaab",
+                      "on-secondary-container": "#ffc0c4",
+                      "secondary-fixed-dim": "#ffaeb4",
+                      "error-container": "#a70138",
+                      "on-secondary-fixed-variant": "#912b3c",
+                      "tertiary-dim": "#c384eb",
+                      "surface-container-low": "#131314",
+                      "on-background": "#ffffff",
+                      "on-tertiary-fixed": "#2a0044",
+                      "primary-fixed-dim": "#ff5b47",
+                      "inverse-surface": "#fcf8f9",
+                      "error": "#ff6e84",
+                      "tertiary-container": "#d191fa",
+                      "surface": "#0e0e0f",
+                      "surface-tint": "#ff8e7d",
+                      "primary-dim": "#eb0000",
+                      "surface-container-high": "#201f21",
+                      "error-dim": "#d73357",
+                      "on-primary-fixed": "#000000",
+                      "on-tertiary-container": "#47026f",
+                      "surface-bright": "#2c2c2d",
+                      "on-primary-container": "#4f0000",
+                      "tertiary-fixed-dim": "#c889f1",
+                      "primary-container": "#ff7763",
+                      "outline-variant": "#484849",
+                      "inverse-primary": "#c10100",
+                      "on-secondary-fixed": "#6a0c22",
+                      "on-error-container": "#ffb2b9",
+                      "on-tertiary-fixed-variant": "#56197d",
+                      "background": "#0e0e0f",
+                      "secondary": "#fe7e8c",
+                      "inverse-on-surface": "#565556",
+                      "on-primary": "#650000",
+                      "on-tertiary": "#53157a",
+                      "on-error": "#490013",
+                      "outline": "#767576",
+                      "surface-variant": "#262627",
+                      "primary": "#ff8e7d",
+                      "tertiary-fixed": "#d697ff",
+                      "surface-container-highest": "#262627"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px",
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": ["Space Grotesk"],
+                      "body": ["Inter"],
+                      "label": ["Space Grotesk"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0f;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-space-grotesk { font-family: 'Space Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom neon glow for primary buttons */
+        .neon-glow:hover {
+            box-shadow: 0 0 20px 2px rgba(235, 0, 0, 0.4);
+        }
+        /* Glass effect for overlays */
+        .glass-panel {
+            background: rgba(44, 44, 45, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen selection:bg-primary-dim selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/50 shadow-[0_4px_30px_rgba(235,0,0,0.1)] flex justify-between items-center w-full px-6 py-4 max-w-none fixed top-0 z-[60]">
+<div class="flex items-center gap-8">
+<a class="text-3xl font-black italic tracking-tighter text-red-600 uppercase font-space-grotesk" href="#">VANGUARD</a>
+<nav class="hidden md:flex gap-6">
+<a class="font-space-grotesk uppercase tracking-widest text-zinc-500 hover:text-zinc-100 transition-colors" href="#">Market</a>
+<a class="font-space-grotesk uppercase tracking-widest text-zinc-500 hover:text-zinc-100 transition-colors" href="#">Exchange</a>
+<a class="font-space-grotesk uppercase tracking-widest text-zinc-500 hover:text-zinc-100 transition-colors" href="#">Rarity</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-zinc-900 hover:text-red-500 text-zinc-400 transition-all scale-95 duration-75 ease-in-out">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 hover:bg-zinc-900 hover:text-red-500 text-zinc-400 transition-all scale-95 duration-75 ease-in-out">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<div class="w-10 h-10 bg-zinc-800 flex items-center justify-center border border-zinc-700 overflow-hidden">
+<img alt="User HUD Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a tech-savvy gamer with neon reflective lighting on glasses in a dark high-tech environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEfN9zstSfq8nti0KgYCihQGKIMDXDEHpjeDshsCtXN3QT7Pkg6qeZUu97u8pq2XeBjinDfe8eePT2r5HRH3-3QzH6Qc0Jg-iAlS21kHhO-6HTiVtyF0okFMnWgJW2X6lJqMAqeH5m17hIQsr_LOcbx4lpCuK8pwpMOX4dDMTTnMPRnb2ugohOtrRM9XWbN17k9wUL7achrF3R8EzQxB4tt8eaxfJ_dZztwOI4_XZGj8LUcMm8RUC7DqwhybDstHVrwfeA68e9liKT"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 md:px-12 max-w-7xl mx-auto">
+<!-- Breadcrumb / Back Navigation -->
+<div class="mb-8">
+<button class="flex items-center gap-2 text-zinc-500 hover:text-primary-fixed transition-colors group">
+<span class="material-symbols-outlined text-sm">arrow_back_ios</span>
+<span class="font-label text-xs uppercase tracking-widest">Back to Marketplace</span>
+</button>
+</div>
+<!-- Product Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+<!-- Product Image Section (Bento Inspired Large Cell) -->
+<div class="lg:col-span-7 bg-surface-container-lowest relative group overflow-hidden border-l-4 border-primary-dim">
+<div class="aspect-square w-full">
+<img alt="Gaming Product" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" data-alt="Professional high-end custom mechanical keyboard with translucent red keycaps and industrial aluminum chassis, dramatic moody low lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBgXTKfJQtzdIGx1vHC1m3ZkjZVHPRWxYRH001yOqNq307qbTz4MxqZCFYlRLj-bdSqq8nouYxPUbPBVEy6OSjVSNUBBvgdaHBFXKPWvRFPVh00ZH9x8dPyhud4pyPA1uramTLASUtPxJDlWtsdhXAqZptFqCVYP4dTmrxYHSQshj67kXUo0rpQtqy_W6Tby7GiItHfD0GMacITqahUO0S5HAm9AOzNTBGL70KlU7s0k71CUlJWdPwPjjDxaRKwGPxNUADiF-7_Gil"/>
+</div>
+<!-- Status Overlay Labels -->
+<div class="absolute top-6 left-6 flex flex-col gap-2">
+<div class="bg-primary-dim text-on-primary-fixed px-3 py-1 font-label text-[10px] uppercase tracking-tighter">Limited Edition</div>
+<div class="bg-zinc-950 text-tertiary px-3 py-1 font-label text-[10px] uppercase tracking-tighter border-l-2 border-tertiary">Rare Artifact</div>
+</div>
+</div>
+<!-- Product Details Section -->
+<div class="lg:col-span-5 bg-surface-container-high p-8 md:p-12 flex flex-col">
+<!-- Metadata Row -->
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="font-label text-xs text-primary-fixed tracking-[0.2em] uppercase">Hardware / Peripheral</span>
+<h1 class="text-4xl md:text-5xl font-black font-headline uppercase leading-none mt-2 tracking-tighter">Vanguard X-1 Prototype</h1>
+</div>
+<div class="text-right">
+<span class="font-label text-[10px] text-zinc-500 uppercase block mb-1">Market Price</span>
+<div class="text-3xl font-headline font-bold text-on-surface">Ξ 0.85</div>
+<div class="text-xs text-zinc-500 font-body">≈ $2,450.00 USD</div>
+</div>
+</div>
+<!-- Specs Grid (Cyber-Brutalism Tonal Stacking) -->
+<div class="grid grid-cols-2 gap-[1px] bg-outline-variant/20 mt-4 mb-8">
+<div class="bg-surface-container-low p-4">
+<span class="block font-label text-[10px] text-zinc-500 uppercase tracking-widest mb-1">State</span>
+<span class="font-body text-sm font-semibold uppercase text-zinc-100">Mint Condition</span>
+</div>
+<div class="bg-surface-container-low p-4">
+<span class="block font-label text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Type</span>
+<span class="font-body text-sm font-semibold uppercase text-zinc-100">Mechanical Core</span>
+</div>
+<div class="bg-surface-container-low p-4">
+<span class="block font-label text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Authenticity</span>
+<span class="font-body text-sm font-semibold uppercase text-tertiary">Verified HUD</span>
+</div>
+<div class="bg-surface-container-low p-4">
+<span class="block font-label text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Serial</span>
+<span class="font-body text-sm font-semibold uppercase text-zinc-100">VG-774-ALPHA</span>
+</div>
+</div>
+<!-- Seller Description -->
+<div class="mb-10">
+<h3 class="font-label text-xs text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="w-8 h-[1px] bg-primary-dim"></span>
+                        Seller Description
+                    </h3>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">
+                        Precision-machined from aerospace-grade titanium. The Vanguard X-1 features zero-latency neural feedback switches and a custom 8K polling rate controller. This unit was part of the original closed-beta testing for the Kinetic Fleet. Minimal wear, fully sanitized, and decrypted for immediate wallet transfer. Includes original phase-shift packaging.
+                    </p>
+</div>
+<!-- Action Buttons Container -->
+<div class="mt-auto space-y-4">
+<button class="w-full bg-gradient-to-r from-primary-dim to-primary-container text-on-primary-fixed font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all active:scale-[0.98] neon-glow">
+                        Información de contacto
+                    </button>
+<button class="w-full border border-primary-dim/40 hover:border-primary-dim text-primary-fixed font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-primary-dim/5 active:scale-[0.98]">
+                        Añadir a la lista de seguimiento
+                    </button>
+</div>
+</div>
+</div>
+<!-- Secondary Info / Seller Profile Bento Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+<div class="md:col-span-2 bg-surface-container-low p-6 border-l-2 border-zinc-800">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-zinc-950 flex items-center justify-center border border-zinc-800">
+<img alt="Seller Profile" class="w-full h-full object-cover" data-alt="Portrait of a serious man in technical apparel with blue and red accent lighting in a dark room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6fRCfCE9TGlMEAPZ6nfEtMO2Yrk21lVMYfZ_CxWa5TGOQ4E5djW5IS2V102m2XBCSmKzVSDFxiEFbA5oRNb6l5hUNGzkHpZ1YamAQRpTgdpgWkE6YGQ6ooaHxWXlwbuF15ygIe-C66N5XISo21Tf85MKHlCpltLItrm1f2uvdA43FzQkhc_nR7E9f1QZDK8VmOroNRzxE1q8oaKLuxiHBdfZVpH8J9MDVO0WSGJcf7LKJT8nDpN68TKXR9sN60pAfNncy_VWqVoX-"/>
+</div>
+<div>
+<span class="block font-label text-[10px] text-zinc-500 uppercase">Trusted Seller</span>
+<div class="font-headline font-bold text-lg text-zinc-100 uppercase">AXON_OPERATOR</div>
+</div>
+<div class="ml-auto flex gap-1">
+<div class="w-1 h-6 bg-tertiary"></div>
+<div class="w-1 h-6 bg-tertiary"></div>
+<div class="w-1 h-6 bg-tertiary"></div>
+<div class="w-1 h-6 bg-zinc-800"></div>
+<div class="w-1 h-6 bg-zinc-800"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 border-l-2 border-zinc-800 flex items-center justify-between">
+<div>
+<span class="block font-label text-[10px] text-zinc-500 uppercase">Transaction Security</span>
+<div class="font-headline font-bold text-sm text-zinc-100 uppercase">Escrow Enabled</div>
+</div>
+<span class="material-symbols-outlined text-zinc-500">verified_user</span>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-black border-t-4 border-red-600/20 w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="text-lg font-black text-zinc-200 font-space-grotesk uppercase italic">VANGUARD</div>
+<p class="font-inter text-xs tracking-tight text-zinc-500">©2024 KINETIC VANGUARD SYSTEM. ALL RIGHTS RESERVED.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-inter text-xs tracking-tight text-zinc-600 hover:text-zinc-100 underline decoration-red-600 opacity-80 hover:opacity-100 transition-all" href="#">Terminal</a>
+<a class="font-inter text-xs tracking-tight text-zinc-600 hover:text-zinc-100 underline decoration-red-600 opacity-80 hover:opacity-100 transition-all" href="#">Privacy_Protocol</a>
+<a class="font-inter text-xs tracking-tight text-zinc-600 hover:text-zinc-100 underline decoration-red-600 opacity-80 hover:opacity-100 transition-all" href="#">Service_Terms</a>
+<a class="font-inter text-xs tracking-tight text-zinc-600 hover:text-zinc-100 underline decoration-red-600 opacity-80 hover:opacity-100 transition-all" href="#">Support_HUD</a>
+</div>
+</footer>
+<!-- Mobile BottomNavBar (Hidden on desktop) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 bg-black border-t border-zinc-800 z-50">
+<a class="flex flex-col items-center justify-center text-zinc-600 p-2 hover:bg-zinc-900 hover:text-red-400 active:brightness-125 transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-600 p-2 hover:bg-zinc-900 hover:text-red-400 active:brightness-125 transition-all" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-600 p-2 hover:bg-zinc-900 hover:text-red-400 active:brightness-125 transition-all" href="#">
+<span class="material-symbols-outlined">add_box</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Sell</span>
+</a>
+<!-- ACTIVE TAB: Since it's a detail page from an ad, "Watchlist" or "Browse" might be relevant, but user has an 'Add to watchlist' action. Mapping to Watchlist if it was previously saved, or Browse as the context. Highlighting Browse for search context. -->
+<a class="flex flex-col items-center justify-center text-zinc-600 p-2 hover:bg-zinc-900 hover:text-red-400 active:brightness-125 transition-all" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Watchlist</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-600 p-2 hover:bg-zinc-900 hover:text-red-400 active:brightness-125 transition-all" href="#">
+<span class="material-symbols-outlined">person_filled</span>
+<span class="font-space-grotesk text-[10px] font-bold uppercase tracking-tighter">Profile</span>
+</a>
+</nav>
+</body></html>
