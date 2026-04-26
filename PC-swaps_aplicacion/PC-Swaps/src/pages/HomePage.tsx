@@ -4,7 +4,9 @@ import Navbar from '../components/layout/Navbar';
 import ProductCard from '../components/ui/ProductCard';
 import { products } from '../data/products';
 import { categories } from '../data/categories';
-import type { CategoriaSlug } from '../types/Product';
+import type { CategoriaSlug } from '../types/product';
+import FollowedProductsSection from '../components/sections/FollowedProductsSection';
+import { followedProducts } from '../data/followedProducts';
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] =
@@ -45,6 +47,8 @@ export default function HomePage() {
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
         />
+
+        <FollowedProductsSection products={followedProducts} />
 
         <section className="px-8 py-16 max-w-360 mx-auto">
           <h2 className="font-headline text-2xl font-bold uppercase tracking-widest border-l-4 border-red-600 pl-4 mb-12">
