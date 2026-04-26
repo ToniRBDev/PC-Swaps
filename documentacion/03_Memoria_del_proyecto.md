@@ -8,7 +8,7 @@ Podemos encontrar los productos más solicitados por los ususarios:
  - RAM
  - Monitores
 
-La plataforma destaca por la especialización en un área del mercado. No se trata una web de compra-venta cualquiera, está enfocada sólo en componentes informáticos.
+La plataforma destaca por la especialización en un área del mercado. No se trata una web de compra-venta cualquiera, está enfocada sólo en componentes informáticos con especificaciones técnicas básicas para cada artículo, lo que facilita la búsqueda a los usuarios.
 
 El objetivo principal es crear un mercado donde los usuarios tengan la seguridad de que están comprando el producto que necesitan, ahorrándoles tiempo y dinero. 
 

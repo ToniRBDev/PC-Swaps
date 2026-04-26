@@ -39,12 +39,11 @@
         4.1.1. Nombre
         4.1.2. Apellidos
         4.1.3. DNI
-        4.1.4. Número de identificación
-        4.1.5. Fecha de nacimiento
-        4.1.6. Dirección
-        4.1.7. Número de teléfono
+        4.1.4. Fecha de nacimiento
+        4.1.5. Dirección
+        4.1.6. Número de teléfono
 
-    4.3. Modificar datos inicio sesión
+    4.3. Modificar datos inicio sesión 
 
         4.3.1. Nombre de usuario.
         4.3.2. Contraseña.

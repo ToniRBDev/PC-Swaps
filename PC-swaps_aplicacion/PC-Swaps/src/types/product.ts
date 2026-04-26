@@ -1,3 +1,4 @@
+import type { EstadoArticulo } from './enums/EstadoArticulo';
 // Un Slug es una versión amigable de una cadena de texto.
 export type CategoriaSlug =
   | 'tarjeta-grafica'
@@ -11,10 +12,12 @@ export interface Product {
   marca: string;
   modelo: string;
   categoria: CategoriaSlug;
-  estado: string;
+  estado: EstadoArticulo;
   precio: number;
   descripcion: string;
   imagen: string;
-  especificaciones: Record<string, string>;
   fechaPublicacion: string;
+  fechaUltimaRenovacion?: string;
+  activo?: boolean;
+  especificaciones: Record<string, string>;
 }

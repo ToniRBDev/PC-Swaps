@@ -13,4 +13,4 @@ Es probablemente la aplicación más popular para a la compra y venta de product
 
 ![Logo de Eneba](/img/competidoras/eneba_Logo.webp "Mouse hover text")
 
-Esta aplicación es conocida por la venta de juegos para PC y consolas a buen precio. Pero tiene una sección de venta de equipos informáticos llamada Eneba Marketplace que tiene buen número de usuarios activos. Pero no es su enfoque principal, por lo que no tiene la especialización que se busca en PC-Swaps.
+Esta aplicación es conocida por la venta de juegos para PC y consolas a buen precio. Pero tiene una sección de venta de equipos informáticos llamada Eneba Marketplace que tiene buen número de usuarios activos, ero no es su enfoque principal. PC-Swaps no es una aplicacion mas, es la aplicación.

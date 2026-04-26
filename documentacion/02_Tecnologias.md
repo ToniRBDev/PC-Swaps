@@ -23,7 +23,7 @@
         - GitHub
 
 ### 6. Documentación
-        - MARKDOWN
+        - Markdown
         - JavaDoc
 
 

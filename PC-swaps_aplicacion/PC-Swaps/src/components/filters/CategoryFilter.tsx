@@ -1,4 +1,4 @@
-import type { CategoriaSlug } from '../../types/Product.ts';
+import type { CategoriaSlug } from '../../types/product.ts';
 import { categories } from '../../data/categories.ts';
 
 interface Props {
@@ -11,7 +11,7 @@ export default function CategoryFilter({
   onSelectCategory,
 }: Props) {
   return (
-    <section className="px-8 py-16 max-w-[1440px] mx-auto">
+    <section className="px-8 py-16 max-w-360 mx-auto">
       <div className="flex justify-between items-end mb-12">
         <h2 className="font-headline text-2xl font-bold uppercase tracking-widest border-l-4 border-red-600 pl-4">
           Categorías

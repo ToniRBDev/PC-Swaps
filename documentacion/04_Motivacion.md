@@ -7,4 +7,4 @@ También me he dado cuenta de que muchas veces el usuario vende el producto en c
 
 Por otra parte, a otros usuarios no les convencen las plataformas actuales de venta y no se atreven a anunciarlo. 
 
-Esta aplicación dará solución a estos problemas, obligando a los usuarios a mantenerse activos para la visibilidad de sus productos y ofreciendo la posibilidad de la comprobación del producto por parte del comprador.
+Esta aplicación dará solución a estos problemas, obligando a los usuarios a mantenerse activos para la visibilidad de sus productos.
