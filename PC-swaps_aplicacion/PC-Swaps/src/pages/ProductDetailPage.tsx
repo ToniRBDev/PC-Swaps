@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar';
 import { products } from '../data/products';
 
 export default function ProductDetailPage() {
@@ -10,7 +9,6 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <>
-        <Navbar />
         <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-20">
           <h1 className="text-3xl font-bold mb-4">Producto no encontrado</h1>
           <Link to="/" className="text-red-600 font-bold uppercase">
@@ -23,8 +21,6 @@ export default function ProductDetailPage() {
 
   return (
     <>
-      <Navbar />
-
       <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-16">
         <div className="max-w-360 mx-auto">
           <Link

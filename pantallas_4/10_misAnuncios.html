@@ -1,0 +1,546 @@
+<!doctype html>
+
+<html class="dark" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>KINETIC VANGUARD | MIS ANUNCIOS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#ff8e7d",
+              "primary-dim": "#eb0000",
+              secondary: "#fe7e8c",
+              background: "#000000",
+              surface: "#0e0e0f",
+              "surface-variant": "#1a191b",
+              "on-surface": "#ffffff",
+              "on-surface-variant": "#adaaab",
+              outline: "#767576",
+              "outline-variant": "#484849",
+              error: "#ff6e84",
+            },
+            borderRadius: {
+              DEFAULT: "0rem",
+              lg: "0rem",
+              xl: "0rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Space Grotesk"],
+              display: ["Space Grotesk"],
+              body: ["Inter"],
+              label: ["Space Grotesk"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        background-color: #000000;
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+      }
+      .hud-scanline {
+        background: linear-gradient(
+          to bottom,
+          transparent 50%,
+          rgba(235, 0, 0, 0.03) 50%
+        );
+        background-size: 100% 4px;
+      }
+    </style>
+  </head>
+  <body class="bg-background min-h-screen overflow-x-hidden flex flex-col">
+    <!-- HEADER PRINCIPAL -->
+    <div class="flex flex-1">
+      <!-- NAVEGACIÓN LATERAL -->
+      <aside
+        class="hidden md:flex flex-col h-screen w-72 bg-[#000000] p-6 space-y-2 border-r border-zinc-900 fixed left-0 top-0"
+      >
+        <div class="mb-10 px-2">
+          <h3
+            class="font-['Space_Grotesk'] font-black text-[#eb0000] text-xl tracking-widest"
+          >
+            OPERATOR_01
+          </h3>
+          <p class="text-zinc-500 text-[10px] tracking-[0.2em] font-bold">
+            RANGO ELITE
+          </p>
+        </div>
+        <nav class="flex-1 space-y-1">
+          <a
+            class="flex items-center space-x-3 p-3 font-['Space_Grotesk'] font-bold text-[11px] tracking-[0.1em] bg-[#eb0000] text-black"
+            href="#"
+          >
+            <span
+              class="material-symbols-outlined text-lg"
+              data-icon="inventory_2"
+              >inventory_2</span
+            >
+            <span>MIS ANUNCIOS</span> </a
+          ><a
+            class="flex items-center space-x-3 p-3 font-['Space_Grotesk'] font-bold text-[11px] tracking-[0.1em] text-zinc-500 hover:text-white transition-colors group"
+            href="#"
+          >
+            <span
+              class="material-symbols-outlined text-lg group-hover:text-[#eb0000]"
+              data-icon="mail"
+              >mail</span
+            >
+            <span>MENSAJES</span>
+          </a>
+        </nav>
+        <!-- ACCIONES SECUNDARIAS MENU LATERAL -->
+        <div class="pt-6 border-t border-zinc-900 space-y-1">
+          <a
+            class="flex items-center space-x-3 p-3 font-['Space_Grotesk'] font-bold text-[11px] tracking-[0.1em] text-zinc-500 hover:text-white transition-colors"
+            href="#"
+          >
+            <span class="material-symbols-outlined text-lg" data-icon="home"
+              >home</span
+            >
+            <span>IR A PÁGINA PRINCIPAL</span>
+          </a>
+          <a
+            class="flex items-center space-x-3 p-3 font-['Space_Grotesk'] font-bold text-[11px] tracking-[0.1em] text-[#eb0000] hover:brightness-125 transition-colors"
+            href="#"
+          >
+            <span class="material-symbols-outlined text-lg" data-icon="logout"
+              >logout</span
+            >
+            <span>SALIR</span>
+          </a>
+        </div>
+      </aside>
+      <!-- CONTENIDO PRINCIPAL -->
+      <main class="flex-1 md:ml-72 p-6 lg:p-12 bg-[#000000]">
+        <!-- TÍTULO DE LA SECCIÓN -->
+        <header class="mb-12 relative">
+          <div class="absolute -left-4 top-0 w-1 h-20 bg-[#eb0000]"></div>
+          <h1
+            class="font-headline text-5xl md:text-7xl font-black italic tracking-tighter text-white uppercase mb-2"
+          >
+            MIS <span class="text-[#eb0000]">ANUNCIOS</span>
+          </h1>
+          <div class="flex items-center space-x-4">
+            <p
+              class="font-label text-xs tracking-[0.3em] text-zinc-500 uppercase"
+            >
+              Anuncios Activos: 04
+            </p>
+            <div
+              class="h-[1px] flex-1 bg-gradient-to-r from-zinc-800 to-transparent"
+            ></div>
+          </div>
+        </header>
+        <!-- LISTADO DE ANUNCIOS -->
+        <section class="space-y-4 max-w-6xl">
+          <!-- ITEM ANUNCIO 01 -->
+          <div
+            class="group relative flex flex-col md:flex-row items-center bg-zinc-900/30 border border-zinc-800 hover:border-[#eb0000]/50 transition-all duration-200"
+          >
+            <div class="w-full md:w-48 h-32 overflow-hidden bg-black">
+              <img
+                alt="Zapatillas de alto rendimiento"
+                class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA69M5d_6NtzTrciB_W-ehU320NWeWadmlbBHKawFFgFej30CTdCFGRsz9OGsC76nUDVNA8h_um5inzmZLcAm9OqVdCFDJlqLlilXdvd4DAhzuWbEGEmTtgPnVRFPGPoRTvhMljDGrwFteiiXZ4dJ-FS3tdYgFiZY0GtwYnGAwi9LahEf756Zi8Jxy27LaNukDPubn5coq8GyeTDlH3rDPK22i38b2hlITghUU4gEFBPq51igg0BXvQm032k1jnEZRyNF6VJw3GHtvB"
+              />
+            </div>
+            <div
+              class="flex-1 w-full p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
+              <div class="space-y-1">
+                <span
+                  class="font-label text-[10px] tracking-widest text-[#eb0000] uppercase"
+                  >HARDWARE_042</span
+                >
+                <h3
+                  class="font-display text-xl font-bold tracking-tight text-white uppercase"
+                >
+                  VANGUARD STRIDE-X1
+                </h3>
+                <div
+                  class="flex items-center space-x-4 text-xs font-medium text-zinc-500 uppercase"
+                >
+                  <span class="flex items-center"
+                    ><span
+                      class="material-symbols-outlined text-[14px] mr-1"
+                      data-icon="category"
+                      >category</span
+                    >
+                    CALZADO</span
+                  >
+                  <span class="flex items-center"
+                    ><span
+                      class="material-symbols-outlined text-[14px] mr-1"
+                      data-icon="event"
+                      >event</span
+                    >
+                    12 OCT 2023</span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-8"
+              >
+                <div class="text-right">
+                  <span
+                    class="block font-label text-[10px] text-zinc-500 uppercase tracking-widest"
+                    >PRECIO</span
+                  >
+                  <span
+                    class="font-display text-2xl font-black text-[#eb0000] tracking-tighter"
+                    >249.00 <span class="text-sm">V-CR</span></span
+                  >
+                </div>
+                <div class="flex items-center space-x-2">
+                  <button
+                    class="w-12 h-12 flex items-center justify-center bg-zinc-800 hover:bg-[#eb0000] hover:text-black transition-colors"
+                    title="Renovar"
+                  >
+                    <span class="material-symbols-outlined" data-icon="sync"
+                      >sync</span
+                    >
+                  </button>
+                  <button
+                    class="w-12 h-12 flex items-center justify-center bg-zinc-800 hover:bg-red-900 transition-colors"
+                    title="Eliminar"
+                  >
+                    <span class="material-symbols-outlined" data-icon="delete"
+                      >delete</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ITEM ANUNCIO 02 -->
+          <div
+            class="group relative flex flex-col md:flex-row items-center bg-zinc-900/30 border border-zinc-800 hover:border-[#eb0000]/50 transition-all duration-200"
+          >
+            <div class="w-full md:w-48 h-32 overflow-hidden bg-black">
+              <img
+                alt="Monitor gaming"
+                class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtDxPU3GHXMer-HFJUwofiZS2vA86lHbawgpos5ZvXD3A0AESYhnMlmb8kLjY_yFvQQJPjLrgcQSfN9A-f8t9p3emQg0bN2VIa3LBqifiwAE4L_ThCPVYdtwLkvJR4GpRKnOdo0I-XlqNvrZIE0CETodG7pPICaIRCcIeDTn_8Qep09r4nPBBvwKF3rToFHKgiO20GoMFYNevVjmamOJX7DaopQcp9D7rqeR4k47q7ap63vqPUt9EmlYH6c0v0eaBjII0R3aGU41cK"
+              />
+            </div>
+            <div
+              class="flex-1 w-full p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
+              <div class="space-y-1">
+                <span
+                  class="font-label text-[10px] tracking-widest text-[#eb0000] uppercase"
+                  >OPTICS_889</span
+                >
+                <h3
+                  class="font-display text-xl font-bold tracking-tight text-white uppercase"
+                >
+                  KINETIC 4K NEON-PANEL
+                </h3>
+                <div
+                  class="flex items-center space-x-4 text-xs font-medium text-zinc-500 uppercase"
+                >
+                  <span class="flex items-center"
+                    ><span
+                      class="material-symbols-outlined text-[14px] mr-1"
+                      data-icon="category"
+                      >category</span
+                    >
+                    PANTALLAS</span
+                  >
+                  <span class="flex items-center"
+                    ><span
+                      class="material-symbols-outlined text-[14px] mr-1"
+                      data-icon="event"
+                      >event</span
+                    >
+                    05 OCT 2023</span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-8"
+              >
+                <div class="text-right">
+                  <span
+                    class="block font-label text-[10px] text-zinc-500 uppercase tracking-widest"
+                    >PRECIO</span
+                  >
+                  <span
+                    class="font-display text-2xl font-black text-[#eb0000] tracking-tighter"
+                    >1,120.50 <span class="text-sm">V-CR</span></span
+                  >
+                </div>
+                <div class="flex items-center space-x-2">
+                  <button
+                    class="w-12 h-12 flex items-center justify-center bg-zinc-800 hover:bg-[#eb0000] hover:text-black transition-colors"
+                    title="Renovar"
+                  >
+                    <span class="material-symbols-outlined" data-icon="sync"
+                      >sync</span
+                    >
+                  </button>
+                  <button
+                    class="w-12 h-12 flex items-center justify-center bg-zinc-800 hover:bg-red-900 transition-colors"
+                    title="Eliminar"
+                  >
+                    <span class="material-symbols-outlined" data-icon="delete"
+                      >delete</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ITEM ANUNCIO 03 -->
+          <div
+            class="group relative flex flex-col md:flex-row items-center bg-zinc-900/30 border border-zinc-800 hover:border-[#eb0000]/50 transition-all duration-200"
+          >
+            <div class="w-full md:w-48 h-32 overflow-hidden bg-black">
+              <img
+                alt="Teclado mecánico"
+                class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEbSPb-rlVTqrbhEnzFuHj2hIysdLscJC1ZmWSYNhi4EXl10_3PD_jFeR5D5QY50MFObVxlvaLy9raicAbQTO_hOJKyKvLPAjtBK2Z209274vEhkbutt5D7t_EePyN-Miiv4SnzAqZngzU7oZhi4hiytysBEUVIUUALTT5wkKz9Xbv6rx0j_RP0izZo6UkJnTVGwUwMJfEBLpww6osmlerbvwvr-790cRPEQobLi-mc4TzPF9-0bV15S9tgXQ2QB1-LbNSGnSXyMrD"
+              />
+            </div>
+            <div
+              class="flex-1 w-full p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
+              <div class="space-y-1">
+                <span
+                  class="font-label text-[10px] tracking-widest text-[#eb0000] uppercase"
+                  >INTERFACE_21</span
+                >
+                <h3
+                  class="font-display text-xl font-bold tracking-tight text-white uppercase"
+                >
+                  OMEGA-TYPE MECHANICAL
+                </h3>
+                <div
+                  class="flex items-center space-x-4 text-xs font-medium text-zinc-500 uppercase"
+                >
+                  <span class="flex items-center"
+                    ><span
+                      class="material-symbols-outlined text-[14px] mr-1"
+                      data-icon="category"
+                      >category</span
+                    >
+                    PERIFÉRICOS</span
+                  >
+                  <span class="flex items-center"
+                    ><span
+                      class="material-symbols-outlined text-[14px] mr-1"
+                      data-icon="event"
+                      >event</span
+                    >
+                    28 SEP 2023</span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-8"
+              >
+                <div class="text-right">
+                  <span
+                    class="block font-label text-[10px] text-zinc-500 uppercase tracking-widest"
+                    >PRECIO</span
+                  >
+                  <span
+                    class="font-display text-2xl font-black text-[#eb0000] tracking-tighter"
+                    >185.00 <span class="text-sm">V-CR</span></span
+                  >
+                </div>
+                <div class="flex items-center space-x-2">
+                  <button
+                    class="w-12 h-12 flex items-center justify-center bg-zinc-800 hover:bg-[#eb0000] hover:text-black transition-colors"
+                    title="Renovar"
+                  >
+                    <span class="material-symbols-outlined" data-icon="sync"
+                      >sync</span
+                    >
+                  </button>
+                  <button
+                    class="w-12 h-12 flex items-center justify-center bg-zinc-800 hover:bg-red-900 transition-colors"
+                    title="Eliminar"
+                  >
+                    <span class="material-symbols-outlined" data-icon="delete"
+                      >delete</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ITEM ANUNCIO 04 (ESTADO EXPIRADO) -->
+          <div
+            class="group relative flex flex-col md:flex-row items-center bg-zinc-900/10 border border-dashed border-zinc-800 opacity-60 hover:opacity-100 transition-all duration-200"
+          >
+            <div class="w-full md:w-48 h-32 overflow-hidden bg-black grayscale">
+              <img
+                alt="Reloj táctico"
+                class="w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSevTs5PufaN7gsH9GRjzHTcsrVhSDEE4z4pAdeKCGYy2oVTU6jtoMA3wGR48rzpCXAjNxgDVud1qLrNSM8r7j_fIUBCkqvnVLyJK6VItPn2tfE7jAOkB4NNLV3YAsCXnCtiKgQmElyOFrlUw5g2YCg5w_ou-Sei37sH_6fcpbx39Rvhk2hVm8mbLCKZK4o2YFLOT2AfpK67FsPOmhKUljbYBiyn1p2-zFBKkfYU8aLRVbEAlzWvYzpRcspmyIKbfnKrh_bYyhUOgw"
+              />
+            </div>
+            <div
+              class="flex-1 w-full p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
+              <div class="space-y-1">
+                <span
+                  class="font-label text-[10px] tracking-widest text-zinc-600 uppercase"
+                  >CORE_771</span
+                >
+                <h3
+                  class="font-display text-xl font-bold tracking-tight text-zinc-500 uppercase"
+                >
+                  TIME-ZERO CHRONO
+                </h3>
+                <div
+                  class="flex items-center space-x-4 text-xs font-medium text-zinc-700 uppercase"
+                >
+                  <span class="flex items-center"
+                    ><span
+                      class="material-symbols-outlined text-[14px] mr-1"
+                      data-icon="category"
+                      >category</span
+                    >
+                    EQUIPO</span
+                  >
+                  <span class="flex items-center text-red-900"
+                    ><span
+                      class="material-symbols-outlined text-[14px] mr-1"
+                      data-icon="warning"
+                      >warning</span
+                    >
+                    EXPIRADO</span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-8"
+              >
+                <div class="text-right">
+                  <span
+                    class="block font-label text-[10px] text-zinc-600 uppercase tracking-widest"
+                    >PRECIO FINAL</span
+                  >
+                  <span
+                    class="font-display text-2xl font-black text-zinc-600 tracking-tighter"
+                    >450.00 <span class="text-sm">V-CR</span></span
+                  >
+                </div>
+                <div class="flex items-center space-x-2">
+                  <button
+                    class="w-12 h-12 flex items-center justify-center bg-[#eb0000] text-black hover:brightness-125 transition-all"
+                    title="Renovar"
+                  >
+                    <span class="material-symbols-outlined" data-icon="sync"
+                      >sync</span
+                    >
+                  </button>
+                  <button
+                    class="w-12 h-12 flex items-center justify-center bg-zinc-800 hover:bg-red-900 transition-colors"
+                    title="Eliminar"
+                  >
+                    <span class="material-symbols-outlined" data-icon="delete"
+                      >delete</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- ACCIÓN: PUBLICAR NUEVO ANUNCIO -->
+        <div class="mt-12 flex justify-center md:justify-start">
+          <button
+            class="group relative px-10 py-4 bg-[#eb0000] text-black font-display font-black tracking-widest text-lg flex items-center space-x-4 overflow-hidden border-2 border-transparent hover:border-white transition-all"
+          >
+            <span class="relative z-10">PUBLICAR NUEVO ANUNCIO</span>
+            <span
+              class="material-symbols-outlined relative z-10"
+              data-icon="add_circle"
+              >add_circle</span
+            >
+            <div
+              class="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:left-full transition-all duration-700"
+            ></div>
+          </button>
+        </div>
+      </main>
+    </div>
+    <!-- FOOTER SIMPLIFICADO -->
+    <footer
+      class="md:ml-72 bg-black border-t border-zinc-900 py-6 px-12 flex justify-center md:justify-start"
+    >
+      <a
+        class="font-label text-[10px] tracking-[0.2em] text-zinc-500 hover:text-[#eb0000] uppercase transition-colors"
+        href="#"
+        >Soporte</a
+      >
+    </footer>
+    <!-- NAVEGACIÓN MÓVIL -->
+    <nav
+      class="md:hidden fixed bottom-0 left-0 w-full bg-[#000000] border-t border-zinc-800 flex justify-around items-center z-[100] py-3"
+    >
+      <a
+        class="flex flex-col items-center text-zinc-500 font-['Space_Grotesk'] font-bold text-[9px]"
+        href="#"
+      >
+        <span class="material-symbols-outlined" data-icon="home">home</span>
+        <span>INICIO</span>
+      </a>
+      <a
+        class="flex flex-col items-center text-zinc-500 font-['Space_Grotesk'] font-bold text-[9px]"
+        href="#"
+      >
+        <span class="material-symbols-outlined" data-icon="shopping_bag"
+          >shopping_bag</span
+        >
+        <span>MERCADO</span>
+      </a>
+      <a
+        class="flex flex-col items-center text-[#eb0000] font-['Space_Grotesk'] font-bold text-[9px]"
+        href="#"
+      >
+        <span class="material-symbols-outlined" data-icon="list_alt"
+          >list_alt</span
+        >
+        <span>ANUNCIOS</span>
+      </a>
+      <a
+        class="flex flex-col items-center text-zinc-500 font-['Space_Grotesk'] font-bold text-[9px]"
+        href="#"
+      >
+        <span class="material-symbols-outlined" data-icon="person">person</span>
+        <span>PERFIL</span>
+      </a>
+    </nav>
+    <!-- EFECTO HUD -->
+    <div
+      class="fixed inset-0 pointer-events-none hud-scanline opacity-10"
+    ></div>
+  </body>
+</html>

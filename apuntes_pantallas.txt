@@ -1,1 +1,53 @@
-pantalla 01: Login
+# Estructura proyecto React
+
+Quiero 
+
+## Pantallas
+
+### pantalla 01: 
+
+	Login o creacion de cuenta (Utilizar la misma pantalla, ya que son similares
+	
+### pantalla 02: pantalla home
+
+	Componente navBar siempre visible
+	
+	Barra de búsqueda (Solo búsqueda por nombre, no dar opcion de filtrar por caracteristicas), eliminar la lista de seguimiento y renderizar ahí los resultados.
+
+## Pages
+
+	### Page 01: Page raíz
+	
+	Iconos de busqueda de articulos
+	
+		Al hacer click en el icono, se mostrarán un título con el nombre de la categoría y con unos desplegables donde puedan filtar características, por defecto se mostrarán los más visitados.
+		Renderizar donde los articulos favoritos,  cuando el usuario haga click en un icono. Ocultar lista de seguimiento al mostrar. (bien se haya implementado el filtrado o no) se pueden dejar valores por defecto y no filtrar nada
+		
+
+	# Todas las pages menos la principal deben de tener botón del volver atras, como la de informacion de anuncio
+		
+		
+	### Page 02: 
+	Visualizacion anuncio
+
+	### Page 03:
+	Creacion de anuncio
+
+	### Page 04:
+	Modificar datos del perfil
+
+	### Page 05:
+	Modificar datos acceso
+	
+	- Comprobar las pantallas adjuntadas en memoria y mirar a ver si se pueden hacer en una sola las page 04 y 05
+
+	### page 07:
+
+	Datos de contacto del vendedor
+	
+	## page 08:
+	
+	Mis anuncios
+	
+	## page 09
+	

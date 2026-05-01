@@ -10,7 +10,6 @@ class Usuario {
     -fechaNacimiento: Date
     -direccion: String
     -numTelefono: String
-    -imagenUsuario: String
     -nombreUsuario: String
     -passwordHash: String
 }
