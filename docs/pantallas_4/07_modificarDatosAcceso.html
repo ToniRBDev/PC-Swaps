@@ -1,0 +1,268 @@
+<!doctype html>
+
+<html class="dark" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PC-SWAPS - Modificar Datos Acceso</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary": "#53157a",
+              "tertiary-fixed-dim": "#c889f1",
+              "surface-bright": "#2c2c2d",
+              "on-surface": "#ffffff",
+              "on-secondary-fixed": "#6a0c22",
+              tertiary: "#dba2ff",
+              "on-surface-variant": "#adaaab",
+              "inverse-surface": "#fcf8f9",
+              "inverse-on-surface": "#565556",
+              "surface-tint": "#ff8e7d",
+              "surface-container-lowest": "#000000",
+              "on-tertiary-container": "#47026f",
+              secondary: "#fe7e8c",
+              "on-primary-fixed": "#000000",
+              error: "#ff6e84",
+              "on-secondary-container": "#ffc0c4",
+              "primary-fixed": "#ff7763",
+              "tertiary-dim": "#c384eb",
+              "tertiary-container": "#d191fa",
+              "surface-dim": "#0e0e0f",
+              "secondary-fixed": "#ffc2c6",
+              "surface-container-highest": "#262627",
+              "surface-container-high": "#201f21",
+              "outline-variant": "#484849",
+              "surface-container-low": "#131314",
+              "secondary-dim": "#f47785",
+              "on-tertiary-fixed": "#2a0044",
+              "error-dim": "#d73357",
+              surface: "#0e0e0f",
+              "primary-dim": "#eb0000",
+              "on-background": "#ffffff",
+              "on-secondary": "#570017",
+              "secondary-container": "#842133",
+              "surface-variant": "#262627",
+              "error-container": "#a70138",
+              outline: "#767576",
+              "on-primary-fixed-variant": "#600000",
+              "tertiary-fixed": "#d697ff",
+              "on-error-container": "#ffb2b9",
+              "on-error": "#490013",
+              "inverse-primary": "#c10100",
+              "on-tertiary-fixed-variant": "#56197d",
+              "surface-container": "#1a191b",
+              "primary-container": "#ff7763",
+              primary: "#ff8e7d",
+              "secondary-fixed-dim": "#ffaeb4",
+              "on-secondary-fixed-variant": "#912b3c",
+              "on-primary": "#650000",
+              "primary-fixed-dim": "#ff5b47",
+              "on-primary-container": "#4f0000",
+              background: "#0e0e0f",
+            },
+            fontFamily: {
+              headline: ["Space Grotesk"],
+              display: ["Space Grotesk"],
+              body: ["Inter"],
+              label: ["Space Grotesk"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .neon-glow:hover {
+        box-shadow: 0 0 15px 2px rgba(235, 0, 0, 0.15);
+      }
+      .cyber-grid {
+        background-image:
+          linear-gradient(to right, #131314 1px, transparent 1px),
+          linear-gradient(to bottom, #131314 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background text-on-background font-body min-h-screen flex flex-col cyber-grid"
+  >
+    <!-- TopNavBar -->
+    <header
+      class="bg-neutral-950 dark:bg-black flex justify-between items-center w-full px-6 py-4 max-w-none docked full-width top-0 rounded-none border-b-0 sticky z-50 tonal shift using bg-neutral-900 dark:bg-[#0e0e0f]"
+    >
+      <div class="flex items-center gap-8">
+        <span
+          class="text-3xl font-black italic tracking-tighter text-red-600 dark:text-[#eb0000] font-['Space_Grotesk']"
+          >PC-SWAPS</span
+        >
+        <nav class="hidden md:flex gap-6 items-center">
+          <a
+            class="font-['Space_Grotesk'] tracking-tight uppercase text-sm text-neutral-400 dark:text-neutral-500 hover:text-white transition-colors"
+            href="#"
+            >Mis anuncios</a
+          >
+          <a
+            class="font-['Space_Grotesk'] tracking-tight uppercase text-sm text-neutral-400 dark:text-neutral-500 hover:text-white transition-colors"
+            href="#"
+            >Seguimiento</a
+          >
+          <a
+            class="font-['Space_Grotesk'] tracking-tight uppercase text-sm text-neutral-400 dark:text-neutral-500 hover:text-white transition-colors"
+            href="#"
+            >Modificar perfil</a
+          >
+          <a
+            class="font-['Space_Grotesk'] tracking-tight uppercase text-sm text-red-600 dark:text-[#eb0000] border-b-2 border-red-600 pb-1 font-bold"
+            href="#"
+            >Modificar datos acceso</a
+          >
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          class="material-symbols-outlined text-neutral-400 hover:text-[#eb0000] transition-colors p-2"
+        >
+          mail
+        </button>
+      </div>
+    </header>
+    <main
+      class="flex-grow flex items-center justify-center p-6 relative overflow-hidden"
+    >
+      <!-- Abstract Decoration -->
+      <div
+        class="absolute -top-24 -right-24 w-96 h-96 bg-primary-dim opacity-5 blur-[120px]"
+      ></div>
+      <div
+        class="absolute -bottom-24 -left-24 w-96 h-96 bg-tertiary opacity-5 blur-[120px]"
+      ></div>
+      <!-- Form Card Container -->
+      <div
+        class="w-full max-w-2xl bg-surface-container-high relative z-10 p-10 shadow-2xl"
+      >
+        <!-- Neon Bleed Visual Accent -->
+        <div class="absolute top-0 left-0 w-1 h-full bg-primary-dim"></div>
+        <!-- Page Title -->
+        <div class="mb-12">
+          <h1
+            class="font-display text-4xl font-bold tracking-tighter text-white uppercase italic"
+          >
+            Modificar <span class="text-primary-dim">Datos Acceso</span>
+          </h1>
+          <p
+            class="text-on-surface-variant font-label text-sm mt-2 tracking-widest uppercase"
+          >
+            Seguridad de la cuenta / Configuración
+          </p>
+        </div>
+        <!-- Settings Form -->
+        <form class="space-y-8">
+          <!-- Input Group: Email (Read-Only) -->
+          <div class="group">
+            <label
+              class="font-label text-xs uppercase tracking-[0.2em] text-neutral-500 mb-2 block"
+              >Email Registrado</label
+            >
+            <div
+              class="bg-surface-container-lowest p-4 text-neutral-400 font-mono text-sm border-b-2 border-outline-variant cursor-not-allowed"
+            >
+              user@domain.com
+            </div>
+          </div>
+          <!-- Input Group: Username -->
+          <div class="group">
+            <label
+              class="font-label text-xs uppercase tracking-[0.2em] text-primary-dim mb-2 block font-bold"
+              for="username"
+              >Nombre de usuario</label
+            >
+            <input
+              class="w-full bg-surface-container-low p-4 text-white font-body border-t-0 border-x-0 border-b-2 border-outline-variant focus:border-primary-dim focus:ring-0 transition-all placeholder-neutral-600 outline-none"
+              id="username"
+              type="text"
+              value="AcePilot_99"
+            />
+          </div>
+          <!-- Input Group: Password -->
+          <div class="group">
+            <label
+              class="font-label text-xs uppercase tracking-[0.2em] text-primary-dim mb-2 block font-bold"
+              for="password"
+              >Contraseña</label
+            >
+            <input
+              class="w-full bg-surface-container-low p-4 text-white font-body border-t-0 border-x-0 border-b-2 border-outline-variant focus:border-primary-dim focus:ring-0 transition-all placeholder-neutral-600 outline-none"
+              id="password"
+              placeholder="••••••••••••"
+              type="password"
+            />
+          </div>
+          <!-- Input Group: Repeat Password -->
+          <div class="group">
+            <label
+              class="font-label text-xs uppercase tracking-[0.2em] text-primary-dim mb-2 block font-bold"
+              for="password_confirm"
+              >Repetir Contraseña</label
+            >
+            <input
+              class="w-full bg-surface-container-low p-4 text-white font-body border-t-0 border-x-0 border-b-2 border-outline-variant focus:border-primary-dim focus:ring-0 transition-all placeholder-neutral-600 outline-none"
+              id="password_confirm"
+              placeholder="••••••••••••"
+              type="password"
+            />
+          </div>
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 pt-8">
+            <button
+              class="flex-1 bg-gradient-to-br from-primary-dim to-primary-container text-on-primary-fixed font-display font-black py-4 px-8 uppercase tracking-widest hover:brightness-110 transition-all neon-glow flex items-center justify-center gap-2"
+              type="submit"
+            >
+              GUARDAR CAMBIOS
+              <span class="material-symbols-outlined text-sm">bolt</span>
+            </button>
+            <button
+              class="flex-1 border border-primary-dim border-opacity-40 text-primary-dim font-display font-bold py-4 px-8 uppercase tracking-widest hover:bg-primary-dim hover:text-black transition-all"
+              type="button"
+            >
+              DESCARTAR
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <!-- Footer Area -->
+    <footer
+      class="p-8 flex justify-center items-center bg-surface-container-lowest"
+    >
+      <a
+        class="font-label text-xs uppercase tracking-[0.3em] text-neutral-500 hover:text-primary-dim transition-colors flex items-center gap-2"
+        href="#"
+      >
+        <span class="w-2 h-2 bg-primary-dim"></span>
+        SOPORTE
+      </a>
+    </footer>
+  </body>
+</html>
