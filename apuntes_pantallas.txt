@@ -6,13 +6,13 @@ Quiero
 
 ### pantalla 01: 
 
-	Login o creacion de cuenta (Utilizar la misma pantalla, ya que son similares
+	Login o creacion de cuenta (Utilizar la misma pantalla, ya que son similares)
+	La imagen se le asignará una por defecto con las iniciales que luego podrá modificar en la pestaña modificar perfil.
 	
 ### pantalla 02: pantalla home
 
 	Componente navBar siempre visible
-	
-	Barra de búsqueda (Solo búsqueda por nombre, no dar opcion de filtrar por caracteristicas), eliminar la lista de seguimiento y renderizar ahí los resultados.
+	Cuando se busque, se eliminará la lista de seguimiento y se renderizarán ahí los resultados.
 
 ## Pages
 
@@ -20,11 +20,11 @@ Quiero
 	
 	Iconos de busqueda de articulos
 	
-		Al hacer click en el icono, se mostrarán un título con el nombre de la categoría y con unos desplegables donde puedan filtar características, por defecto se mostrarán los más visitados.
-		Renderizar donde los articulos favoritos,  cuando el usuario haga click en un icono. Ocultar lista de seguimiento al mostrar. (bien se haya implementado el filtrado o no) se pueden dejar valores por defecto y no filtrar nada
+		Al hacer click en el icono, se mostrarán un título con el nombre de la categoría y debajo todas las card de los productos de esa categoria
+		Renderizar donde los articulos favoritos,  cuando el usuario haga click en un icono. Ocultar lista de seguimiento al mostrar. 
 		
 
-	# Todas las pages menos la principal deben de tener botón del volver atras, como la de informacion de anuncio
+	# Todas las pages menos la principal deben de tener botón del volver atras, como la de informacion de anuncio.
 		
 		
 	### Page 02: 
