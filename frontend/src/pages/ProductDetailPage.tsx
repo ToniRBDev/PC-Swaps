@@ -1,6 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import BackButton from '../components/ui/BackButton';
 import { followedProducts } from '../data/followedProducts';
 import { products } from '../data/products';
 
@@ -25,7 +24,15 @@ export default function ProductDetailPage() {
   return (
     <main className="min-h-screen bg-[#0e0e0f] text-white px-4 md:px-12 py-16">
       <div className="max-w-7xl mx-auto">
-        <BackButton label="Volver al marketplace" />
+        <Link
+          to="/home"
+          className="inline-flex items-center gap-2 mb-8 text-zinc-400 hover:text-red-600 uppercase text-xs font-bold tracking-widest transition-colors"
+        >
+          <span className="material-symbols-outlined text-sm">
+            arrow_back_ios
+          </span>
+          Volver al marketplace
+        </Link>
 
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-0">
           <div className="lg:col-span-7 bg-black relative group overflow-hidden border-l-4 border-red-600">

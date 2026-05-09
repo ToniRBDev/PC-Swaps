@@ -94,8 +94,7 @@
 	Modificar los datos de mi perfil
 	Permitir también la modificación de la contraseña
 
-	### page 05:
-	Mostrar datos del vendedor se puede usar como guia:
+	### page 05: Mostrar datos del vendedor 
 	"PC-Swaps\docs\pantallas_4\08_datosContactoVendedor.html"
 	Mostrará los siguientes datos que reciba del backend:
 		Long idUsuario, (El id usuario no se va a mostrar, es solo para busqueda)
@@ -110,14 +109,15 @@
 		
 	
 	
-	## page 06:
-	Mis anuncios 
-	Dividir en 2 categorías: Activos y no activos.
+	## page 06: Mis anuncios 
+	- Dividir en 2 categorías: Activos y Expirados, como el ejemplo de la página de muestra que te ofrezco
+	- Pagina de guia: "PC-Swaps\docs\pantallas_4\10_misAnuncios.html"
+	
+	
 		Incluir botones:
-			editar
-			eliminar
-			renovar
-			modificar
+			editar: Enrutar a la page creacion de anuncio
+			eliminar: Pedir confirmacion como para la eliminacion de la cuenta, si dice que si, eliminar
+			renovar: Se modificará la fecha de renovación, y en caso de que esté expirado, se mostrará activo de nuevo.
 			
 	## Page 07: Mis conversaciones
 	
