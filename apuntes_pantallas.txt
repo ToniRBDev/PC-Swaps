@@ -1,17 +1,47 @@
 # Estructura proyecto React
 
-Quiero 
 
-## Pantallas
+## Pantallas y funcionalidades:
+
+### Pantalla 00:
+	- Landing page que presenta las funciones de la aplicacion, donde muestra una lista de cards de artículos anunciados
+	- También motivará a los que la visiten a crearse una cuenta. Ejemplos:
+		- Destacar la especialización de la aplicación en ese sector
+		- Reutilización de componentes informáticos
+		- Ahorro en componentes
+	- Tendrá el mismo estilo de colores que el resto de la aplicación
+	- Al fondo de la landing page, habrá:
+		- ¿Quieres unirte a nuestra comunidad? y un botón de crear cuenta
+		- ¿Ya eres miembro? y un botón de iniciar sesión
 
 ### pantalla 01: 
 
-	Login o creacion de cuenta (Utilizar la misma pantalla, ya que son similares)
+	Login o creacion de cuenta (Utilizar la misma pantalla, ya que son similares), sólo modificar los input 
+	Campos pantalla creación de cuenta:
+		- nombre: Texto (String). No puede estar vacío.
+		- apellidos: Texto (String). No puede estar vacío.
+		- dni: Texto (String). No puede estar vacío.
+		- correoElectronico: Texto (String). Debe tener formato de email válido.
+		- fechaNacimiento: Fecha (LocalDate). Debe ser una fecha pasada.
+		- nombreUsuario: Texto (String). No puede estar vacío.
+		- password: Texto (String). Mínimo 8 caracteres.
+	Campos pantalla inicio de sesión
+		- Correo electrónico
+		- Contraseña
 	La imagen se le asignará una por defecto con las iniciales que luego podrá modificar en la pestaña modificar perfil.
+	
+	
 	
 ### pantalla 02: pantalla home
 
-	Componente navBar siempre visible
+	Componente navBar siempre visible en todas las pantallas, excepto la landing page
+	Navbar modificaciones:
+		- Orden de elementos en la Navbar:
+			1. Mis anuncios
+			2. Mis mensajes
+			3. Barra de búsqueda
+			4. A la derecha del todo Mi perfil, imagen del usuario también en la parte derecha
+	
 	Cuando se busque, se eliminará la lista de seguimiento y se renderizarán ahí los resultados.
 
 ## Pages

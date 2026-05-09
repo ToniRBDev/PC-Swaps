@@ -27,6 +27,7 @@ class Articulo {
     -imagen: String
     -fechaPublicacion: Date
     -fechaUltimaRenovacion: Date
+    -numeroVisitas: Integer
     -activo: boolean
 }
 

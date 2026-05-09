@@ -69,4 +69,8 @@ public class Articulo {
     @Setter
     @Column(name = "activo", nullable = false)
     private Boolean activo;
+
+    /** Número de veces que el artículo ha sido visualizado. Se incrementa desde el servicio. */
+    @Column(name = "numero_visitas", nullable = false)
+    private Integer numeroVisitas;
 }

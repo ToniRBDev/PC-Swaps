@@ -1,0 +1,17 @@
+package com.tonidev.backend.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+/**
+ * DTO con los datos necesarios para cambiar la contraseña de un usuario.
+ */
+public record CambiarPasswordRequest(
+
+        @NotBlank(message = "La contraseña actual es obligatoria")
+        String passwordActual,
+
+        @NotBlank(message = "La nueva contraseña es obligatoria")
+        @Size(min = 8, message = "La nueva contraseña debe tener al menos 8 caracteres")
+        String passwordNueva
+) {}

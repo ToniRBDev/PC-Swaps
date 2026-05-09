@@ -30,8 +30,6 @@ public record UsuarioRegistroRequest(
 
         String numTelefono,
 
-        String imagenUsuario,
-
         @NotBlank(message = "El nombre de usuario es obligatorio")
         String nombreUsuario,
 
