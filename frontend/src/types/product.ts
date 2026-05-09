@@ -7,16 +7,20 @@ export type CategoriaSlug =
   | 'ram'
   | 'monitor';
 
-export interface Product {
-  id: number;
+export interface ProductCardData {
+  idArticulo: number;
+  imagen: string;
   marca: string;
   modelo: string;
-  categoria: CategoriaSlug;
-  estado: EstadoArticulo;
   precio: number;
+  estado: EstadoArticulo;
+}
+
+export interface Product extends ProductCardData {
+  categoria: CategoriaSlug;
   descripcion: string;
-  imagen: string;
   fechaPublicacion: string;
+  numeroVisitas: number;
   fechaUltimaRenovacion?: string;
   activo?: boolean;
   especificaciones: Record<string, string>;

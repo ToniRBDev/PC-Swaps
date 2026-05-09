@@ -66,8 +66,26 @@
 	- Todas las pages menos esta, l deben de tener botón del volver atras, como la page ya creada 02 Visualizacion de anuncio
 		
 		
-	### Page 02: 
-	Visualizacion anuncio
+	### Page 02: Visualizacion anuncio
+	- Básate en la página de muestra: /PC-Swaps\docs\pantallas_4\12_visualizacionAnuncio.html, (recuerda que la barra de navegacion no)
+	- Va a recibir los siguientes datos del backend para mostrar:
+		- categoría
+		- marca
+		- modelo
+		- estado
+		- precio
+		- descripcion
+		- imagen
+		- fecha de publicacion
+		- numero de visitas
+	- Botones:
+		- Iniciar char con el vendedor: Enrutará a la page chat
+		- Mostrar información del vendedor: Enrutará a la page datos del vendedor
+		- Añadir a seguimiento o Eliminar de seguimiento si ya lo tenemos en seguimiento
+			 
+		
+		
+	
 
 	### Page 03:
 	Creacion de anuncio
@@ -77,7 +95,20 @@
 	Permitir también la modificación de la contraseña
 
 	### page 05:
-	Mostrar datos del vendedor (Reutilizar pantalla de modificar datos de perfirl sólo con los campos que se quieran mostrar)
+	Mostrar datos del vendedor se puede usar como guia:
+	"PC-Swaps\docs\pantallas_4\08_datosContactoVendedor.html"
+	Mostrará los siguientes datos que reciba del backend:
+		Long idUsuario, (El id usuario no se va a mostrar, es solo para busqueda)
+        String nombreUsuario,
+        String correoElectronico,
+        String direccion,
+        String numTelefono,
+        String imagenUsuario
+		No todos los campos son obligatorios, los que estén vacíos, no se mostrarán.
+		El botón atrás llevará de nuevo al anuncio
+		También tendrá el botón Iniciar chat, que redireccionará al mismo lugar que el botón de la visualización del anuncio.
+		
+	
 	
 	## page 06:
 	Mis anuncios 
@@ -89,6 +120,8 @@
 			modificar
 			
 	## Page 07: Mis conversaciones
+	
+	## Page 08: Chat
 	
 
 	

@@ -27,7 +27,7 @@ export default function HomePage() {
       ? product.categoria === selectedCategory
       : true;
     const matchesSearch = search
-      ? [product.marca, product.modelo, product.descripcion, product.categoria]
+      ? [product.marca, product.modelo, product.estado, product.categoria]
           .join(' ')
           .toLowerCase()
           .includes(search)
@@ -147,7 +147,7 @@ export default function HomePage() {
         {visibleProducts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {visibleProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.idArticulo} product={product} />
             ))}
           </div>
         ) : (

@@ -8,6 +8,8 @@ import CreateListingPage from './pages/CreateListingPage';
 import EditProfilePage from './pages/EditProfilePage';
 import MyAdsPage from './pages/MyAdsPage';
 import ConversationsPage from './pages/ConversationsPage';
+import ChatPage from './pages/ChatPage';
+import SellerInfoPage from './pages/SellerInfoPage';
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function AppRoutes() {
         <Route path="/modificar-perfil" element={<EditProfilePage />} />
         <Route path="/mis-anuncios" element={<MyAdsPage />} />
         <Route path="/mis-conversaciones" element={<ConversationsPage />} />
+        <Route path="/chat/:id" element={<ChatPage />} />
+        <Route path="/vendedor/:id" element={<SellerInfoPage />} />
       </Routes>
     </>
   );

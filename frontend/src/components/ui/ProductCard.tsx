@@ -1,8 +1,8 @@
-import type { Product } from '../../types/product';
 import { Link } from 'react-router-dom';
+import type { ProductCardData } from '../../types/product';
 
 interface Props {
-  product: Product;
+  product: ProductCardData;
 }
 
 export default function ProductCard({ product }: Props) {
@@ -13,7 +13,7 @@ export default function ProductCard({ product }: Props) {
       <div className="aspect-4/5 overflow-hidden bg-black">
         <img
           src={product.imagen}
-          alt={product.modelo}
+          alt={`${product.marca} ${product.modelo}`}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
         />
       </div>
@@ -23,24 +23,24 @@ export default function ProductCard({ product }: Props) {
           <div className="w-1 h-6 bg-red-600 mr-2" />
 
           <h3 className="font-headline font-bold uppercase tracking-tight text-lg">
-            {product.modelo}
+            {product.marca} {product.modelo}
           </h3>
         </div>
 
-        <p className="text-zinc-400 text-sm line-clamp-2 mb-6">
-          {product.descripcion}
+        <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-6">
+          {product.estado}
         </p>
 
         <div className="mt-auto flex items-center justify-between gap-4">
           <span className="text-2xl font-black text-white font-headline tracking-tighter">
-            {product.precio}€
+            {product.precio} EUR
           </span>
 
           <Link
-            to={`/producto/${product.id}`}
+            to={`/producto/${product.idArticulo}`}
             className="bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase hover:bg-red-500"
           >
-            Ver artículo
+            Ver articulo
           </Link>
         </div>
       </div>

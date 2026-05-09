@@ -2,7 +2,7 @@ import type { Product } from '../types/product';
 
 export const products: Product[] = [
   {
-    id: 1,
+    idArticulo: 1,
     marca: 'NVIDIA',
     modelo: 'RTX 4090',
     categoria: 'tarjeta-grafica',
@@ -11,6 +11,7 @@ export const products: Product[] = [
     descripcion: '...',
     imagen: '/img/rtx.jpg',
     fechaPublicacion: '2025-03-10',
+    numeroVisitas: 128,
     especificaciones: {
       memoria: '24 GB GDDR6X',
       bus: '384-bit',
@@ -18,7 +19,7 @@ export const products: Product[] = [
     },
   },
   {
-    id: 2,
+    idArticulo: 2,
     marca: 'AMD',
     modelo: 'Ryzen 9 7950X3D',
     categoria: 'procesador',
@@ -27,6 +28,7 @@ export const products: Product[] = [
     descripcion: 'Procesador de alto rendimiento.',
     imagen: '/img/ryzen.jpg',
     fechaPublicacion: '2025-04-15',
+    numeroVisitas: 74,
     especificaciones: {
       nucleos: '16',
       hilos: '32',

@@ -1,10 +1,15 @@
 import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
 import BackButton from '../components/ui/BackButton';
+import { followedProducts } from '../data/followedProducts';
 import { products } from '../data/products';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
-  const product = products.find((p) => p.id === Number(id));
+  const product = products.find((p) => p.idArticulo === Number(id));
+  const [isFollowed, setIsFollowed] = useState(() =>
+    followedProducts.some((followed) => followed.idArticulo === Number(id))
+  );
 
   if (!product) {
     return (
@@ -18,74 +23,82 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-16">
-      <div className="max-w-360 mx-auto">
+    <main className="min-h-screen bg-[#0e0e0f] text-white px-4 md:px-12 py-16">
+      <div className="max-w-7xl mx-auto">
         <BackButton label="Volver al marketplace" />
 
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-0">
-          <div className="lg:col-span-7 bg-black border-l-4 border-red-600 overflow-hidden">
-            <img
-              src={product.imagen}
-              alt={product.modelo}
-              className="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-700"
-            />
+          <div className="lg:col-span-7 bg-black relative group overflow-hidden border-l-4 border-red-600">
+            <div className="aspect-square w-full">
+              <img
+                src={product.imagen}
+                alt={`${product.marca} ${product.modelo}`}
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+              />
+            </div>
           </div>
 
-          <div className="lg:col-span-5 bg-zinc-900 p-8 md:p-12 flex flex-col">
-            <span className="text-red-500 text-xs uppercase tracking-[0.2em] font-bold mb-3">
-              {product.categoria}
-            </span>
+          <div className="lg:col-span-5 bg-[#201f21] p-8 md:p-12 flex flex-col">
+            <div className="flex justify-between items-start gap-8 mb-8">
+              <div>
+                <span className="font-label text-xs text-red-500 tracking-[0.2em] uppercase">
+                  {product.categoria}
+                </span>
+                <h1 className="text-4xl md:text-5xl font-black font-headline uppercase leading-none mt-2 tracking-tighter">
+                  {product.marca} {product.modelo}
+                </h1>
+              </div>
 
-            <h1 className="text-4xl md:text-5xl font-black uppercase leading-none mb-6">
-              {product.modelo}
-            </h1>
-
-            <div className="mb-8">
-              <span className="block text-zinc-500 text-xs uppercase mb-1">
-                Precio
-              </span>
-              <p className="text-4xl font-black text-white">
-                {product.precio} EUR
-              </p>
+              <div className="text-right shrink-0">
+                <span className="font-label text-[10px] text-zinc-500 uppercase block mb-1">
+                  Precio
+                </span>
+                <div className="text-3xl font-headline font-bold text-white">
+                  {product.precio} EUR
+                </div>
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-px bg-zinc-700/40 mb-8">
+            <div className="grid grid-cols-2 gap-px bg-zinc-700/30 mt-4 mb-8">
               <InfoBox label="Marca" value={product.marca} />
-              <InfoBox label="Estado" value={product.estado} />
+              <InfoBox label="Modelo" value={product.modelo} />
               <InfoBox label="Categoria" value={product.categoria} />
+              <InfoBox label="Estado" value={product.estado} />
               <InfoBox label="Publicado" value={product.fechaPublicacion} />
+              <InfoBox label="Visitas" value={product.numeroVisitas} />
             </div>
 
             <div className="mb-10">
-              <h2 className="text-sm uppercase tracking-widest font-bold mb-4 text-zinc-300">
+              <h2 className="text-xs text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <span className="w-8 h-px bg-red-600" />
                 Descripcion del vendedor
               </h2>
-              <p className="text-zinc-400 leading-relaxed">
+              <p className="text-sm text-zinc-400 leading-relaxed">
                 {product.descripcion}
               </p>
             </div>
 
-            <div className="mb-10">
-              <h2 className="text-sm uppercase tracking-widest font-bold mb-4 text-zinc-300">
-                Especificaciones
-              </h2>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-zinc-700/40">
-                {Object.entries(product.especificaciones).map(
-                  ([key, value]) => (
-                    <InfoBox key={key} label={key} value={value} />
-                  )
-                )}
-              </div>
-            </div>
-
             <div className="mt-auto space-y-4">
-              <button className="w-full bg-red-600 text-white font-bold uppercase py-4 tracking-widest hover:bg-red-500">
-                Informacion de contacto
-              </button>
+              <Link
+                className="block w-full bg-red-600 text-white text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-500 active:scale-[0.98]"
+                to={`/chat/${product.idArticulo}`}
+              >
+                Iniciar chat con el vendedor
+              </Link>
 
-              <button className="w-full border border-red-600/50 text-red-500 font-bold uppercase py-4 tracking-widest hover:bg-red-600/10">
-                Anadir a seguimiento
+              <Link
+                className="block w-full border border-zinc-600 text-zinc-200 text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-zinc-800 active:scale-[0.98]"
+                to={`/vendedor/${product.idArticulo}`}
+              >
+                Mostrar informacion del vendedor
+              </Link>
+
+              <button
+                className="w-full border border-red-600/40 hover:border-red-600 text-red-500 font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-600/5 active:scale-[0.98]"
+                onClick={() => setIsFollowed((current) => !current)}
+                type="button"
+              >
+                {isFollowed ? 'Eliminar de seguimiento' : 'Anadir a seguimiento'}
               </button>
             </div>
           </div>
@@ -102,11 +115,13 @@ interface InfoBoxProps {
 
 function InfoBox({ label, value }: InfoBoxProps) {
   return (
-    <div className="bg-zinc-950 p-4">
+    <div className="bg-[#131314] p-4">
       <span className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-1">
         {label}
       </span>
-      <span className="text-sm font-bold uppercase text-zinc-100">{value}</span>
+      <span className="text-sm font-semibold uppercase text-zinc-100">
+        {value}
+      </span>
     </div>
   );
 }
