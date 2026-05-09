@@ -124,7 +124,7 @@ La lógica de negocio y la API de la aplicación están desarrolladas con:
 
 Para el almacenamiento de información se utiliza:
 
-- PostgreSql como base de datos relacional.
+- MySQL como base de datos relacional.
 
 ## 7.4 Despliegue
 

@@ -3,7 +3,8 @@
 - Cuando un usuario elimine un anuncio, eliminar también las conversaciones asociadas.
 - Validar que solo el propietario pueda editar o eliminar sus productos.
 - Al usuario propietario de un producto anunciado, no le pueden salir sus propios anuncios, sólo los podrá ver en la zona "Mis productos"
-
+- Hacer tests con mockito
+- Hacer tests con jUnit
 
 --Cosas a mejorar a futuro--
 - Añadir más imágenes a un producto a la hora de publicarlo
