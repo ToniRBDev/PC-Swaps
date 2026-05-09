@@ -35,19 +35,19 @@ Quiero
 
 	### Page 04:
 	Modificar datos del perfil
+	Permitir también la modificación de la contraseña
 
-	### Page 05:
-	Modificar datos acceso
+	### page 05:
+	Mostrar datos del vendedor (Reutilizar pantalla de modificar datos de perfirl sólo con los campos que se quieran mostrar)
 	
-	- Comprobar las pantallas adjuntadas en memoria y mirar a ver si se pueden hacer en una sola las page 04 y 05
+	## page 06:
+	Mis anuncios 
+	Dividir en 2 categorías: Activos y no activos.
+		Incluir botones:
+			editar
+			eliminar
+			renovar
+			modificar
+	
 
-	### page 07:
-
-	Datos de contacto del vendedor
-	
-	## page 08:
-	
-	Mis anuncios
-	
-	## page 09
 	
