@@ -33,28 +33,37 @@
 	
 	
 ### pantalla 02: pantalla home
+	- Componente navBar siempre visible en todas las pantallas, excepto la landing page
+	Funcionalidades de los botones de la navBar:
+		- Ver mis anuncios: Nos va a enrutar a la page 06, Mis anuncios
+		- Publicar ununcio: Nos va a enrutar a la page 03, Creacion de anuncio
+		- Mis mensajes: Nos va a enrutar a la page 07, Mis conversaciones (El botón mis mensajes mostrará una notificá con un punto rojo que si hay mensajes pendientes)
+		- Barra de búsqueda: Se mostrarán las coincidencias con lo introducido por el usuario en la sección últimos artículos, que será 
+			renombrada a RESULTADOS:
+		- Botón Modificar mis datos: Nos va a enrutar a la page 04 Modificar mis datos
+		- Botón cerrar sesión: Cerrará la sesión del usuario y nos llevará a la pantalla 01: Iniciar sesión
+		- Botón eliminar cuenta: Nos saldrá una ventana emergente: ¿Estás seguro de eliminar tu cuenta), tendrá 2 botones: Sí y No
+	- Iconos de la HomePage: buscarán todos los artículos de la categoría que indica el icono seleccionado por el usuario
+	- Botón de ver todo: 
+		- Se ampliará la cantidad de artículos mostrados en la sección últimos artículo subidos mostrando 4 filas por página, se mostrará la paginación
+		- Se dejarán de mostrar los artículos en seguimiento
+		- 
+	- Sección últimos artículos subidos:
+		- Se mostrará una fila con los últimos artículos subidos
+		- En cuanto se relice una búsqueda en la barra de búsqueda o filtro por categoría haciendo click en el icono, automáticamente se renombrará el nombre de la categoría y se mostrarán los productos filtrados 
+		
+	- Sección Seguimiento:
+		- Se mostrarán todos los artículos en seguimiento, en caso de que haya más de 3 filas, se mostrará paginación
+		- Esta sección se ocultará automáticamente cuando se realice un filtro por categoría o filtrado por la barra de búsqueda
+		
 
-	Componente navBar siempre visible en todas las pantallas, excepto la landing page
-	Navbar modificaciones:
-		- Orden de elementos en la Navbar:
-			1. Mis anuncios
-			2. Mis mensajes
-			3. Barra de búsqueda
-			4. A la derecha del todo Mi perfil, imagen del usuario también en la parte derecha
-	
-	Cuando se busque, se eliminará la lista de seguimiento y se renderizarán ahí los resultados.
+
 
 ## Pages
 
 	### Page 01: Page raíz
-	
-	Iconos de busqueda de articulos
-	
-		Al hacer click en el icono, se mostrarán un título con el nombre de la categoría y debajo todas las card de los productos de esa categoria
-		Renderizar donde los articulos favoritos,  cuando el usuario haga click en un icono. Ocultar lista de seguimiento al mostrar. 
-		
-
-	# Todas las pages menos la principal deben de tener botón del volver atras, como la de informacion de anuncio.
+	- Será la page home, se ha descrito en la sección anterior, no incluye la navBar, que estará siempre visible independientemente en qué page estemos situados
+	- Todas las pages menos esta, l deben de tener botón del volver atras, como la page ya creada 02 Visualizacion de anuncio
 		
 		
 	### Page 02: 
@@ -64,7 +73,7 @@
 	Creacion de anuncio
 
 	### Page 04:
-	Modificar datos del perfil
+	Modificar los datos de mi perfil
 	Permitir también la modificación de la contraseña
 
 	### page 05:
@@ -78,6 +87,8 @@
 			eliminar
 			renovar
 			modificar
+			
+	## Page 07: Mis conversaciones
 	
 
 	
