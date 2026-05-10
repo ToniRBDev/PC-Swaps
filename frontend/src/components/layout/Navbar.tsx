@@ -125,6 +125,13 @@ export default function Navbar() {
               >
                 Modificar mis datos
               </Link>
+              <Link
+                className="block px-4 py-3 text-white/80 hover:bg-[#201f21] hover:text-white"
+                to="/modificar-password"
+                onClick={() => setOpenDropdown(null)}
+              >
+                Modificar contraseña
+              </Link>
               <button
                 className="block w-full text-left px-4 py-3 text-red-500 hover:bg-red-950/20"
                 onClick={handleLogout}

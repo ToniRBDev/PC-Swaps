@@ -1,5 +1,6 @@
 package com.tonidev.backend.dto;
 
+import com.tonidev.backend.model.Categoria;
 import com.tonidev.backend.model.EstadoArticulo;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
  */
 public record ArticuloResponse(
         Long idArticulo,
-        CategoriaResponse categoria,
+        Categoria categoria,
         String marca,
         String modelo,
         EstadoArticulo estado,

@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom';
-import { products } from '../data/products';
-import ProductCard from '../components/ui/ProductCard';
 
 export default function LandingPage() {
   return (
@@ -58,11 +56,148 @@ export default function LandingPage() {
             Entrar al marketplace
           </Link>
         </div>
+        {/* CONTENEDOR GRID AÑADIDO PARA EL DISEÑO RESPONSE DE LAS CARD */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <article className="group bg-zinc-900 relative flex flex-col transition-all hover:bg-zinc-800 ">
+            <div className="absolute top-0 left-0 w-1 h-full bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <ProductCard key={product.idArticulo} product={product} />
-          ))}
+            <div className="aspect-4/5 overflow-hidden bg-black rounded-2xl">
+              <img
+                src="https://img.pccomponentes.com/articles/1086/10864442/1113-msi-geforce-rtx-3050-ventus-2x-e-oc-6gb-gddr6-opiniones.jpg"
+                alt="MSI Nvidia RTX 3060"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
+              />
+            </div>
+
+            <div className="p-6 flex flex-col grow">
+              <div className="flex items-start mb-2">
+                <div className="w-1 h-6 bg-red-600 mr-2" />
+
+                <h3 className="font-headline font-bold uppercase tracking-tight text-lg">
+                  Nvidia RTX 3060
+                </h3>
+              </div>
+
+              <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-6">
+                Buen estado
+              </p>
+
+              <div className="mt-auto flex items-center justify-between gap-4">
+                <span className="text-2xl font-black text-white font-headline tracking-tighter">
+                  200 EUR
+                </span>
+
+                <button className="bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase hover:bg-red-500">
+                  Ver articulo
+                </button>
+              </div>
+            </div>
+          </article>
+          <article className="group bg-zinc-900 relative flex flex-col transition-all hover:bg-zinc-800">
+            <div className="absolute top-0 left-0 w-1 h-full bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+            <div className="aspect-4/5 overflow-hidden bg-black rounded-2xl">
+              <img
+                src="https://cdn.ibertronica.es/product/MICM8071505094017_00001.jpeg"
+                alt="Intel Coreintel core i9-14900k"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
+              />
+            </div>
+
+            <div className="p-6 flex flex-col grow">
+              <div className="flex items-start mb-2">
+                <div className="w-1 h-6 bg-red-600 mr-2" />
+
+                <h3 className="font-headline font-bold uppercase tracking-tight text-lg">
+                  Intel Coreintel core i9-14900k
+                </h3>
+              </div>
+
+              <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-6">
+                Nuevo con etiquetas
+              </p>
+
+              <div className="mt-auto flex items-center justify-between gap-4">
+                <span className="text-2xl font-black text-white font-headline tracking-tighter">
+                  800 EUR
+                </span>
+
+                <button className="bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase hover:bg-red-500">
+                  Ver articulo
+                </button>
+              </div>
+            </div>
+          </article>
+          <article className="group bg-zinc-900 relative flex flex-col transition-all hover:bg-zinc-800">
+            <div className="absolute top-0 left-0 w-1 h-full bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+            <div className="aspect-4/5 overflow-hidden bg-black rounded-2xl">
+              <img
+                src="https://img.pccomponentes.com/articles/1086/10864442/1113-msi-geforce-rtx-3050-ventus-2x-e-oc-6gb-gddr6-opiniones.jpg"
+                alt="MSI Nvidia RTX 3060"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
+              />
+            </div>
+
+            <div className="p-6 flex flex-col grow">
+              <div className="flex items-start mb-2">
+                <div className="w-1 h-6 bg-red-600 mr-2" />
+
+                <h3 className="font-headline font-bold uppercase tracking-tight text-lg">
+                  Nvidia RTX 3060
+                </h3>
+              </div>
+
+              <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-6">
+                Buen estado
+              </p>
+
+              <div className="mt-auto flex items-center justify-between gap-4">
+                <span className="text-2xl font-black text-white font-headline tracking-tighter">
+                  200 EUR
+                </span>
+
+                <button className="bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase hover:bg-red-500">
+                  Ver articulo
+                </button>
+              </div>
+            </div>
+          </article>
+          <article className="group bg-zinc-900 relative flex flex-col transition-all hover:bg-zinc-800">
+            <div className="absolute top-0 left-0 w-1 h-full bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+            <div className="aspect-4/5 overflow-hidden bg-black rounded-2xl">
+              <img
+                src="https://img.pccomponentes.com/articles/1086/10864442/1113-msi-geforce-rtx-3050-ventus-2x-e-oc-6gb-gddr6-opiniones.jpg"
+                alt="MSI Nvidia RTX 3060"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
+              />
+            </div>
+
+            <div className="p-6 flex flex-col grow">
+              <div className="flex items-start mb-2">
+                <div className="w-1 h-6 bg-red-600 mr-2" />
+
+                <h3 className="font-headline font-bold uppercase tracking-tight text-lg">
+                  Nvidia RTX 3060
+                </h3>
+              </div>
+
+              <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-6">
+                Buen estado
+              </p>
+
+              <div className="mt-auto flex items-center justify-between gap-4">
+                <span className="text-2xl font-black text-white font-headline tracking-tighter">
+                  200 EUR
+                </span>
+
+                <button className="bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase hover:bg-red-500">
+                  Ver articulo
+                </button>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 

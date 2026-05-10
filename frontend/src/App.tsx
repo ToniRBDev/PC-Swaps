@@ -10,6 +10,7 @@ import MyAdsPage from './pages/MyAdsPage';
 import ConversationsPage from './pages/ConversationsPage';
 import ChatPage from './pages/ChatPage';
 import SellerInfoPage from './pages/SellerInfoPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function AppRoutes() {
         <Route path="/producto/:id" element={<ProductDetailPage />} />
         <Route path="/publicar-anuncio" element={<CreateListingPage />} />
         <Route path="/modificar-perfil" element={<EditProfilePage />} />
+        <Route path="/modificar-password" element={<ChangePasswordPage />} />
         <Route path="/mis-anuncios" element={<MyAdsPage />} />
         <Route path="/mis-conversaciones" element={<ConversationsPage />} />
         <Route path="/chat/:id" element={<ChatPage />} />
