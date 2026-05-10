@@ -46,7 +46,7 @@ export default function SellerInfoPage() {
 
   return (
     <main className="min-h-screen bg-[#0e0e0f] text-white px-6 py-16 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(235,0,0,0.05)_51%)] bg-[length:100%_4px] opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(235,0,0,0.05)_51%)] bg-size-[100%_4px] opacity-20 pointer-events-none" />
 
       <section className="relative w-full max-w-4xl bg-[#201f21] shadow-[0_0_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col md:flex-row">
         <div className="w-full md:w-2/5 bg-black p-8 flex flex-col items-center justify-center relative border-r border-zinc-800">

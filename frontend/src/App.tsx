@@ -11,11 +11,14 @@ import ConversationsPage from './pages/ConversationsPage';
 import ChatPage from './pages/ChatPage';
 import SellerInfoPage from './pages/SellerInfoPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import { ConversationsProvider } from './context/ConversationsContext';
 
 function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <ConversationsProvider>
+        <AppRoutes />
+      </ConversationsProvider>
     </BrowserRouter>
   );
 }

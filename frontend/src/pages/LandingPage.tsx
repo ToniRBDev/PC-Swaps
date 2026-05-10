@@ -63,7 +63,7 @@ export default function LandingPage() {
         </Link>
       </nav>
 
-      <section className="relative min-h-217.5 flex items-center overflow-hidden px-8 md:px-20">
+      <section className="relative flex items-center overflow-hidden px-8 md:px-20 py-20">
         <div className="absolute inset-0 z-0">
           <img
             className="w-full h-full object-cover opacity-40"
@@ -73,12 +73,12 @@ export default function LandingPage() {
           <div className="absolute inset-0 bg-linear-to-r from-[#0e0e0f] via-[#0e0e0f]/80 to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-4xl">
-          <h1 className="text-6xl md:text-8xl font-black font-headline uppercase leading-none tracking-tighter mb-6">
+        <div className="relative z-10 max-w-3xl">
+          <h1 className="text-5xl md:text-7xl font-black font-headline uppercase leading-none tracking-tighter mb-5">
             Domina el <span className="text-red-600 italic">Mercado</span> del
             Hardware
           </h1>
-          <p className="text-xl md:text-2xl text-zinc-400 max-w-2xl mb-10 font-light leading-relaxed">
+          <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mb-8 font-light leading-relaxed">
             Intercambia, vende y adquiere componentes de elite. La plataforma
             definitiva disenada para el rendimiento extremo y la precision
             tecnica.
@@ -95,6 +95,12 @@ export default function LandingPage() {
               to="/login"
             >
               Vender Componente
+            </Link>
+            <Link
+              className="border border-white/20 text-white font-bold uppercase tracking-widest px-10 py-5 hover:border-red-600 hover:text-red-600 transition-all duration-200"
+              to="/home"
+            >
+              Ir a marketplace
             </Link>
           </div>
         </div>

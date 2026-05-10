@@ -146,9 +146,34 @@
 			renovar: Se modificará la fecha de renovación, y en caso de que esté expirado, se mostrará activo de nuevo.
 			
 	## Page 07: Mis conversaciones
+	- Toma como referencia la página: "PC-Swaps/docs/pantallas_4/11_conversaciones.html"
+	- Ignora la barra de navegación de muestra que hay en esa página
+	- Ignora la previsualización de los mensajes, sólo se verán al entrar en los mensajes de la conversación
+	- Del anuncio se mostrará:
+		- imagen
+		- marca
+		- modelo
+		- estado
+		- precio
+	- Añade botón atrás que permite volver a la page home
+	- Botones icono:
+		eliminar: Elimina la conversación y todos los mensajes. Pedir confirmación de eliminación.
+		mensaje: Abre el chat, Enruta a la page chat con los mensajes correspondientes.
+		
+		
 	
 	
-	## Page 08: Chat
+	## Page 08: chat
+	- Toma como referencia la página: "PC-Swaps/docs/pantallas_4/09_chat.html"
+	- Tendrá a la derecha la card del anuncio, la misma card de siempre con el anuncio
+	- Implementar botón de volver atrás, que irá la page 07: Mis conversaciones. 
+	- En esta pantalla se mostrará la siguiente información:
+		- articulo
+		- Vendedor
+		- mensajes
+		- Fecha de cada mensaje, enviados y recibidos
+		- leido
+	- 
 	
 	## Page 09: Modificar contraseña
 	- Utiliza como modelo la pagina: "PC-Swaps/docs/pantallas_4/04_modificar_password.html"

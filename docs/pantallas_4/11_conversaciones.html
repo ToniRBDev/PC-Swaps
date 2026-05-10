@@ -1,0 +1,377 @@
+<!doctype html>
+
+<html class="dark" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-dim": "#eb0000",
+              "on-primary-fixed-variant": "#600000",
+              "tertiary-fixed-dim": "#c889f1",
+              "surface-dim": "#0e0e0f",
+              "tertiary-fixed": "#d697ff",
+              "secondary-fixed": "#ffc2c6",
+              "primary-fixed-dim": "#ff5b47",
+              "inverse-primary": "#c10100",
+              "surface-container": "#1a191b",
+              "on-primary-container": "#4f0000",
+              "outline-variant": "#484849",
+              "on-error": "#490013",
+              "inverse-surface": "#fcf8f9",
+              surface: "#0e0e0f",
+              "primary-fixed": "#ff7763",
+              primary: "#ff8e7d",
+              "primary-container": "#ff7763",
+              "on-tertiary-fixed": "#2a0044",
+              "on-secondary-container": "#ffc0c4",
+              "inverse-on-surface": "#565556",
+              outline: "#767576",
+              "surface-container-low": "#131314",
+              "surface-tint": "#ff8e7d",
+              "on-secondary": "#570017",
+              "error-container": "#a70138",
+              background: "#0e0e0f",
+              "surface-container-lowest": "#000000",
+              "surface-container-highest": "#262627",
+              "surface-container-high": "#201f21",
+              secondary: "#fe7e8c",
+              "error-dim": "#d73357",
+              "on-primary-fixed": "#000000",
+              tertiary: "#dba2ff",
+              "on-primary": "#650000",
+              "secondary-container": "#842133",
+              "surface-bright": "#2c2c2d",
+              "on-tertiary-fixed-variant": "#56197d",
+              "on-background": "#ffffff",
+              "on-secondary-fixed": "#6a0c22",
+              "secondary-fixed-dim": "#ffaeb4",
+              "on-secondary-fixed-variant": "#912b3c",
+              "on-error-container": "#ffb2b9",
+              "tertiary-container": "#d191fa",
+              "tertiary-dim": "#c384eb",
+              error: "#ff6e84",
+              "surface-variant": "#262627",
+              "on-surface": "#ffffff",
+              "on-tertiary": "#53157a",
+              "on-surface-variant": "#adaaab",
+              "secondary-dim": "#f47785",
+              "on-tertiary-container": "#47026f",
+            },
+            borderRadius: {
+              DEFAULT: "0px",
+              lg: "0px",
+              xl: "0px",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Space Grotesk"],
+              display: ["Space Grotesk"],
+              body: ["Inter"],
+              label: ["Space Grotesk"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        background-color: #0e0e0f;
+        color: white;
+        font-family: "Inter", sans-serif;
+      }
+      .neon-glow {
+        box-shadow: 0 0 15px rgba(235, 0, 0, 0.15);
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #000000;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #eb0000;
+      }
+    </style>
+  </head>
+  <body class="bg-background min-h-screen flex flex-col">
+    <!-- NAVBAR -->
+    <nav
+      class="bg-black text-[#eb0000] font-['Space_Grotesk'] uppercase tracking-widest text-sm docked full-width top-0 rounded-none border-b-0 bg-[#0e0e0f] shadow-[0_4px_20px_rgba(235,0,0,0.15)] flex justify-between items-center w-full px-8 py-6 z-50"
+    >
+      <div class="text-3xl font-black tracking-tighter text-[#eb0000] italic">
+        PC-SWAPS
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a
+          class="text-white/70 hover:text-white transition-all duration-150 ease-in-out"
+          href="#"
+          >Mis anuncios</a
+        >
+        <a
+          class="text-white/70 hover:text-white transition-all duration-150 ease-in-out"
+          href="#"
+          >Seguimiento</a
+        >
+        <a
+          class="text-white/70 hover:text-white transition-all duration-150 ease-in-out"
+          href="#"
+          >Modificar perfil</a
+        >
+        <a
+          class="text-white/70 hover:text-white transition-all duration-150 ease-in-out"
+          href="#"
+          >Modificar datos acceso</a
+        >
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          class="material-symbols-outlined text-white/70 hover:text-[#eb0000] transition-colors"
+          data-icon="mail"
+        >
+          mail
+        </button>
+        <div
+          class="w-8 h-8 bg-surface-container-highest border border-outline-variant flex items-center justify-center"
+        >
+          <span class="material-symbols-outlined text-sm" data-icon="person"
+            >person</span
+          >
+        </div>
+      </div>
+    </nav>
+    <!-- MAIN_CONTENT -->
+    <main class="flex-grow container mx-auto px-6 py-12 md:py-20">
+      <!-- TITLE_SECTION -->
+      <div class="mb-12 relative">
+        <h1
+          class="font-headline text-5xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-none"
+        >
+          MIS <span class="text-primary-dim">CONVERSACIONES</span>
+        </h1>
+        <div class="h-1 w-24 bg-primary-dim mt-4"></div>
+      </div>
+      <!-- CONVERSATION_LIST -->
+      <div class="space-y-4">
+        <!-- CHAT_ITEM_1 -->
+        <div
+          class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-200 border-l-0 hover:border-l-4 hover:border-primary-dim flex flex-col md:flex-row items-center justify-between p-4 gap-4 relative"
+        >
+          <div class="flex items-center gap-6 w-full md:w-auto">
+            <div
+              class="relative w-20 h-20 bg-surface-container-lowest shrink-0 overflow-hidden"
+            >
+              <img
+                alt="Item Thumbnail"
+                class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                data-alt="A high-performance gaming laptop with glowing RGB keyboard set against a dark carbon fiber desk. The lighting is moody with intense red accents reflecting off the metallic chassis. The composition is sharp and editorial, matching a cyber-brutalist tech marketplace aesthetic."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVqlaPNDkXrHVBA0E4jct-HhQkOXEaTo0y4uIR-id4EwwH9CdyjkxHbx4Y7FPO3nI6FPwrDZnUJPv5FVpHk-vZggyQOEhkqhbmTlDij3OJdc0OIKy4s-OPT5NQ1AkIgM0woTuyTBU2kRxLlef-7ih1r_N2nBQto9GZoqwzsgxdE3Hnv-BYwEdZrEctA5T-0t4oC1Q4PEoUMCk-PZaf2s9q1qzG8G5HcdGKchcYo332HbhN5whiko44QrwnwTTZdGM1UsMnFbGUUmRx"
+              />
+              <div class="absolute top-1 left-1">
+                <div
+                  class="w-3 h-3 bg-primary-dim rounded-full neon-glow"
+                ></div>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <span
+                  class="font-label text-[10px] tracking-widest text-primary-dim uppercase"
+                  >Usuario</span
+                >
+                <h3
+                  class="font-headline text-xl font-bold text-white tracking-tight"
+                >
+                  CyberNinja_99
+                </h3>
+              </div>
+              <p class="font-body text-sm text-on-surface-variant">
+                RTX 3080 Founders Edition - Consulta disponibilidad
+              </p>
+              <div class="mt-2 flex items-center gap-3">
+                <span class="font-label text-[10px] text-outline"
+                  >INICIADO: 12 OCT 2023</span
+                >
+                <span
+                  class="px-2 py-0.5 bg-primary-dim/10 text-primary-dim font-label text-[9px] border border-primary-dim/20 uppercase"
+                  >1 Nuevo mensaje</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+            <button
+              class="flex items-center justify-center w-12 h-12 bg-primary-dim hover:bg-primary-fixed text-black transition-all active:scale-95"
+              title="Abrir chat"
+            >
+              <span class="material-symbols-outlined" data-icon="chat_bubble"
+                >chat_bubble</span
+              >
+            </button>
+            <button
+              class="flex items-center justify-center w-12 h-12 bg-surface-container-highest hover:bg-red-950 text-white transition-all border border-outline-variant hover:border-primary-dim active:scale-95"
+              title="Eliminar conversación"
+            >
+              <span class="material-symbols-outlined" data-icon="delete"
+                >delete</span
+              >
+            </button>
+          </div>
+        </div>
+        <!-- CHAT_ITEM_2 -->
+        <div
+          class="group bg-surface-container-high hover:bg-surface-bright transition-all duration-200 border-l-0 hover:border-l-4 hover:border-primary-dim flex flex-col md:flex-row items-center justify-between p-4 gap-4 relative"
+        >
+          <div class="flex items-center gap-6 w-full md:w-auto">
+            <div
+              class="relative w-20 h-20 bg-surface-container-lowest shrink-0 overflow-hidden"
+            >
+              <img
+                alt="Item Thumbnail"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                data-alt="Close up of a professional mechanical gaming keyboard with translucent keycaps emitting a sharp red glow. The environment is dark and minimalist with clean lines and high contrast shadows. The style is aggressive precision, reflecting a high-end competitive hardware environment."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI251J8w3p4bJZ3qltOt-ma49Zty8zQuF2MLB9HHMKmK8TaJVjPlHpO5yE90H91N3QDrU6hwxNGeeQbDg054zf9P9CnSAn-gE_s8lSzt4o0TGI9pD103JQzkQjg2eCUQt-QK0b9CsnWL96dLhEbhKu9OeP4_pV7QSrgvpKpRi6CUDzQqAAbkygmmW9xcNRmjDDz3nq6h86k-AxeOrPJucjol0-bdj4-ONK1XoNRnCIgWuxfoWqRbk699fhrFjXwTPjhALbHMVGdYWW"
+              />
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <span
+                  class="font-label text-[10px] tracking-widest text-outline uppercase"
+                  >Usuario</span
+                >
+                <h3
+                  class="font-headline text-xl font-bold text-white tracking-tight"
+                >
+                  Vanguard_Seller
+                </h3>
+              </div>
+              <p class="font-body text-sm text-on-surface-variant">
+                Teclado Mecánico Custom - ¿Aceptas cambios?
+              </p>
+              <div class="mt-2 flex items-center gap-3">
+                <span class="font-label text-[10px] text-outline"
+                  >INICIADO: 08 OCT 2023</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+            <button
+              class="flex items-center justify-center w-12 h-12 bg-primary-dim hover:bg-primary-fixed text-black transition-all active:scale-95"
+            >
+              <span class="material-symbols-outlined" data-icon="chat_bubble"
+                >chat_bubble</span
+              >
+            </button>
+            <button
+              class="flex items-center justify-center w-12 h-12 bg-surface-container-highest hover:bg-red-950 text-white transition-all border border-outline-variant hover:border-primary-dim active:scale-95"
+            >
+              <span class="material-symbols-outlined" data-icon="delete"
+                >delete</span
+              >
+            </button>
+          </div>
+        </div>
+        <!-- EMPTY_STATE_HIDDEN (Demonstration of layout if needed) -->
+        <!-- 
+            <div class="flex flex-col items-center justify-center py-32 border-2 border-dashed border-outline-variant">
+                <span class="material-symbols-outlined text-6xl text-outline mb-4" data-icon="mail_lock">mail_lock</span>
+                <h3 class="font-headline text-2xl font-bold text-white uppercase tracking-widest">Sin mensajes</h3>
+                <p class="font-body text-on-surface-variant mt-2">Tu bandeja de entrada está vacía por ahora.</p>
+                <button class="mt-8 px-8 py-3 bg-primary-dim text-black font-label font-bold uppercase tracking-widest hover:brightness-125 transition-all">Explorar anuncios</button>
+            </div> 
+            -->
+      </div>
+      <!-- RECENT_ACTIVITY_HINT -->
+      <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="bg-surface-container-lowest p-6 border-b-2 border-primary-dim"
+        >
+          <div class="text-primary-dim font-headline text-3xl font-black mb-2">
+            02
+          </div>
+          <div
+            class="font-label text-[10px] uppercase tracking-[0.2em] text-outline"
+          >
+            Chats activos
+          </div>
+        </div>
+        <div
+          class="bg-surface-container-lowest p-6 border-b-2 border-outline-variant"
+        >
+          <div class="text-white font-headline text-3xl font-black mb-2">
+            15
+          </div>
+          <div
+            class="font-label text-[10px] uppercase tracking-[0.2em] text-outline"
+          >
+            Mensajes totales
+          </div>
+        </div>
+        <div
+          class="bg-surface-container-lowest p-6 border-b-2 border-outline-variant"
+        >
+          <div class="text-white font-headline text-3xl font-black mb-2">
+            01
+          </div>
+          <div
+            class="font-label text-[10px] uppercase tracking-[0.2em] text-outline"
+          >
+            Pendientes de leer
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- FOOTER -->
+    <footer
+      class="bg-black flex flex-col items-center justify-center py-12 gap-6 w-full border-t border-white/5"
+    >
+      <div
+        class="font-['Space_Grotesk'] uppercase text-[10px] tracking-[0.2em] text-neutral-500 flex flex-col items-center gap-4"
+      >
+        <div class="flex gap-8">
+          <a
+            class="hover:text-white hover:underline decoration-[#eb0000] underline-offset-4 transition-colors duration-300"
+            href="#"
+            >Soporte</a
+          >
+          <a
+            class="hover:text-white hover:underline decoration-[#eb0000] underline-offset-4 transition-colors duration-300"
+            href="#"
+            >Privacidad</a
+          >
+          <a
+            class="hover:text-white hover:underline decoration-[#eb0000] underline-offset-4 transition-colors duration-300"
+            href="#"
+            >Términos</a
+          >
+        </div>
+        <p class="text-neutral-700">© 2024 PC-SWAPS VANGUARD SYSTEMS</p>
+      </div>
+    </footer>
+  </body>
+</html>

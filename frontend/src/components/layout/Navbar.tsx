@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useConversations } from '../../context/ConversationsContext';
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -7,6 +8,7 @@ export default function Navbar() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const searchValue = searchParams.get('search') ?? '';
+  const { hasUnreadMessages } = useConversations();
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown(openDropdown === name ? null : name);
@@ -76,12 +78,14 @@ export default function Navbar() {
                 className="relative flex items-center gap-2 text-white/70 hover:text-white hover:bg-[#201f21] transition-all px-2 py-1"
                 to="/mis-conversaciones"
               >
-                <span className="material-symbols-outlined text-base">
-                  mail
-                </span>
-                <span>Mis mensajes</span>
-                <span className="absolute -right-1 -top-1 size-2.5 rounded-full bg-red-600" />
-              </Link>
+              <span className="material-symbols-outlined text-base">
+                mail
+              </span>
+              <span>Mis mensajes</span>
+                {hasUnreadMessages && (
+                  <span className="absolute -right-1 -top-1 size-2.5 rounded-full bg-red-600" />
+                )}
+            </Link>
 
               <div className="relative hidden lg:block">
                 <input

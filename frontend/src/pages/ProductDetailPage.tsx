@@ -2,10 +2,12 @@ import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { followedProducts } from '../data/followedProducts';
 import { products } from '../data/products';
+import { sellersByArticleId } from '../data/sellers';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const product = products.find((p) => p.idArticulo === Number(id));
+  const seller = product ? sellersByArticleId[product.idArticulo] : undefined;
   const [isFollowed, setIsFollowed] = useState(() =>
     followedProducts.some((followed) => followed.idArticulo === Number(id))
   );
@@ -84,6 +86,26 @@ export default function ProductDetailPage() {
                 {product.descripcion}
               </p>
             </div>
+            <div className="mb-10">
+              <h2 className="text-xs text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <span className="w-8 h-px bg-red-600" />
+                Vendedor
+              </h2>
+              <div className="flex items-center gap-4 bg-[#131314] p-4 border-l-2 border-red-600">
+                <SellerAvatar
+                  image={seller?.imagenUsuario}
+                  name={seller?.nombreUsuario ?? 'Vendedor'}
+                />
+                <div>
+                  <span className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-1">
+                    Nombre de usuario
+                  </span>
+                  <span className="font-headline text-lg font-bold uppercase text-white">
+                    {seller?.nombreUsuario ?? 'Vendedor'}
+                  </span>
+                </div>
+              </div>
+            </div>
 
             <div className="mt-auto space-y-4">
               <Link
@@ -105,7 +127,9 @@ export default function ProductDetailPage() {
                 onClick={() => setIsFollowed((current) => !current)}
                 type="button"
               >
-                {isFollowed ? 'Eliminar de seguimiento' : 'Anadir a seguimiento'}
+                {isFollowed
+                  ? 'Eliminar de seguimiento'
+                  : 'Anadir a seguimiento'}
               </button>
             </div>
           </div>
@@ -130,5 +154,30 @@ function InfoBox({ label, value }: InfoBoxProps) {
         {value}
       </span>
     </div>
+  );
+}
+
+interface SellerAvatarProps {
+  image?: string;
+  name: string;
+}
+
+function SellerAvatar({ image, name }: SellerAvatarProps) {
+  const initials = name.slice(0, 2).toUpperCase();
+
+  if (image) {
+    return (
+      <img
+        alt={name}
+        className="size-14 object-cover border border-zinc-700 bg-black"
+        src={image}
+      />
+    );
+  }
+
+  return (
+    <span className="flex size-14 items-center justify-center border border-zinc-700 bg-black text-sm font-black text-white">
+      {initials}
+    </span>
   );
 }

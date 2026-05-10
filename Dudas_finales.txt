@@ -11,5 +11,6 @@
     private Usuario usuario;
 - En la relación entre las entidades usuario y seguimiento no se hace una relación direccional, no es necesario,
 	ya que podemos implementar un método que muestre todos los seguimientos de un usuario en el repository.
+- En los mapper no se utilizan metodos estáticos
 	
 	
