@@ -63,14 +63,14 @@ export default function LandingPage() {
         </Link>
       </nav>
 
-      <section className="relative min-h-[870px] flex items-center overflow-hidden px-8 md:px-20">
+      <section className="relative min-h-217.5 flex items-center overflow-hidden px-8 md:px-20">
         <div className="absolute inset-0 z-0">
           <img
             className="w-full h-full object-cover opacity-40"
             alt="PC custom con iluminacion roja"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt29oTQGnd1BPv2tFOhENC4Hi6gbmJFyL3olF452olCqS33X7VaIgFYAASuHLZE1yC0kWyjJi8yndthNxnVQrdCnKkWd_y-rfJtRKwi9Lff-3kF4BruqPHwb7j3TBDoekEpKlYjzgFTj7VJMtDKsoClZPOObm1fTcwU_xX-fMPTQhvV0wybvZorLj_FuHR--lou9Bh6siUXoRsx0uUjD-gGyR5aG3kICWiBMBOt52iKnfLBgaA8VETA93Tp8WvUYoPwCPl_zzNNr76"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0e0e0f] via-[#0e0e0f]/80 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#0e0e0f] via-[#0e0e0f]/80 to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-4xl">
@@ -85,7 +85,7 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
-              className="bg-gradient-to-br from-red-600 to-[#ff7763] text-black font-black uppercase tracking-widest px-10 py-5 hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all duration-200 active:scale-95"
+              className="bg-linear-to-br from-red-600 to-[#ff7763] text-black font-black uppercase tracking-widest px-10 py-5 hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all duration-200 active:scale-95"
               to="/login"
             >
               Explorar Inventario
@@ -173,7 +173,7 @@ export default function LandingPage() {
                   </div>
                 )}
               </div>
-              <div className="p-6 border-l-2 border-l-transparent group-hover:border-l-red-600 flex flex-col flex-grow transition-all">
+              <div className="p-6 border-l-2 border-l-transparent group-hover:border-l-red-600 flex flex-col grow transition-all">
                 <span className="text-[10px] font-headline font-bold uppercase tracking-widest text-red-600 mb-2">
                   {article.category}
                 </span>
