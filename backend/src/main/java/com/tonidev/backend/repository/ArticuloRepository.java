@@ -4,8 +4,11 @@ import com.tonidev.backend.model.Articulo;
 import com.tonidev.backend.model.Categoria;
 import com.tonidev.backend.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -14,14 +17,23 @@ import java.util.List;
 @Repository
 public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
 
-    // Útil para obtener todos los artículos publicados por un usuario
+    // Todos los artículos de un usuario (activos e inactivos) para la sección "Mis anuncios"
     List<Articulo> findByUsuario(Usuario usuario);
 
-    // Útil para no mostrar al usuario sus propios artículos
-    List<Articulo> findByUsuarioNot(Usuario usuario);
+    // Artículos activos de otros usuarios para el listado general
+    List<Articulo> findByActivoTrueAndUsuarioNot(Usuario usuario);
 
-    List<Articulo> findByCategoria(Categoria categoria);
+    // Artículos activos de una categoría excluyendo los del usuario autenticado
+    List<Articulo> findByCategoriaAndActivoTrueAndUsuarioNot(Categoria categoria, Usuario usuario);
 
-    List<Articulo> findByMarcaContainingIgnoreCaseOrModeloContainingIgnoreCase(String marca, String modelo);
+    // Búsqueda por marca o modelo entre artículos activos excluyendo los del usuario autenticado
+    List<Articulo> findByActivoTrueAndUsuarioNotAndMarcaContainingIgnoreCaseOrActivoTrueAndUsuarioNotAndModeloContainingIgnoreCase(
+            Usuario usuarioMarca, String marca, Usuario usuarioModelo, String modelo);
+
+    // Artículos activos a los que han pasado más de 7 días desde su última renovación (o publicación si nunca se renovaron)
+    @Query("SELECT a FROM Articulo a WHERE a.activo = true AND " +
+           "(a.fechaUltimaRenovacion IS NOT NULL AND a.fechaUltimaRenovacion < :limite) OR " +
+           "(a.fechaUltimaRenovacion IS NULL AND a.fechaPublicacion < :limite)")
+    List<Articulo> findArticulosParaDesactivar(@Param("limite") LocalDateTime limite);
 }
 

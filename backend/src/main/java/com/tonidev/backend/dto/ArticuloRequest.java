@@ -29,8 +29,5 @@ public record ArticuloRequest(
         BigDecimal precio,
 
         @NotBlank(message = "La descripción es obligatoria")
-        String descripcion,
-
-        @NotBlank(message = "La imagen es obligatoria")
-        String imagen
+        String descripcion
 ) {}

@@ -39,7 +39,7 @@ public class ArticuloMapper {
      * @param categoria la categoría del artículo
      * @return la entidad {@link Articulo} lista para persistir
      */
-    public Articulo toEntity(ArticuloRequest request, Usuario usuario, Categoria categoria) {
+    public Articulo toEntity(ArticuloRequest request, Usuario usuario, Categoria categoria, String rutaImagen) {
         return Articulo.builder()
                 .usuario(usuario)
                 .categoria(categoria)
@@ -48,7 +48,7 @@ public class ArticuloMapper {
                 .estado(request.estado())
                 .precio(request.precio())
                 .descripcion(request.descripcion())
-                .imagen(request.imagen())
+                .imagen(rutaImagen)
                 .fechaPublicacion(LocalDateTime.now())
                 .activo(true)
                 .numeroVisitas(0)

@@ -16,7 +16,5 @@ public record UsuarioActualizarRequest(
 
         String direccion,
 
-        String numTelefono,
-
-        String imagenUsuario
+        String numTelefono
 ) {}
