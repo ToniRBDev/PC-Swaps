@@ -1,0 +1,485 @@
+<!doctype html>
+
+<html class="dark" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PC-SWAPS | Elite Hardware Marketplace</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#56197d",
+              "secondary-fixed": "#ffc2c6",
+              "surface-dim": "#0e0e0f",
+              "surface-container-lowest": "#000000",
+              "on-secondary-container": "#ffc0c4",
+              "surface-container": "#1a191b",
+              surface: "#0e0e0f",
+              "tertiary-fixed": "#d697ff",
+              "on-primary-fixed": "#000000",
+              "on-primary-fixed-variant": "#600000",
+              "surface-container-highest": "#262627",
+              "secondary-fixed-dim": "#ffaeb4",
+              outline: "#767576",
+              "inverse-on-surface": "#565556",
+              "error-dim": "#d73357",
+              "surface-container-low": "#131314",
+              tertiary: "#dba2ff",
+              "on-error-container": "#ffb2b9",
+              "on-background": "#ffffff",
+              "on-error": "#490013",
+              "inverse-surface": "#fcf8f9",
+              "surface-bright": "#2c2c2d",
+              error: "#ff6e84",
+              "tertiary-dim": "#c384eb",
+              secondary: "#fe7e8c",
+              "on-tertiary-container": "#47026f",
+              "on-primary-container": "#4f0000",
+              "on-tertiary-fixed": "#2a0044",
+              "secondary-container": "#842133",
+              "outline-variant": "#484849",
+              "on-secondary-fixed": "#6a0c22",
+              "surface-container-high": "#201f21",
+              "primary-container": "#ff7763",
+              "on-surface": "#ffffff",
+              "tertiary-fixed-dim": "#c889f1",
+              "surface-tint": "#ff8e7d",
+              "on-tertiary": "#53157a",
+              "on-secondary": "#570017",
+              "surface-variant": "#262627",
+              "inverse-primary": "#c10100",
+              "primary-fixed-dim": "#ff5b47",
+              "on-secondary-fixed-variant": "#912b3c",
+              "on-surface-variant": "#adaaab",
+              "on-primary": "#650000",
+              background: "#0e0e0f",
+              "error-container": "#a70138",
+              "primary-dim": "#eb0000",
+              primary: "#ff8e7d",
+              "secondary-dim": "#f47785",
+              "primary-fixed": "#ff7763",
+              "tertiary-container": "#d191fa",
+            },
+            borderRadius: {
+              DEFAULT: "0rem",
+              lg: "0rem",
+              xl: "0rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Space Grotesk"],
+              display: ["Space Grotesk"],
+              body: ["Inter"],
+              label: ["Space Grotesk"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #0e0e0f;
+        color: white;
+      }
+      .font-headline {
+        font-family: "Space Grotesk", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .neon-glow:hover {
+        box-shadow: 0 0 20px rgba(235, 0, 0, 0.4);
+      }
+      .border-left-accent {
+        border-left: 2px solid transparent;
+        transition: all 0.2s;
+      }
+      .card-hover:hover .border-left-accent {
+        border-left-color: #eb0000;
+        background-color: #2c2c2d;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-surface">
+    <!-- TopNavBar -->
+    <nav
+      class="bg-[#0e0e0f] dark:bg-[#000000] flex justify-between items-center w-full px-8 py-6 border-b border-white/5 sticky top-0 z-50"
+    >
+      <a
+        class="text-3xl font-black tracking-tighter text-[#eb0000] italic font-headline"
+        href="#"
+        >PC-SWAPS</a
+      >
+      <div class="hidden md:flex gap-8 items-center">
+        <a
+          class="font-['Space_Grotesk'] uppercase tracking-widest text-sm transition-all duration-100 text-zinc-500 hover:text-[#eb0000] hover:bg-white/5 px-2"
+          href="#"
+          >Mis anuncios</a
+        >
+        <a
+          class="font-['Space_Grotesk'] uppercase tracking-widest text-sm transition-all duration-100 text-zinc-500 hover:text-[#eb0000] hover:bg-white/5 px-2"
+          href="#"
+          >Seguimiento</a
+        >
+        <a
+          class="font-['Space_Grotesk'] uppercase tracking-widest text-sm transition-all duration-100 text-zinc-500 hover:text-[#eb0000] hover:bg-white/5 px-2"
+          href="#"
+          >Modificar perfil</a
+        >
+        <a
+          class="font-['Space_Grotesk'] uppercase tracking-widest text-sm transition-all duration-100 text-zinc-500 hover:text-[#eb0000] hover:bg-white/5 px-2"
+          href="#"
+          >Modificar datos acceso</a
+        >
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="text-[#eb0000] p-2 hover:bg-white/5 transition-colors">
+          <span class="material-symbols-outlined" data-icon="mail">mail</span>
+        </button>
+      </div>
+    </nav>
+    <!-- Hero Section -->
+    <section
+      class="relative min-h-[870px] flex items-center overflow-hidden px-8 md:px-20"
+    >
+      <div class="absolute inset-0 z-0">
+        <img
+          class="w-full h-full object-cover opacity-40"
+          data-alt="A cinematic, high-contrast shot of a custom liquid-cooled PC rig with glowing red internal lights and intricate cable management. The scene is set in a dark, atmospheric room with subtle smoke effects and sharp metallic reflections, emphasizing the aggressive and elite gaming hardware aesthetic of the PC-SWAPS marketplace."
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt29oTQGnd1BPv2tFOhENC4Hi6gbmJFyL3olF452olCqS33X7VaIgFYAASuHLZE1yC0kWyjJi8yndthNxnVQrdCnKkWd_y-rfJtRKwi9Lff-3kF4BruqPHwb7j3TBDoekEpKlYjzgFTj7VJMtDKsoClZPOObm1fTcwU_xX-fMPTQhvV0wybvZorLj_FuHR--lou9Bh6siUXoRsx0uUjD-gGyR5aG3kICWiBMBOt52iKnfLBgaA8VETA93Tp8WvUYoPwCPl_zzNNr76"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"
+        ></div>
+      </div>
+      <div class="relative z-10 max-w-4xl">
+        <h1
+          class="text-6xl md:text-8xl font-black font-headline uppercase leading-none tracking-tighter mb-6"
+        >
+          Domina el <span class="text-primary-dim italic">Mercado</span
+          ><br />del Hardware
+        </h1>
+        <p
+          class="text-xl md:text-2xl text-on-surface-variant max-w-2xl mb-10 font-light leading-relaxed"
+        >
+          Intercambia, vende y adquiere componentes de élite. La plataforma
+          definitiva diseñada para el rendimiento extremo y la precisión
+          técnica.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <button
+            class="bg-gradient-to-br from-primary-dim to-primary-container text-black font-black uppercase tracking-widest px-10 py-5 neon-glow transition-all duration-200 active:scale-95"
+          >
+            Explorar Inventario
+          </button>
+          <button
+            class="border border-primary-dim/40 text-primary-dim font-bold uppercase tracking-widest px-10 py-5 hover:bg-primary-dim/10 transition-all duration-200"
+          >
+            Vender Componente
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- Features Section -->
+    <section class="py-32 px-8 md:px-20 bg-surface-container-lowest">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-1px bg-white/5">
+        <div class="bg-background p-12 border-left-accent">
+          <span
+            class="material-symbols-outlined text-primary-dim text-4xl mb-6"
+            data-icon="sports_esports"
+            >sports_esports</span
+          >
+          <h3
+            class="font-headline text-2xl font-bold uppercase tracking-tight mb-4"
+          >
+            Especialización Elite
+          </h3>
+          <p class="text-on-surface-variant leading-relaxed">
+            Creado por gamers para entusiastas del hardware. Aquí no hay basura,
+            solo componentes probados para el máximo rendimiento competitivo.
+          </p>
+        </div>
+        <div class="bg-background p-12 border-left-accent">
+          <span
+            class="material-symbols-outlined text-primary-dim text-4xl mb-6"
+            data-icon="cycle"
+            >cycle</span
+          >
+          <h3
+            class="font-headline text-2xl font-bold uppercase tracking-tight mb-4"
+          >
+            Sostenibilidad High-End
+          </h3>
+          <p class="text-on-surface-variant leading-relaxed">
+            Dale una segunda vida al hardware de alta gama. Reduce la huella
+            electrónica mientras mantienes tu rig en la cima de los benchmarks.
+          </p>
+        </div>
+        <div class="bg-background p-12 border-left-accent">
+          <span
+            class="material-symbols-outlined text-primary-dim text-4xl mb-6"
+            data-icon="payments"
+            >payments</span
+          >
+          <h3
+            class="font-headline text-2xl font-bold uppercase tracking-tight mb-4"
+          >
+            Ahorro Estratégico
+          </h3>
+          <p class="text-on-surface-variant leading-relaxed">
+            Accede a componentes Pro-tier a una fracción de su coste original.
+            Maximiza tus FPS por cada euro invertido en tu setup.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- Featured Articles (Bento Grid Style) -->
+    <section class="py-24 px-8 md:px-20">
+      <div class="flex justify-between items-end mb-16">
+        <div>
+          <span
+            class="text-primary-dim font-headline font-bold uppercase tracking-[0.3em] text-sm"
+            >Hardware Disponible</span
+          >
+          <h2 class="text-5xl font-black font-headline uppercase mt-2">
+            Equipamiento Destacado
+          </h2>
+        </div>
+        <a
+          class="text-on-surface-variant hover:text-primary-dim transition-colors uppercase tracking-widest font-headline text-sm border-b border-primary-dim/20 pb-1"
+          href="#"
+          >Ver todos</a
+        >
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <!-- GPU Card -->
+        <div
+          class="bg-surface-container-high card-hover transition-all flex flex-col group h-full"
+        >
+          <div class="aspect-square relative overflow-hidden bg-black">
+            <img
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              data-alt="A high-end NVIDIA GeForce RTX graphics card with triple-fan cooling and sleek brushed metal casing. The lighting is low-key with intense red highlights reflecting off the fans, shot in a professional product photography style against a deep black background."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNdgvN_3o_WxWmcMSPc5QkHE7X87DClpXOwukAZejJF1ziS5zRSc5pZ-M1kWn0T97mc1T6jgm62Ipgb_eG7N6qAY8xJOkb9qwxeENS3eiqP1zne3TsxsTiX6E2QJFz8tQPr-zk4LbPmNmL-Kg5kDUZAmrv4KT9TJMpk9zWtSDK4gi_MUxYhYb7dioN-pduoGV1n6JHgy0t9LtFGUZ1NKK6iceuQp9O60o0ccYU8OPh5plcWCLI9-ZvCY2braaib0vZ4OgSz3m2s32q"
+            />
+            <div class="absolute top-0 right-0 p-4">
+              <span
+                class="bg-primary-dim text-black font-black text-[10px] px-3 py-1 uppercase tracking-tighter"
+                >Disponible</span
+              >
+            </div>
+          </div>
+          <div class="p-6 border-left-accent flex flex-col flex-grow">
+            <span
+              class="text-[10px] font-headline font-bold uppercase tracking-widest text-primary-dim mb-2"
+              >GPU</span
+            >
+            <h4
+              class="text-xl font-bold font-headline uppercase leading-tight mb-4"
+            >
+              RTX 4090 OC Edition
+            </h4>
+            <div class="mt-auto pt-6">
+              <button
+                class="w-full bg-surface-bright hover:bg-primary-dim hover:text-black transition-all font-headline font-bold uppercase text-xs py-4 tracking-widest"
+              >
+                VER ARTÍCULO
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Motherboard Card -->
+        <div
+          class="bg-surface-container-high card-hover transition-all flex flex-col group h-full"
+        >
+          <div class="aspect-square relative overflow-hidden bg-black">
+            <img
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              data-alt="A high-performance gaming motherboard featuring complex circuitry, metallic heat sinks, and red LED accents. The image focus is sharp on the VRM components, using dramatic side lighting to emphasize the structural complexity and industrial design of the PC-SWAPS marketplace hardware."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMRG_Qh6AU_DIMAQSnL5G2ubmv4qWVF71xXDWkzUX1u6DZ_9QsUmu8f_ZPede99gpazaW5jAhd1TdJH_NjWQc0rXlHnnw_SJCi1N8SvRlSJnxLAFuLHGsKcjqeoZXhw2ARfOL4On3Tlpl7B50E2RraPlxhRH7uJcxEtyqRjwJaV6yWYBs_7V11FO-9lJJa893sJFsFCGA9P-vygZMZRn46Ju__kzZztDtdXa_BWCcr1ExPXLHmDmc0NTQ5VT96yccBVcvAhzNnyLCP"
+            />
+          </div>
+          <div class="p-6 border-left-accent flex flex-col flex-grow">
+            <span
+              class="text-[10px] font-headline font-bold uppercase tracking-widest text-primary-dim mb-2"
+              >Placa Base</span
+            >
+            <h4
+              class="text-xl font-bold font-headline uppercase leading-tight mb-4"
+            >
+              ROG Maximus Z790 Hero
+            </h4>
+            <div class="mt-auto pt-6">
+              <button
+                class="w-full bg-surface-bright hover:bg-primary-dim hover:text-black transition-all font-headline font-bold uppercase text-xs py-4 tracking-widest"
+              >
+                VER ARTÍCULO
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- CPU Card -->
+        <div
+          class="bg-surface-container-high card-hover transition-all flex flex-col group h-full"
+        >
+          <div class="aspect-square relative overflow-hidden bg-black">
+            <img
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              data-alt="A close-up shot of a powerful modern CPU processor chip on a dark reflective surface. The gold-plated contacts and microscopic text on the heat spreader are visible, illuminated by a sharp red key light that creates a futuristic, high-tech atmosphere aligned with the Kinetic Vanguard style."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyespgAsm4zK7OwWlcerX4UBpJfifqmjXtZ0SJE_qScLl5g8ShGUQBuY-JM-AH8SOGLGUs_0kUyfqJJv1jEh1633ryRRSmEO7eFvbzlM90b1QQDwKM5JsLN-woX324mzpakCHXg8RdgJdcD8-Qe62bQmleVwDZtswQCebZb2gOFaB41N7sTQQww0_Tf-m6cWbek_AO7LBWlDsMDHS5vByzVyvZif9WUoxY07nCLqlVl8wU1PTa4inO4Wt-V6eM4Gg_ZVwWfamvX3gZ"
+            />
+          </div>
+          <div class="p-6 border-left-accent flex flex-col flex-grow">
+            <span
+              class="text-[10px] font-headline font-bold uppercase tracking-widest text-primary-dim mb-2"
+              >CPU</span
+            >
+            <h4
+              class="text-xl font-bold font-headline uppercase leading-tight mb-4"
+            >
+              Core i9-14900K Unlocked
+            </h4>
+            <div class="mt-auto pt-6">
+              <button
+                class="w-full bg-surface-bright hover:bg-primary-dim hover:text-black transition-all font-headline font-bold uppercase text-xs py-4 tracking-widest"
+              >
+                VER ARTÍCULO
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Monitor Card -->
+        <div
+          class="bg-surface-container-high card-hover transition-all flex flex-col group h-full"
+        >
+          <div class="aspect-square relative overflow-hidden bg-black">
+            <img
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              data-alt="An ultra-wide curved gaming monitor showing a vibrant red and black abstract geometric pattern on screen. The monitor sits in a dimly lit studio, with a subtle red ambient glow reflecting off the desk, capturing the sleek, aggressive hardware focus of PC-SWAPS."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6yRIZ3aJmE8ArF5hInU61mgmVUJeX-4o35tM9xraLsf2AL-TtGlleIaB94UPDRY18KwbY7gUeduoRIMz6E3dhfKxwDapHKhhovBrsx0aE2W0-1EET8SBp8YXqDurS4XuxddWPknBCEqcgVtMrILSNX8oBkCyOjAkPw6hzqv3_oCmUZzlD2YDXGNQo_NZxV7xhxh1799deFBGBHy8qWJpuq41M2bXx2cN-CPf0untwFtnhn_BZA02WpYf9ih7BAUIWDHiyaWdxFY3O"
+            />
+          </div>
+          <div class="p-6 border-left-accent flex flex-col flex-grow">
+            <span
+              class="text-[10px] font-headline font-bold uppercase tracking-widest text-primary-dim mb-2"
+              >Monitor</span
+            >
+            <h4
+              class="text-xl font-bold font-headline uppercase leading-tight mb-4"
+            >
+              Odyssey G9 Neo 49"
+            </h4>
+            <div class="mt-auto pt-6">
+              <button
+                class="w-full bg-surface-bright hover:bg-primary-dim hover:text-black transition-all font-headline font-bold uppercase text-xs py-4 tracking-widest"
+              >
+                VER ARTÍCULO
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Call to Action -->
+    <section
+      class="bg-surface-container-lowest py-32 border-y border-white/5 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -bottom-20 opacity-5 rotate-12">
+        <span
+          class="text-[20rem] font-black font-headline uppercase leading-none"
+          >SWAPS</span
+        >
+      </div>
+      <div
+        class="relative z-10 px-8 md:px-20 grid grid-cols-1 md:grid-cols-2 gap-20"
+      >
+        <div>
+          <h2 class="text-4xl font-black font-headline uppercase mb-8">
+            ¿Quieres unirte a nuestra comunidad?
+          </h2>
+          <p class="text-on-surface-variant mb-10 text-lg">
+            Únete a la red de intercambio de hardware más sofisticada de Europa.
+            Compra y vende con total seguridad.
+          </p>
+          <button
+            class="bg-primary-dim text-black font-black uppercase tracking-widest px-12 py-6 neon-glow active:scale-95 transition-all"
+          >
+            Crear cuenta
+          </button>
+        </div>
+        <div class="md:border-l md:border-white/10 md:pl-20">
+          <h2 class="text-4xl font-black font-headline uppercase mb-8">
+            ¿Ya eres miembro?
+          </h2>
+          <p class="text-on-surface-variant mb-10 text-lg">
+            Accede a tu panel de control, gestiona tus anuncios activos y sigue
+            el estado de tus transacciones.
+          </p>
+          <button
+            class="border border-white/40 text-white font-black uppercase tracking-widest px-12 py-6 hover:border-primary-dim hover:text-primary-dim transition-all active:scale-95"
+          >
+            Iniciar sesión
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer
+      class="bg-[#0e0e0f] dark:bg-[#000000] border-t border-white/5 flex flex-col md:flex-row justify-between items-center px-10 py-12 w-full"
+    >
+      <div class="mb-8 md:mb-0">
+        <span class="text-lg font-bold text-white font-headline">PC-SWAPS</span>
+        <p
+          class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600 mt-2"
+        >
+          © 2024 PC-SWAPS
+        </p>
+      </div>
+      <div class="flex flex-col items-center md:items-end gap-6">
+        <a
+          class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600 hover:text-[#eb0000] underline decoration-2 underline-offset-4 opacity-70 hover:opacity-100 transition-all"
+          href="#"
+          >Soporte</a
+        >
+        <div class="flex gap-4">
+          <span
+            class="material-symbols-outlined text-zinc-600 cursor-pointer hover:text-primary-dim"
+            data-icon="terminal"
+            >terminal</span
+          >
+          <span
+            class="material-symbols-outlined text-zinc-600 cursor-pointer hover:text-primary-dim"
+            data-icon="shield"
+            >shield</span
+          >
+          <span
+            class="material-symbols-outlined text-zinc-600 cursor-pointer hover:text-primary-dim"
+            data-icon="memory"
+            >memory</span
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

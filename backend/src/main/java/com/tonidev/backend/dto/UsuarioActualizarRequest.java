@@ -14,10 +14,6 @@ public record UsuarioActualizarRequest(
         @NotBlank(message = "El nombre de usuario es obligatorio")
         String nombreUsuario,
 
-        @NotNull(message = "La fecha de nacimiento es obligatoria")
-        @Past(message = "La fecha de nacimiento debe ser una fecha pasada")
-        LocalDate fechaNacimiento,
-
         String direccion,
 
         String numTelefono,

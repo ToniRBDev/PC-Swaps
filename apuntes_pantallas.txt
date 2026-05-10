@@ -85,9 +85,6 @@
 		- Añadir a seguimiento o Eliminar de seguimiento si ya lo tenemos en seguimiento
 			 
 		
-		
-	
-
 	### Page 03: Creacion de anuncio
 	- Básate en la página de muestra: "PC-Swaps/docs/pantallas_4/05_creacionDeAnuncio.html"
 	- Vas a introducir los siguientes datos:
@@ -107,22 +104,23 @@
 	
 
 	### Page 04:
+	- Utilizarás como modelo la página: "PC-Swaps/docs/pantallas_4/06_modificarPerfil.html"
 	- Modificar los datos de mi perfil
+	- Motrar mostrarás todos los datos pero solo se podrán modificar los siguientes: direccion, numtelefono no son obligatorios, 
+		la imagen tampoco, pero todos los usuarios se les asigna una por defecto con sus iniciales cuando se crea la cuenta 
 	- Estos son los datos que se modificaran y se enviarán al backend
-	
 	- @NotBlank(message = "El nombre de usuario es obligatorio")
         String nombreUsuario,
-
-        @NotNull(message = "La fecha de nacimiento es obligatoria")
-        @Past(message = "La fecha de nacimiento debe ser una fecha pasada")
-        LocalDate fechaNacimiento,
-
         String direccion,
-
         String numTelefono,
-
         String imagenUsuario
-
+		Los demás datos, se mostrarán, pero no se podrán modificar. El id se muestra también, encima de la imagen como se muestra en la página de muestra
+		Añade todos los campos para mostrar toda la información del usuario menos la contraseña
+	- Botón Descartar: Volvemos a page de home (Enrutada)
+	- Botón guardar cambios: 
+		- Si todo sale bien: Notifiación: Datos modificados correctamente
+		- Si algo sale mal: Notificación indicando el problema: El nombre de usuario es obligatorio!! en caso de
+		que ese sea el problema o No se han podido modificar los datos!! 
 	
 
 	### page 05: Mostrar datos del vendedor 
@@ -139,7 +137,6 @@
 		También tendrá el botón Iniciar chat, que redireccionará al mismo lugar que el botón de la visualización del anuncio.
 		
 	
-	
 	## page 06: Mis anuncios 
 	- Dividir en 2 categorías: Activos y Expirados, como el ejemplo de la página de muestra que te ofrezco
 	- Pagina de guia: "PC-Swaps\docs\pantallas_4\10_misAnuncios.html"
@@ -149,6 +146,7 @@
 			renovar: Se modificará la fecha de renovación, y en caso de que esté expirado, se mostrará activo de nuevo.
 			
 	## Page 07: Mis conversaciones
+	
 	
 	## Page 08: Chat
 	
