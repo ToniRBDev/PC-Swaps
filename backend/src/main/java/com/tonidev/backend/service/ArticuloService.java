@@ -10,6 +10,8 @@ import com.tonidev.backend.model.Usuario;
 import com.tonidev.backend.repository.ArticuloRepository;
 import com.tonidev.backend.repository.CategoriaRepository;
 import com.tonidev.backend.repository.UsuarioRepository;
+import com.tonidev.backend.exception.AccesoNoAutorizadoException;
+import com.tonidev.backend.exception.RecursoNoEncontradoException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -214,7 +216,7 @@ public class ArticuloService {
      */
     private void validarPropietario(Articulo articulo, Long idUsuario) {
         if (!articulo.getUsuario().getIdUsuario().equals(idUsuario)) {
-            throw new IllegalArgumentException("No tienes permiso para realizar esta acción sobre este artículo");
+            throw new AccesoNoAutorizadoException("No tienes permiso para realizar esta acción sobre este artículo");
         }
     }
 
@@ -227,7 +229,7 @@ public class ArticuloService {
      */
     private Articulo obtenerArticuloPorId(Long idArticulo) {
         return articuloRepository.findById(idArticulo)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un artículo con id: " + idArticulo));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe un artículo con id: " + idArticulo));
     }
 
     /**
@@ -239,7 +241,7 @@ public class ArticuloService {
      */
     private Usuario obtenerUsuarioPorId(Long idUsuario) {
         return usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un usuario con id: " + idUsuario));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe un usuario con id: " + idUsuario));
     }
 
     /**
@@ -251,6 +253,6 @@ public class ArticuloService {
      */
     private Categoria obtenerCategoriaPorId(Long idCategoria) {
         return categoriaRepository.findById(idCategoria)
-                .orElseThrow(() -> new IllegalArgumentException("No existe una categoría con id: " + idCategoria));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe una categoría con id: " + idCategoria));
     }
 }

@@ -12,6 +12,9 @@ import com.tonidev.backend.repository.ArticuloRepository;
 import com.tonidev.backend.repository.ConversacionRepository;
 import com.tonidev.backend.repository.MensajeRepository;
 import com.tonidev.backend.repository.UsuarioRepository;
+import com.tonidev.backend.exception.AccesoNoAutorizadoException;
+import com.tonidev.backend.exception.RecursoNoEncontradoException;
+import com.tonidev.backend.exception.ReglaNegocioException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,11 +72,11 @@ public class ConversacionService {
         Usuario vendedor = articulo.getUsuario();
 
         if (vendedor.getIdUsuario().equals(idComprador)) {
-            throw new IllegalArgumentException("No puedes iniciar una conversación sobre tu propio artículo");
+            throw new ReglaNegocioException("No puedes iniciar una conversación sobre tu propio artículo");
         }
 
         if (conversacionRepository.existsByArticuloAndComprador(articulo, comprador)) {
-            throw new IllegalArgumentException("Ya tienes una conversación abierta sobre este artículo");
+            throw new ReglaNegocioException("Ya tienes una conversación abierta sobre este artículo");
         }
 
         Conversacion conversacion = conversacionMapper.toEntity(articulo, comprador, vendedor);
@@ -152,7 +155,7 @@ public class ConversacionService {
         boolean esVendedor = conversacion.getVendedor().getIdUsuario().equals(idUsuario);
 
         if (!esComprador && !esVendedor) {
-            throw new IllegalArgumentException("No tienes permiso para acceder a esta conversación");
+            throw new AccesoNoAutorizadoException("No tienes permiso para acceder a esta conversación");
         }
     }
 
@@ -165,7 +168,7 @@ public class ConversacionService {
      */
     private Conversacion obtenerConversacionPorId(Long idConversacion) {
         return conversacionRepository.findById(idConversacion)
-                .orElseThrow(() -> new IllegalArgumentException("No existe una conversación con id: " + idConversacion));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe una conversación con id: " + idConversacion));
     }
 
     /**
@@ -177,7 +180,7 @@ public class ConversacionService {
      */
     private Usuario obtenerUsuarioPorId(Long idUsuario) {
         return usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un usuario con id: " + idUsuario));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe un usuario con id: " + idUsuario));
     }
 
     /**
@@ -189,6 +192,6 @@ public class ConversacionService {
      */
     private Articulo obtenerArticuloPorId(Long idArticulo) {
         return articuloRepository.findById(idArticulo)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un artículo con id: " + idArticulo));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe un artículo con id: " + idArticulo));
     }
 }

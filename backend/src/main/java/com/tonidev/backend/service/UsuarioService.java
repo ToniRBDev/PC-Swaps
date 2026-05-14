@@ -4,6 +4,8 @@ import com.tonidev.backend.dto.*;
 import com.tonidev.backend.mapper.UsuarioMapper;
 import com.tonidev.backend.model.Usuario;
 import com.tonidev.backend.repository.UsuarioRepository;
+import com.tonidev.backend.exception.RecursoNoEncontradoException;
+import com.tonidev.backend.exception.ReglaNegocioException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,13 +51,13 @@ public class UsuarioService {
      */
     public UsuarioPerfilResponse registrar(UsuarioRegistroRequest request) {
         if (usuarioRepository.existsByCorreoElectronico(request.correoElectronico())) {
-            throw new IllegalArgumentException("El correo electrónico ya está en uso");
+            throw new ReglaNegocioException("El correo electrónico ya está en uso");
         }
         if (usuarioRepository.existsByDni(request.dni())) {
-            throw new IllegalArgumentException("El DNI ya está en uso");
+            throw new ReglaNegocioException("El DNI ya está en uso");
         }
         if (usuarioRepository.existsByNombreUsuario(request.nombreUsuario())) {
-            throw new IllegalArgumentException("El nombre de usuario ya está en uso");
+            throw new ReglaNegocioException("El nombre de usuario ya está en uso");
         }
 
         String passwordHash = passwordEncoder.encode(request.password());
@@ -103,7 +105,7 @@ public class UsuarioService {
 
         if (!usuario.getNombreUsuario().equals(request.nombreUsuario())
                 && usuarioRepository.existsByNombreUsuario(request.nombreUsuario())) {
-            throw new IllegalArgumentException("El nombre de usuario ya está en uso");
+            throw new ReglaNegocioException("El nombre de usuario ya está en uso");
         }
 
         usuario.setNombreUsuario(request.nombreUsuario());
@@ -125,7 +127,7 @@ public class UsuarioService {
         Usuario usuario = obtenerUsuarioPorId(idUsuario);
 
         if (!passwordEncoder.matches(request.passwordActual(), usuario.getPasswordHash())) {
-            throw new IllegalArgumentException("La contraseña actual no es correcta");
+            throw new ReglaNegocioException("La contraseña actual no es correcta");
         }
 
         usuario.setPasswordHash(passwordEncoder.encode(request.passwordNueva()));
@@ -176,6 +178,6 @@ public class UsuarioService {
      */
     private Usuario obtenerUsuarioPorId(Long idUsuario) {
         return usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un usuario con id: " + idUsuario));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe un usuario con id: " + idUsuario));
     }
 }

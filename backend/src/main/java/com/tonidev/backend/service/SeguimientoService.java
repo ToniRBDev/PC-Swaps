@@ -8,6 +8,8 @@ import com.tonidev.backend.model.Usuario;
 import com.tonidev.backend.repository.ArticuloRepository;
 import com.tonidev.backend.repository.SeguimientoRepository;
 import com.tonidev.backend.repository.UsuarioRepository;
+import com.tonidev.backend.exception.RecursoNoEncontradoException;
+import com.tonidev.backend.exception.ReglaNegocioException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +58,7 @@ public class SeguimientoService {
         Articulo articulo = obtenerArticuloPorId(idArticulo);
 
         if (seguimientoRepository.existsByUsuarioAndArticulo(usuario, articulo)) {
-            throw new IllegalArgumentException("Ya estás siguiendo este artículo");
+            throw new ReglaNegocioException("Ya estás siguiendo este artículo");
         }
 
         Seguimiento seguimiento = Seguimiento.builder()
@@ -104,7 +106,7 @@ public class SeguimientoService {
      */
     private Usuario obtenerUsuarioPorId(Long idUsuario) {
         return usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un usuario con id: " + idUsuario));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe un usuario con id: " + idUsuario));
     }
 
     /**
@@ -116,6 +118,6 @@ public class SeguimientoService {
      */
     private Articulo obtenerArticuloPorId(Long idArticulo) {
         return articuloRepository.findById(idArticulo)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un artículo con id: " + idArticulo));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe un artículo con id: " + idArticulo));
     }
 }

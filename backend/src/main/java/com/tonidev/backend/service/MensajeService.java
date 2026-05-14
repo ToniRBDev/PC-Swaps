@@ -9,6 +9,8 @@ import com.tonidev.backend.model.Usuario;
 import com.tonidev.backend.repository.ConversacionRepository;
 import com.tonidev.backend.repository.MensajeRepository;
 import com.tonidev.backend.repository.UsuarioRepository;
+import com.tonidev.backend.exception.AccesoNoAutorizadoException;
+import com.tonidev.backend.exception.RecursoNoEncontradoException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,7 +61,7 @@ public class MensajeService {
         boolean esVendedor = conversacion.getVendedor().getIdUsuario().equals(idEmisor);
 
         if (!esComprador && !esVendedor) {
-            throw new IllegalArgumentException("No tienes permiso para enviar mensajes en esta conversación");
+            throw new AccesoNoAutorizadoException("No tienes permiso para enviar mensajes en esta conversación");
         }
 
         Mensaje mensaje = mensajeMapper.toEntity(request, conversacion, emisor);
@@ -81,7 +83,7 @@ public class MensajeService {
         boolean esVendedor = conversacion.getVendedor().getIdUsuario().equals(idUsuario);
 
         if (!esComprador && !esVendedor) {
-            throw new IllegalArgumentException("No tienes permiso para acceder a esta conversación");
+            throw new AccesoNoAutorizadoException("No tienes permiso para acceder a esta conversación");
         }
 
         List<Mensaje> mensajesNoLeidos = mensajeRepository
@@ -100,7 +102,7 @@ public class MensajeService {
      */
     private Usuario obtenerUsuarioPorId(Long idUsuario) {
         return usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un usuario con id: " + idUsuario));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe un usuario con id: " + idUsuario));
     }
 
     /**
@@ -112,6 +114,6 @@ public class MensajeService {
      */
     private Conversacion obtenerConversacionPorId(Long idConversacion) {
         return conversacionRepository.findById(idConversacion)
-                .orElseThrow(() -> new IllegalArgumentException("No existe una conversación con id: " + idConversacion));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe una conversación con id: " + idConversacion));
     }
 }
