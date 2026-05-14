@@ -56,8 +56,7 @@ export default function ConversationsPage() {
                 (item) => item.idArticulo === conversation.idArticulo
               );
               const seller = sellersByArticleId[conversation.idArticulo];
-              const sellerName =
-                seller?.nombreUsuario ?? conversation.vendedor;
+              const sellerName = seller?.nombreUsuario ?? conversation.vendedor;
 
               if (!product) return null;
 
@@ -66,7 +65,10 @@ export default function ConversationsPage() {
                   key={conversation.idConversacion}
                   className="group bg-[#201f21] hover:bg-[#2c2c2d] transition-all duration-200 hover:border-l-4 hover:border-red-600 flex flex-col md:flex-row items-center justify-between p-4 gap-4 relative"
                 >
-                  <div className="flex items-center gap-6 w-full md:w-auto">
+                  <Link
+                    className="flex items-center gap-6 w-full min-w-0"
+                    to={`/chat/${conversation.idConversacion}`}
+                  >
                     <div className="relative w-24 h-24 bg-black shrink-0 overflow-hidden">
                       <img
                         alt={`${product.marca} ${product.modelo}`}
@@ -104,18 +106,9 @@ export default function ConversationsPage() {
                         <span>Inicio: {conversation.fechaInicio}</span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
 
-                  <div className="flex items-center gap-2 w-full md:w-auto justify-end">
-                    <Link
-                      className="flex items-center justify-center size-12 bg-red-600 hover:bg-[#ff7763] text-black transition-all active:scale-95"
-                      title="Abrir chat"
-                      to={`/chat/${conversation.idConversacion}`}
-                    >
-                      <span className="material-symbols-outlined">
-                        chat_bubble
-                      </span>
-                    </Link>
+                  <div className="flex items-center gap-2 w-full md:w-auto justify-end shrink-0">
                     <button
                       className="flex items-center justify-center size-12 bg-zinc-800 hover:bg-red-950 text-white transition-all border border-zinc-700 hover:border-red-600 active:scale-95"
                       onClick={() => setConversationToDelete(conversation)}
