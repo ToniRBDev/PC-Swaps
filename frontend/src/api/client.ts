@@ -1,5 +1,9 @@
-const API_BASE_URL =
+import { getSessionToken } from '../utils/session';
+
+export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
+
+export const API_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, '');
 
 interface ApiRequestOptions extends Omit<RequestInit, 'body'> {
   body?: BodyInit | object | null;
@@ -10,7 +14,12 @@ export async function apiRequest<TResponse>(
   options: ApiRequestOptions = {},
 ): Promise<TResponse> {
   const headers = new Headers(options.headers);
+  const token = getSessionToken();
   const body = prepareBody(options.body, headers);
+
+  if (token) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,

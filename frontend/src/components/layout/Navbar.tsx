@@ -1,15 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useConversations } from '../../context/ConversationsContext';
+import { getMyProfile } from '../../api/users';
+import type { UserProfile } from '../../types/user';
+import { getBackendImageUrl } from '../../utils/images';
 import { clearSession } from '../../utils/session';
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const searchValue = searchParams.get('search') ?? '';
   const { hasUnreadMessages } = useConversations();
+  const profileImageUrl = getBackendImageUrl(profile?.imagenUsuario);
+  const profileInitials =
+    profile?.nombreUsuario.slice(0, 2).toUpperCase() ?? 'PC';
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        setProfile(await getMyProfile());
+      } catch {
+        setProfile(null);
+      }
+    };
+
+    const handleProfileUpdated = (event: Event) => {
+      setProfile((event as CustomEvent<UserProfile>).detail);
+    };
+
+    void loadProfile();
+    window.addEventListener('pcswaps:profile-updated', handleProfileUpdated);
+
+    return () => {
+      window.removeEventListener(
+        'pcswaps:profile-updated',
+        handleProfileUpdated,
+      );
+    };
+  }, []);
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown(openDropdown === name ? null : name);
@@ -27,6 +58,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     setOpenDropdown(null);
+    setProfile(null);
     clearSession();
     navigate('/login');
   };
@@ -113,9 +145,17 @@ export default function Navbar() {
               <span className="hidden sm:inline font-['Space_Grotesk'] uppercase tracking-widest text-sm">
                 Mi perfil
               </span>
-              <span className="flex size-10 items-center justify-center rounded-full border border-red-600/50 bg-neutral-900 text-white font-bold">
-                T
-              </span>
+              {profileImageUrl ? (
+                <img
+                  alt={profile?.nombreUsuario ?? 'Mi perfil'}
+                  className="size-10 rounded-full border border-red-600/50 object-cover"
+                  src={profileImageUrl}
+                />
+              ) : (
+                <span className="flex size-10 items-center justify-center rounded-full border border-red-600/50 bg-neutral-900 text-white font-bold">
+                  {profileInitials}
+                </span>
+              )}
               <span className="material-symbols-outlined text-base">
                 expand_more
               </span>
@@ -181,6 +221,7 @@ export default function Navbar() {
                 className="bg-red-600 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-red-500"
                 onClick={() => {
                   setIsDeleteModalOpen(false);
+                  setProfile(null);
                   clearSession();
                   navigate('/login');
                 }}

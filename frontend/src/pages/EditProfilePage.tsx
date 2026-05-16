@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { currentUser } from '../data/currentUser';
+import {
+  getMyProfile,
+  updateMyProfile,
+  updateMyProfileImage,
+} from '../api/users';
+import type { UserProfile } from '../types/user';
+import { getBackendImageUrl } from '../utils/images';
 
 type Notification =
   | { type: 'success'; message: string }
@@ -18,15 +24,59 @@ interface EditableProfile {
 export default function EditProfilePage() {
   const navigate = useNavigate();
   const [notification, setNotification] = useState<Notification>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState<EditableProfile>({
-    nombreUsuario: currentUser.nombreUsuario,
-    direccion: currentUser.direccion ?? '',
-    numTelefono: currentUser.numTelefono ?? '',
+    nombreUsuario: '',
+    direccion: '',
+    numTelefono: '',
     imagenUsuario: null,
   });
-  const initials = currentUser.nombreUsuario.slice(0, 2).toUpperCase();
-  const imageName = form.imagenUsuario?.name ?? 'Cambiar imagen';
+  const initials = user?.nombreUsuario.slice(0, 2).toUpperCase() ?? 'PC';
+  const selectedImagePreviewUrl = useMemo(
+    () =>
+      form.imagenUsuario ? URL.createObjectURL(form.imagenUsuario) : null,
+    [form.imagenUsuario],
+  );
+  const imagePreviewUrl =
+    selectedImagePreviewUrl ?? getBackendImageUrl(user?.imagenUsuario);
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const profile = await getMyProfile();
+
+        setUser(profile);
+        setForm((current) => ({
+          ...current,
+          nombreUsuario: profile.nombreUsuario,
+          direccion: profile.direccion ?? '',
+          numTelefono: profile.numTelefono ?? '',
+        }));
+      } catch (error) {
+        setNotification({
+          type: 'error',
+          message:
+            error instanceof Error
+              ? error.message
+              : 'No se han podido cargar tus datos',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    void loadProfile();
+  }, []);
+
+  useEffect(() => {
+    if (!form.imagenUsuario) {
+      return;
+    }
+
+    return () => URL.revokeObjectURL(selectedImagePreviewUrl ?? '');
+  }, [form.imagenUsuario, selectedImagePreviewUrl]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,10 +84,35 @@ export default function EditProfilePage() {
     setIsSubmitting(true);
 
     try {
-      await updateProfile(form);
+      await updateMyProfile({
+        nombreUsuario: form.nombreUsuario,
+        direccion: form.direccion,
+        numTelefono: form.numTelefono,
+      });
+
+      if (form.imagenUsuario) {
+        await updateMyProfileImage(form.imagenUsuario);
+        setForm((current) => ({ ...current, imagenUsuario: null }));
+      }
+
+      const refreshedProfile = await getMyProfile();
+      setUser(refreshedProfile);
+      window.dispatchEvent(
+        new CustomEvent<UserProfile>('pcswaps:profile-updated', {
+          detail: refreshedProfile,
+        }),
+      );
+      setForm((current) => ({
+        ...current,
+        nombreUsuario: refreshedProfile.nombreUsuario,
+        direccion: refreshedProfile.direccion ?? '',
+        numTelefono: refreshedProfile.numTelefono ?? '',
+      }));
       setNotification({
         type: 'success',
-        message: 'Datos modificados correctamente',
+        message: refreshedProfile.imagenUsuario
+          ? 'Datos e imagen modificados correctamente'
+          : 'Datos modificados correctamente',
       });
     } catch (error) {
       setNotification({
@@ -77,7 +152,7 @@ export default function EditProfilePage() {
               </h2>
             </div>
             <p className="text-red-600 text-xs tracking-[0.2em] mt-2 uppercase">
-              Usuario: {currentUser.idUsuario}
+              Usuario: {user?.idUsuario ?? '-'}
             </p>
           </div>
         </header>
@@ -94,129 +169,144 @@ export default function EditProfilePage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <aside className="lg:col-span-4 space-y-6">
-            <div className="bg-[#201f21] p-1 relative group">
-              <div className="absolute -top-2 -right-2 bg-red-600 px-3 py-1 text-[10px] font-bold tracking-widest text-black">
-                ID {currentUser.idUsuario}
-              </div>
-
-              {currentUser.imagenUsuario ? (
-                <img
-                  alt={currentUser.nombreUsuario}
-                  className="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                  src={currentUser.imagenUsuario}
-                />
-              ) : (
-                <div className="w-full aspect-square bg-black flex items-center justify-center text-7xl font-black text-white">
-                  {initials}
+        {isLoading ? (
+          <div className="border border-neutral-800 bg-black px-5 py-4 text-sm font-bold uppercase tracking-widest text-zinc-400">
+            Cargando datos...
+          </div>
+        ) : !user ? (
+          <div className="border border-red-900 bg-red-950/30 px-5 py-4 text-sm font-bold uppercase tracking-widest text-red-300">
+            No se han podido cargar tus datos
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <aside className="lg:col-span-4 space-y-6">
+              <div className="bg-[#201f21] p-1 relative group">
+                <div className="absolute -top-2 -right-2 bg-red-600 px-3 py-1 text-[10px] font-bold tracking-widest text-black">
+                  ID {user.idUsuario}
                 </div>
-              )}
 
-              <label className="absolute bottom-4 right-4 bg-black/80 p-3 hover:bg-red-600 transition-colors cursor-pointer">
-                <span className="material-symbols-outlined text-white">
-                  photo_camera
-                </span>
-                <input
-                  accept="image/png,image/jpeg"
-                  className="hidden"
-                  onChange={(event) =>
-                    setForm((current) => ({
-                      ...current,
-                      imagenUsuario: event.target.files?.[0] ?? null,
-                    }))
-                  }
-                  type="file"
-                />
-              </label>
-            </div>
-
-            <div className="bg-black border-l-4 border-red-600 p-6">
-              <p className="text-[10px] tracking-widest text-zinc-500 uppercase mb-2">
-                Imagen de usuario
-              </p>
-              <p className="text-sm text-zinc-300">{imageName}</p>
-            </div>
-          </aside>
-
-          <section className="lg:col-span-8">
-            <div className="bg-black p-8 md:p-12 border border-zinc-800">
-              <form className="space-y-10" onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                  <div className="md:col-span-2">
-                    <EditableField
-                      label="Nombre de usuario"
-                      onChange={(value) =>
-                        setForm((current) => ({
-                          ...current,
-                          nombreUsuario: value,
-                        }))
-                      }
-                      required
-                      value={form.nombreUsuario}
-                    />
+                {imagePreviewUrl ? (
+                  <img
+                    alt={user.nombreUsuario}
+                    className="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                    src={imagePreviewUrl}
+                  />
+                ) : (
+                  <div className="w-full aspect-square bg-black flex items-center justify-center text-7xl font-black text-white">
+                    {initials}
                   </div>
-                  <ReadOnlyField label="Nombre" value={currentUser.nombre} />
-                  <ReadOnlyField
-                    label="Apellidos"
-                    value={currentUser.apellidos}
-                  />
-                  <ReadOnlyField label="DNI" value={currentUser.dni} />
-                  <ReadOnlyField
-                    label="Correo electronico"
-                    value={currentUser.correoElectronico}
-                  />
-                  <ReadOnlyField
-                    label="Fecha de nacimiento"
-                    value={currentUser.fechaNacimiento}
-                  />
-                  <EditableField
-                    label="Numero de telefono"
-                    onChange={(value) =>
+                )}
+
+                <label
+                  aria-label="Anadir imagen de usuario"
+                  className="absolute bottom-4 right-4 bg-black/80 p-3 hover:bg-red-600 transition-colors cursor-pointer"
+                  title="Anadir imagen de usuario"
+                >
+                  <span className="material-symbols-outlined text-white">
+                    photo_camera
+                  </span>
+                  <input
+                    accept="image/png,image/jpeg"
+                    className="hidden"
+                    onChange={(event) =>
                       setForm((current) => ({
                         ...current,
-                        numTelefono: value,
+                        imagenUsuario: event.target.files?.[0] ?? null,
                       }))
                     }
-                    type="tel"
-                    value={form.numTelefono}
+                    type="file"
                   />
-                  <div className="md:col-span-2">
+                </label>
+              </div>
+
+              {form.imagenUsuario && (
+                <div className="bg-black border-l-4 border-red-600 p-6">
+                  <p className="text-[10px] tracking-widest text-zinc-500 uppercase mb-2">
+                    Imagen seleccionada
+                  </p>
+                  <p className="text-sm text-zinc-300">
+                    {form.imagenUsuario.name}
+                  </p>
+                </div>
+              )}
+            </aside>
+
+            <section className="lg:col-span-8">
+              <div className="bg-black p-8 md:p-12 border border-zinc-800">
+                <form className="space-y-10" onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                    <div className="md:col-span-2">
+                      <EditableField
+                        label="Nombre de usuario"
+                        onChange={(value) =>
+                          setForm((current) => ({
+                            ...current,
+                            nombreUsuario: value,
+                          }))
+                        }
+                        required
+                        value={form.nombreUsuario}
+                      />
+                    </div>
+                    <ReadOnlyField label="Nombre" value={user.nombre} />
+                    <ReadOnlyField label="Apellidos" value={user.apellidos} />
+                    <ReadOnlyField label="DNI" value={user.dni} />
+                    <ReadOnlyField
+                      label="Correo electronico"
+                      value={user.correoElectronico}
+                    />
+                    <ReadOnlyField
+                      label="Fecha de nacimiento"
+                      value={user.fechaNacimiento}
+                    />
                     <EditableField
-                      label="Direccion"
+                      label="Numero de telefono"
                       onChange={(value) =>
                         setForm((current) => ({
                           ...current,
-                          direccion: value,
+                          numTelefono: value,
                         }))
                       }
-                      value={form.direccion}
+                      type="tel"
+                      value={form.numTelefono}
                     />
+                    <div className="md:col-span-2">
+                      <EditableField
+                        label="Direccion"
+                        onChange={(value) =>
+                          setForm((current) => ({
+                            ...current,
+                            direccion: value,
+                          }))
+                        }
+                        value={form.direccion}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="pt-12 flex flex-col md:flex-row items-center justify-end gap-6">
-                  <div className="flex gap-4 w-full md:w-auto">
-                    <button
-                      className="flex-1 md:flex-none border border-red-600/40 px-8 py-4 text-xs font-bold uppercase tracking-widest text-red-600 hover:bg-red-600/10 transition-all active:scale-95"
-                      onClick={() => navigate('/home')}
-                      type="button"
-                    >
-                      Descartar
-                    </button>
-                    <button
-                      className="flex-1 md:flex-none bg-linear-to-br from-red-600 to-[#ff7763] px-12 py-4 text-xs font-bold uppercase tracking-widest text-black hover:shadow-[0_0_20px_#eb000080] transition-all active:scale-95 disabled:opacity-60"
-                      disabled={isSubmitting}
-                      type="submit"
-                    >
-                      {isSubmitting ? 'Guardando...' : 'Guardar cambios'}
-                    </button>
+                  <div className="pt-12 flex flex-col md:flex-row items-center justify-end gap-6">
+                    <div className="flex gap-4 w-full md:w-auto">
+                      <button
+                        className="flex-1 md:flex-none border border-red-600/40 px-8 py-4 text-xs font-bold uppercase tracking-widest text-red-600 hover:bg-red-600/10 transition-all active:scale-95"
+                        onClick={() => navigate('/home')}
+                        type="button"
+                      >
+                        Descartar
+                      </button>
+                      <button
+                        className="flex-1 md:flex-none bg-linear-to-br from-red-600 to-[#ff7763] px-12 py-4 text-xs font-bold uppercase tracking-widest text-black hover:shadow-[0_0_20px_#eb000080] transition-all active:scale-95 disabled:opacity-60"
+                        disabled={isSubmitting}
+                        type="submit"
+                      >
+                        {isSubmitting ? 'Guardando...' : 'Guardar cambios'}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
-            </div>
-          </section>
-        </div>
+                </form>
+              </div>
+            </section>
+          </div>
+        )}
       </div>
     </main>
   );
@@ -272,19 +362,4 @@ function EditableField({
       />
     </label>
   );
-}
-
-async function updateProfile(form: EditableProfile) {
-  await new Promise((resolve) => window.setTimeout(resolve, 500));
-
-  if (!form.nombreUsuario.trim()) {
-    throw new Error('El nombre de usuario es obligatorio!!');
-  }
-
-  return {
-    nombreUsuario: form.nombreUsuario,
-    direccion: form.direccion,
-    numTelefono: form.numTelefono,
-    imagenUsuario: form.imagenUsuario?.name,
-  };
 }

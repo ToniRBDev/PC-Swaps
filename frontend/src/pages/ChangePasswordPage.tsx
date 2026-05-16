@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { changeMyPassword } from '../api/users';
 
-type Notification = 'success' | 'error' | null;
+type Notification =
+  | { type: 'success'; message: string }
+  | { type: 'error'; message: string }
+  | null;
 
 interface PasswordForm {
   currentPassword: string;
@@ -26,10 +30,28 @@ export default function ChangePasswordPage() {
     setIsSubmitting(true);
 
     try {
-      await updatePassword(form);
-      setNotification('success');
-    } catch {
-      setNotification('error');
+      validatePasswordForm(form);
+      await changeMyPassword({
+        passwordActual: form.currentPassword,
+        passwordNueva: form.newPassword,
+      });
+      setForm({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+      setNotification({
+        type: 'success',
+        message: 'Contraseña modificada correctamente',
+      });
+    } catch (error) {
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'No se ha podido modificar la contraseña',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -53,14 +75,12 @@ export default function ChangePasswordPage() {
           {notification && (
             <div
               className={`mb-8 border px-5 py-4 text-sm font-bold uppercase tracking-widest ${
-                notification === 'success'
+                notification.type === 'success'
                   ? 'border-red-600 bg-red-600/10 text-red-500'
                   : 'border-red-900 bg-red-950/30 text-red-300'
               }`}
             >
-              {notification === 'success'
-                ? 'Contraseña modificada correctamente!!!'
-                : 'No se ha podido modificar la contraseña'}
+              {notification.message}
             </div>
           )}
 
@@ -151,14 +171,16 @@ function PasswordInput({ id, label, onChange, value }: PasswordInputProps) {
   );
 }
 
-async function updatePassword(form: PasswordForm) {
-  await new Promise((resolve) => window.setTimeout(resolve, 500));
+function validatePasswordForm(form: PasswordForm) {
+  if (!form.currentPassword.trim()) {
+    throw new Error('Introduce tu contraseña actual');
+  }
 
-  if (
-    !form.currentPassword ||
-    form.newPassword.length < 8 ||
-    form.newPassword !== form.confirmPassword
-  ) {
-    throw new Error('Invalid password change');
+  if (form.newPassword.length < 8) {
+    throw new Error('La nueva contraseña debe tener al menos 8 caracteres');
+  }
+
+  if (form.newPassword !== form.confirmPassword) {
+    throw new Error('Las contraseñas no coinciden');
   }
 }
