@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useConversations } from '../../context/ConversationsContext';
+import { clearSession } from '../../utils/session';
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -26,6 +27,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     setOpenDropdown(null);
+    clearSession();
     navigate('/login');
   };
 
@@ -179,6 +181,7 @@ export default function Navbar() {
                 className="bg-red-600 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-red-500"
                 onClick={() => {
                   setIsDeleteModalOpen(false);
+                  clearSession();
                   navigate('/login');
                 }}
                 type="button"

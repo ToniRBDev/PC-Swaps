@@ -1,0 +1,3 @@
+  A partir de ahora, aunque elimines y recrees el contenedor MySQL, los datos de la base de datos se
+  conservan en el volumen nombrado mysql_data gestionado por Docker. Si alguna vez quisieras borrar
+  también los datos, habría que ejecutar docker volume rm backend_mysql_data explícitamente.
