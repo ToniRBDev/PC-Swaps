@@ -1,21 +1,54 @@
 import { Link, useParams } from 'react-router-dom';
-import { useState } from 'react';
-import { followedProducts } from '../data/followedProducts';
-import { products } from '../data/products';
-import { sellersByArticleId } from '../data/sellers';
+import { useEffect, useState } from 'react';
+import { getArticle } from '../api/articles';
+import type { ArticleResponse } from '../api/articles';
+import { getBackendImageUrl } from '../utils/images';
+import { getSessionUserId } from '../utils/session';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
-  const product = products.find((p) => p.idArticulo === Number(id));
-  const seller = product ? sellersByArticleId[product.idArticulo] : undefined;
-  const [isFollowed, setIsFollowed] = useState(() =>
-    followedProducts.some((followed) => followed.idArticulo === Number(id))
-  );
+  const idArticulo = Number(id);
+  const isValidArticleId = Number.isFinite(idArticulo);
+  const currentUserId = getSessionUserId();
+  const [product, setProduct] = useState<ArticleResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(isValidArticleId);
+  const [error, setError] = useState<string | null>(null);
+  const [isFollowed, setIsFollowed] = useState(false);
+  const isOwnProduct =
+    Boolean(product?.vendedor.idUsuario) &&
+    product?.vendedor.idUsuario === currentUserId;
 
-  if (!product) {
+  useEffect(() => {
+    if (!isValidArticleId) {
+      return;
+    }
+
+    getArticle(idArticulo)
+      .then((article) => setProduct(article))
+      .catch((unknownError: unknown) => {
+        setError(
+          unknownError instanceof Error
+            ? unknownError.message
+            : 'Producto no encontrado',
+        );
+      })
+      .finally(() => setIsLoading(false));
+  }, [idArticulo, isValidArticleId]);
+
+  if (isLoading) {
     return (
       <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-20">
-        <h1 className="text-3xl font-bold mb-4">Producto no encontrado</h1>
+        <h1 className="text-3xl font-bold mb-4">Cargando producto...</h1>
+      </main>
+    );
+  }
+
+  if (!product || error || !isValidArticleId) {
+    return (
+      <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-20">
+        <h1 className="text-3xl font-bold mb-4">
+          {error ?? 'Producto no encontrado'}
+        </h1>
         <Link to="/home" className="text-red-600 font-bold uppercase">
           Volver al inicio
         </Link>
@@ -40,7 +73,7 @@ export default function ProductDetailPage() {
           <div className="lg:col-span-7 bg-black relative group overflow-hidden border-l-4 border-red-600">
             <div className="aspect-square w-full">
               <img
-                src={product.imagen}
+                src={getBackendImageUrl(product.imagen)}
                 alt={`${product.marca} ${product.modelo}`}
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
               />
@@ -51,7 +84,7 @@ export default function ProductDetailPage() {
             <div className="flex justify-between items-start gap-8 mb-8">
               <div>
                 <span className="font-label text-xs text-red-500 tracking-[0.2em] uppercase">
-                  {product.categoria}
+                  {product.categoria.nombreCategoria}
                 </span>
                 <h1 className="text-4xl md:text-5xl font-black font-headline uppercase leading-none mt-2 tracking-tighter">
                   {product.marca} {product.modelo}
@@ -71,9 +104,15 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-2 gap-px bg-zinc-700/30 mt-4 mb-8">
               <InfoBox label="Marca" value={product.marca} />
               <InfoBox label="Modelo" value={product.modelo} />
-              <InfoBox label="Categoria" value={product.categoria} />
+              <InfoBox
+                label="Categoria"
+                value={product.categoria.nombreCategoria}
+              />
               <InfoBox label="Estado" value={product.estado} />
-              <InfoBox label="Publicado" value={product.fechaPublicacion} />
+              <InfoBox
+                label="Publicado"
+                value={formatDate(product.fechaPublicacion)}
+              />
               <InfoBox label="Visitas" value={product.numeroVisitas} />
             </div>
 
@@ -93,50 +132,60 @@ export default function ProductDetailPage() {
               </h2>
               <div className="flex items-center gap-4 bg-[#131314] p-4 border-l-2 border-red-600">
                 <SellerAvatar
-                  image={seller?.imagenUsuario}
-                  name={seller?.nombreUsuario ?? 'Vendedor'}
+                  image={getBackendImageUrl(product.vendedor.imagenUsuario)}
+                  name={product.vendedor.nombreUsuario}
                 />
                 <div>
                   <span className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-1">
                     Nombre de usuario
                   </span>
                   <span className="font-headline text-lg font-bold uppercase text-white">
-                    {seller?.nombreUsuario ?? 'Vendedor'}
+                    {product.vendedor.nombreUsuario}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-auto space-y-4">
-              <Link
-                className="block w-full bg-red-600 text-white text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-500 active:scale-[0.98]"
-                to={`/chat/${product.idArticulo}`}
-              >
-                Iniciar chat con el vendedor
-              </Link>
+            {!isOwnProduct && (
+              <div className="mt-auto space-y-4">
+                <Link
+                  className="block w-full bg-red-600 text-white text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-500 active:scale-[0.98]"
+                  to={`/chat/${product.idArticulo}`}
+                >
+                  Iniciar chat con el vendedor
+                </Link>
 
-              <Link
-                className="block w-full border border-zinc-600 text-zinc-200 text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-zinc-800 active:scale-[0.98]"
-                to={`/vendedor/${product.idArticulo}`}
-              >
-                Mostrar informacion del vendedor
-              </Link>
+                <Link
+                  className="block w-full border border-zinc-600 text-zinc-200 text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-zinc-800 active:scale-[0.98]"
+                  to={`/vendedor/${product.vendedor.idUsuario}`}
+                >
+                  Mostrar informacion del vendedor
+                </Link>
 
-              <button
-                className="w-full border border-red-600/40 hover:border-red-600 text-red-500 font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-600/5 active:scale-[0.98]"
-                onClick={() => setIsFollowed((current) => !current)}
-                type="button"
-              >
-                {isFollowed
-                  ? 'Eliminar de seguimiento'
-                  : 'Anadir a seguimiento'}
-              </button>
-            </div>
+                <button
+                  className="w-full border border-red-600/40 hover:border-red-600 text-red-500 font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-600/5 active:scale-[0.98]"
+                  onClick={() => setIsFollowed((current) => !current)}
+                  type="button"
+                >
+                  {isFollowed
+                    ? 'Eliminar de seguimiento'
+                    : 'Anadir a seguimiento'}
+                </button>
+              </div>
+            )}
           </div>
         </section>
       </div>
     </main>
   );
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(new Date(value));
 }
 
 interface InfoBoxProps {

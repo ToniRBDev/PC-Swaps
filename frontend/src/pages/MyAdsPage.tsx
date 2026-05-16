@@ -1,67 +1,108 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
 import BackButton from '../components/ui/BackButton';
-import { products } from '../data/products';
-import type { Product } from '../types/product';
+import { deleteArticle, getMyArticles, renewArticle } from '../api/articles';
+import type { ArticleCardResponse } from '../api/articles';
+import { getBackendImageUrl } from '../utils/images';
 
-type AdStatus = 'active' | 'expired';
-
-interface UserAd extends Product {
-  status: AdStatus;
-}
-
-const initialAds: UserAd[] = [
-  { ...products[0], status: 'active', fechaUltimaRenovacion: '2026-05-01' },
-  { ...products[1], status: 'active', fechaUltimaRenovacion: '2026-05-03' },
-  {
-    idArticulo: 99,
-    marca: 'ASUS',
-    modelo: 'ROG Swift 27',
-    categoria: 'monitor',
-    estado: 'BUENO',
-    precio: 290,
-    descripcion: 'Monitor gaming con buen estado general.',
-    imagen: '/img/monitor.jpg',
-    fechaPublicacion: '2026-03-12',
-    fechaUltimaRenovacion: '2026-03-22',
-    numeroVisitas: 41,
-    especificaciones: {
-      pulgadas: '27',
-      resolucion: '1440p',
-      refresco: '165 Hz',
-    },
-    status: 'expired',
-  },
-];
+type Notification =
+  | { type: 'success'; message: string }
+  | { type: 'error'; message: string }
+  | null;
 
 export default function MyAdsPage() {
-  const [selectedStatus, setSelectedStatus] = useState<AdStatus>('active');
-  const [ads, setAds] = useState<UserAd[]>(initialAds);
-  const [adToDelete, setAdToDelete] = useState<UserAd | null>(null);
-  const activeAds = ads.filter((ad) => ad.status === 'active');
-  const expiredAds = ads.filter((ad) => ad.status === 'expired');
-  const visibleAds = selectedStatus === 'active' ? activeAds : expiredAds;
+  const navigate = useNavigate();
+  const [notification, setNotification] = useState<Notification>(null);
+  const [ads, setAds] = useState<ArticleCardResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [mutatingId, setMutatingId] = useState<number | null>(null);
+  const [adToDelete, setAdToDelete] = useState<ArticleCardResponse | null>(
+    null,
+  );
 
-  const handleDelete = () => {
-    if (!adToDelete) return;
-
-    setAds((currentAds) =>
-      currentAds.filter((ad) => ad.idArticulo !== adToDelete.idArticulo)
-    );
-    setAdToDelete(null);
+  const loadAds = async () => {
+    try {
+      setAds(await getMyArticles());
+    } catch (error) {
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'No se han podido cargar tus anuncios',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleRenew = (idArticulo: number) => {
-    const today = new Date().toISOString().slice(0, 10);
+  useEffect(() => {
+    getMyArticles()
+      .then((articles) => setAds(articles))
+      .catch((error: unknown) => {
+        setNotification({
+          type: 'error',
+          message:
+            error instanceof Error
+              ? error.message
+              : 'No se han podido cargar tus anuncios',
+        });
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
 
-    setAds((currentAds) =>
-      currentAds.map((ad) =>
-        ad.idArticulo === idArticulo
-          ? { ...ad, status: 'active', fechaUltimaRenovacion: today }
-          : ad
-      )
-    );
-    setSelectedStatus('active');
+  const handleDelete = async () => {
+    if (!adToDelete) return;
+
+    setMutatingId(adToDelete.idArticulo);
+    setNotification(null);
+
+    try {
+      await deleteArticle(adToDelete.idArticulo);
+      setAds((currentAds) =>
+        currentAds.filter((ad) => ad.idArticulo !== adToDelete.idArticulo),
+      );
+      setNotification({
+        type: 'success',
+        message: 'Anuncio eliminado correctamente',
+      });
+      setAdToDelete(null);
+    } catch (error) {
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'No se ha podido eliminar el anuncio',
+      });
+    } finally {
+      setMutatingId(null);
+    }
+  };
+
+  const handleRenew = async (idArticulo: number) => {
+    setMutatingId(idArticulo);
+    setNotification(null);
+
+    try {
+      await renewArticle(idArticulo);
+      await loadAds();
+      setNotification({
+        type: 'success',
+        message: 'Anuncio actualizado correctamente',
+      });
+    } catch (error) {
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'No se ha podido actualizar el anuncio',
+      });
+    } finally {
+      setMutatingId(null);
+    }
   };
 
   return (
@@ -76,26 +117,27 @@ export default function MyAdsPage() {
           </h1>
           <div className="flex items-center gap-4">
             <p className="text-xs tracking-[0.3em] text-zinc-500 uppercase">
-              Activos: {activeAds.length} / Expirados: {expiredAds.length}
+              Total: {ads.length}
             </p>
             <div className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent" />
           </div>
         </header>
 
+        {notification && (
+          <div
+            className={`mb-8 border px-5 py-4 text-sm font-bold uppercase tracking-widest ${
+              notification.type === 'success'
+                ? 'border-red-600 bg-red-600/10 text-red-500'
+                : 'border-red-900 bg-red-950/30 text-red-300'
+            }`}
+          >
+            {notification.message}
+          </div>
+        )}
+
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="inline-flex border border-zinc-800 bg-zinc-950">
-            <StatusButton
-              count={activeAds.length}
-              isActive={selectedStatus === 'active'}
-              label="Activos"
-              onClick={() => setSelectedStatus('active')}
-            />
-            <StatusButton
-              count={expiredAds.length}
-              isActive={selectedStatus === 'expired'}
-              label="Expirados"
-              onClick={() => setSelectedStatus('expired')}
-            />
+          <div className="border border-zinc-800 bg-zinc-950 px-5 py-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
+            Mis anuncios ({ads.length})
           </div>
 
           <Link
@@ -108,12 +150,18 @@ export default function MyAdsPage() {
         </div>
 
         <section className="space-y-4">
-          {visibleAds.length > 0 ? (
-            visibleAds.map((ad) => (
+          {isLoading ? (
+            <div className="border border-zinc-800 bg-zinc-900/30 p-10 text-zinc-500">
+              Cargando anuncios...
+            </div>
+          ) : ads.length > 0 ? (
+            ads.map((ad) => (
               <AdRow
                 key={ad.idArticulo}
                 ad={ad}
+                isMutating={mutatingId === ad.idArticulo}
                 onDelete={() => setAdToDelete(ad)}
+                onOpen={() => navigate(`/producto/${ad.idArticulo}`)}
                 onRenew={() => handleRenew(ad.idArticulo)}
               />
             ))
@@ -158,99 +206,60 @@ export default function MyAdsPage() {
   );
 }
 
-interface StatusButtonProps {
-  count: number;
-  isActive: boolean;
-  label: string;
-  onClick: () => void;
-}
-
-function StatusButton({ count, isActive, label, onClick }: StatusButtonProps) {
-  return (
-    <button
-      className={`px-5 py-3 text-xs font-bold uppercase tracking-widest transition-colors ${
-        isActive
-          ? 'bg-red-600 text-black'
-          : 'text-zinc-500 hover:bg-zinc-900 hover:text-white'
-      }`}
-      onClick={onClick}
-      type="button"
-    >
-      {label} ({count})
-    </button>
-  );
-}
-
 interface AdRowProps {
-  ad: UserAd;
+  ad: ArticleCardResponse;
+  isMutating: boolean;
   onDelete: () => void;
+  onOpen: () => void;
   onRenew: () => void;
 }
 
-function AdRow({ ad, onDelete, onRenew }: AdRowProps) {
-  const isExpired = ad.status === 'expired';
+function AdRow({ ad, isMutating, onDelete, onOpen, onRenew }: AdRowProps) {
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onOpen();
+    }
+  };
+
+  const stopRowNavigation = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+  };
 
   return (
     <article
-      className={`group relative flex flex-col md:flex-row items-center border transition-all duration-200 ${
-        isExpired
-          ? 'bg-zinc-900/10 border-dashed border-zinc-800 opacity-70 hover:opacity-100'
-          : 'bg-zinc-900/30 border-zinc-800 hover:border-red-600/50'
-      }`}
+      className="group relative flex cursor-pointer flex-col items-center border bg-zinc-900/30 border-zinc-800 hover:border-red-600/50 transition-all duration-200 focus:outline-none focus:border-red-600 md:flex-row"
+      onClick={onOpen}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      title="Ver detalle del anuncio"
     >
-      <div
-        className={`w-full md:w-48 h-32 overflow-hidden bg-black ${
-          isExpired ? 'grayscale' : ''
-        }`}
-      >
+      <div className="w-full md:w-48 h-32 overflow-hidden bg-black">
         <img
           alt={`${ad.marca} ${ad.modelo}`}
           className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-500"
-          src={ad.imagen}
+          src={getBackendImageUrl(ad.imagen)}
         />
       </div>
 
       <div className="flex-1 w-full p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
           <span
-            className={`text-[10px] tracking-widest uppercase ${
-              isExpired ? 'text-zinc-600' : 'text-red-600'
-            }`}
+            className="text-[10px] tracking-widest uppercase text-red-600"
           >
             ARTICULO_{ad.idArticulo}
           </span>
-          <h2
-            className={`font-headline text-xl font-bold tracking-tight uppercase ${
-              isExpired ? 'text-zinc-500' : 'text-white'
-            }`}
-          >
+          <h2 className="font-headline text-xl font-bold tracking-tight uppercase text-white">
             {ad.marca} {ad.modelo}
           </h2>
-          <div
-            className={`flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium uppercase ${
-              isExpired ? 'text-zinc-700' : 'text-zinc-500'
-            }`}
-          >
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium uppercase text-zinc-500">
             <span className="flex items-center">
               <span className="material-symbols-outlined text-[14px] mr-1">
-                category
+                memory
               </span>
-              {ad.categoria}
+              {ad.estado}
             </span>
-            <span className="flex items-center">
-              <span className="material-symbols-outlined text-[14px] mr-1">
-                event
-              </span>
-              {ad.fechaUltimaRenovacion ?? ad.fechaPublicacion}
-            </span>
-            {isExpired && (
-              <span className="flex items-center text-red-900">
-                <span className="material-symbols-outlined text-[14px] mr-1">
-                  warning
-                </span>
-                Expirado
-              </span>
-            )}
           </div>
         </div>
 
@@ -260,9 +269,7 @@ function AdRow({ ad, onDelete, onRenew }: AdRowProps) {
               Precio
             </span>
             <span
-              className={`font-headline text-2xl font-black tracking-tighter ${
-                isExpired ? 'text-zinc-600' : 'text-red-600'
-              }`}
+              className="font-headline text-2xl font-black tracking-tighter text-red-600"
             >
               {ad.precio} <span className="text-sm">EUR</span>
             </span>
@@ -271,18 +278,19 @@ function AdRow({ ad, onDelete, onRenew }: AdRowProps) {
           <div className="flex items-center gap-2">
             <Link
               className="size-12 flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 transition-colors"
+              onClick={stopRowNavigation}
               title="Editar"
               to={`/publicar-anuncio?editar=${ad.idArticulo}`}
             >
               <span className="material-symbols-outlined">edit</span>
             </Link>
             <button
-              className={`size-12 flex items-center justify-center transition-colors ${
-                isExpired
-                  ? 'bg-red-600 text-black hover:brightness-125'
-                  : 'bg-zinc-800 hover:bg-red-600 hover:text-black'
-              }`}
-              onClick={onRenew}
+              className="size-12 flex items-center justify-center bg-zinc-800 hover:bg-red-600 hover:text-black transition-colors"
+              disabled={isMutating}
+              onClick={(event) => {
+                stopRowNavigation(event);
+                onRenew();
+              }}
               title="Renovar"
               type="button"
             >
@@ -290,7 +298,11 @@ function AdRow({ ad, onDelete, onRenew }: AdRowProps) {
             </button>
             <button
               className="size-12 flex items-center justify-center bg-zinc-800 hover:bg-red-900 transition-colors"
-              onClick={onDelete}
+              disabled={isMutating}
+              onClick={(event) => {
+                stopRowNavigation(event);
+                onDelete();
+              }}
               title="Eliminar"
               type="button"
             >

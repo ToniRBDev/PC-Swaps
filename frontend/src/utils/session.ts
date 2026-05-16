@@ -5,6 +5,11 @@ export function getSessionToken() {
   return localStorage.getItem(AUTH_TOKEN_KEY);
 }
 
+export function getSessionUserId() {
+  const value = localStorage.getItem(AUTH_USER_ID_KEY);
+  return value ? Number(value) : null;
+}
+
 export function saveSession(token: string, idUsuario: number) {
   localStorage.setItem(AUTH_TOKEN_KEY, token);
   localStorage.setItem(AUTH_USER_ID_KEY, String(idUsuario));

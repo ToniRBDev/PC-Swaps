@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { categories } from '../data/categories';
-import type { CategoriaSlug } from '../types/product';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { createArticle, getArticle, updateArticle } from '../api/articles';
+import { getCategories } from '../api/categories';
+import type { CategoryResponse } from '../api/categories';
 import type { EstadoArticulo } from '../types/enums/estado-articulo';
+import { getBackendImageUrl } from '../utils/images';
 
 const articleStates: EstadoArticulo[] = [
   'NUEVO_CON_ETIQUETAS',
@@ -17,28 +19,100 @@ const articleStates: EstadoArticulo[] = [
 interface ListingForm {
   marca: string;
   modelo: string;
-  categoria: CategoriaSlug;
+  idCategoria: string;
   estado: EstadoArticulo;
   precio: string;
   descripcion: string;
   imagen: File | null;
 }
 
-type Notification = 'success' | 'error' | null;
+type Notification =
+  | { type: 'success'; message: string }
+  | { type: 'error'; message: string }
+  | null;
 
 export default function CreateListingPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const editId = Number(searchParams.get('editar'));
+  const isEditMode = Number.isFinite(editId) && editId > 0;
   const [notification, setNotification] = useState<Notification>(null);
+  const [availableCategories, setAvailableCategories] = useState<
+    CategoryResponse[]
+  >([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [isLoadingArticle, setIsLoadingArticle] = useState(isEditMode);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentImage, setCurrentImage] = useState<string | undefined>();
   const [form, setForm] = useState<ListingForm>({
     marca: '',
     modelo: '',
-    categoria: categories[0].slug,
+    idCategoria: '',
     estado: articleStates[0],
     precio: '',
     descripcion: '',
     imagen: null,
   });
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categories = await getCategories();
+        setAvailableCategories(categories);
+        setForm((current) => ({
+          ...current,
+          idCategoria: current.idCategoria || String(categories[0]?.idCategoria ?? ''),
+        }));
+      } catch (error) {
+        setNotification({
+          type: 'error',
+          message:
+            error instanceof Error
+              ? error.message
+              : 'No se han podido cargar las categorias',
+        });
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    void loadCategories();
+  }, []);
+
+  useEffect(() => {
+    if (!isEditMode) {
+      return;
+    }
+
+    const loadArticle = async () => {
+      try {
+        const article = await getArticle(editId);
+        setCurrentImage(article.imagen);
+        setForm((current) => ({
+          ...current,
+          marca: article.marca,
+          modelo: article.modelo,
+          idCategoria: String(article.categoria.idCategoria),
+          estado: article.estado,
+          precio: String(article.precio),
+          descripcion: article.descripcion,
+          imagen: null,
+        }));
+      } catch (error) {
+        setNotification({
+          type: 'error',
+          message:
+            error instanceof Error
+              ? error.message
+              : 'No se ha podido cargar el anuncio',
+        });
+      } finally {
+        setIsLoadingArticle(false);
+      }
+    };
+
+    void loadArticle();
+  }, [editId, isEditMode]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,11 +120,34 @@ export default function CreateListingPage() {
     setNotification(null);
 
     try {
-      await createListing(form);
-      setNotification('success');
-      window.setTimeout(() => navigate('/home'), 1200);
-    } catch {
-      setNotification('error');
+      validateListingForm(form, isEditMode);
+      const payload = {
+        idCategoria: Number(form.idCategoria),
+        marca: form.marca,
+        modelo: form.modelo,
+        estado: form.estado,
+        precio: Number(form.precio),
+        descripcion: form.descripcion,
+      };
+      const article = isEditMode
+        ? await updateArticle(editId, payload, form.imagen ?? undefined)
+        : await createArticle(payload, getRequiredImage(form.imagen));
+
+      setNotification({
+        type: 'success',
+        message: isEditMode
+          ? 'Anuncio actualizado correctamente'
+          : 'Anuncio creado correctamente',
+      });
+      window.setTimeout(() => navigate(`/producto/${article.idArticulo}`), 900);
+    } catch (error) {
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'No se ha podido crear el anuncio',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -74,24 +171,23 @@ export default function CreateListingPage() {
         <header className="mb-12 relative">
           <div className="absolute -left-4 top-0 w-1 h-full bg-red-600" />
           <h1 className="font-headline text-6xl md:text-8xl font-black uppercase tracking-tighter mb-2 leading-none">
-            Desplegar <span className="text-red-600 italic">anuncio</span>
+            {isEditMode ? 'Editar' : 'Desplegar'}{' '}
+            <span className="text-red-600 italic">anuncio</span>
           </h1>
           <p className="text-zinc-500 tracking-[0.3em] text-[10px] uppercase">
-            Terminal / Marketplace / Nuevo activo
+            Terminal / Marketplace / {isEditMode ? 'Editar activo' : 'Nuevo activo'}
           </p>
         </header>
 
         {notification && (
           <div
             className={`mb-8 border px-5 py-4 text-sm font-bold uppercase tracking-widest ${
-              notification === 'success'
+              notification.type === 'success'
                 ? 'border-red-600 bg-red-600/10 text-red-500'
                 : 'border-red-900 bg-red-950/30 text-red-300'
             }`}
           >
-            {notification === 'success'
-              ? 'Anuncio creado!!'
-              : 'No se ha podido crear el anuncio!!'}
+            {notification.message}
           </div>
         )}
 
@@ -135,17 +231,22 @@ export default function CreateListingPage() {
                     </span>
                     <select
                       className="w-full bg-black border-0 border-b-2 border-zinc-700 focus:border-red-600 focus:ring-0 text-white p-4 uppercase"
-                      value={form.categoria}
+                      disabled={isLoadingCategories}
+                      required
+                      value={form.idCategoria}
                       onChange={(event) =>
                         setForm((current) => ({
                           ...current,
-                          categoria: event.target.value as CategoriaSlug,
+                          idCategoria: event.target.value,
                         }))
                       }
                     >
-                      {categories.map((category) => (
-                        <option key={category.slug} value={category.slug}>
-                          {category.nombre}
+                      {availableCategories.map((category) => (
+                        <option
+                          key={category.idCategoria}
+                          value={category.idCategoria}
+                        >
+                          {category.nombreCategoria}
                         </option>
                       ))}
                     </select>
@@ -240,6 +341,13 @@ export default function CreateListingPage() {
               <span className="text-[10px] text-zinc-700 mt-2">
                 {imageName}
               </span>
+              {isEditMode && currentImage && !form.imagen && (
+                <img
+                  alt="Imagen actual del producto"
+                  className="mt-6 max-h-48 w-full object-contain opacity-70"
+                  src={getBackendImageUrl(currentImage)}
+                />
+              )}
               <input
                 accept="image/png,image/jpeg"
                 className="hidden"
@@ -251,7 +359,7 @@ export default function CreateListingPage() {
                     imagen: event.target.files?.[0] ?? null,
                   }))
                 }
-                required
+                required={!isEditMode}
                 type="file"
               />
             </label>
@@ -260,10 +368,16 @@ export default function CreateListingPage() {
           <div className="lg:col-span-12 mt-4">
             <button
               className="w-full py-8 bg-gradient-to-r from-red-600 to-[#ff7763] text-black font-headline text-2xl font-black uppercase tracking-tighter hover:shadow-[0_0_30px_rgba(235,0,0,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-4 group disabled:opacity-60"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoadingCategories || isLoadingArticle}
               type="submit"
             >
-              {isSubmitting ? 'Creando anuncio...' : 'Crear anuncio'}
+              {isSubmitting
+                ? isEditMode
+                  ? 'Actualizando anuncio...'
+                  : 'Creando anuncio...'
+                : isEditMode
+                  ? 'Actualizar anuncio'
+                  : 'Crear anuncio'}
               <span className="material-symbols-outlined font-bold group-hover:translate-x-2 transition-transform">
                 bolt
               </span>
@@ -311,22 +425,35 @@ function TextInput({
   );
 }
 
-async function createListing(form: ListingForm) {
-  const payload = {
-    marca: form.marca,
-    modelo: form.modelo,
-    categoria: form.categoria,
-    estado: form.estado,
-    precio: Number(form.precio),
-    descripcion: form.descripcion,
-    imagen: form.imagen?.name,
-  };
-
-  await new Promise((resolve) => window.setTimeout(resolve, 500));
-
-  if (!payload.marca || !payload.modelo || !payload.precio) {
-    throw new Error('Invalid listing');
+function validateListingForm(
+  form: ListingForm,
+  isEditMode: boolean,
+): asserts form is ListingForm & { imagen: File | null } {
+  if (!form.idCategoria) {
+    throw new Error('Selecciona una categoria');
   }
 
-  return payload;
+  if (!form.marca.trim() || !form.modelo.trim()) {
+    throw new Error('La marca y el modelo son obligatorios');
+  }
+
+  if (Number(form.precio) <= 0) {
+    throw new Error('El precio debe ser mayor que cero');
+  }
+
+  if (!form.descripcion.trim()) {
+    throw new Error('La descripcion es obligatoria');
+  }
+
+  if (!isEditMode && !form.imagen) {
+    throw new Error('Selecciona una imagen del producto');
+  }
+}
+
+function getRequiredImage(image: File | null) {
+  if (!image) {
+    throw new Error('Selecciona una imagen del producto');
+  }
+
+  return image;
 }
