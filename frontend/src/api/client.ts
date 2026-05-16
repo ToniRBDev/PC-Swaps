@@ -35,7 +35,13 @@ export async function apiRequest<TResponse>(
     return undefined as TResponse;
   }
 
-  return (await response.json()) as TResponse;
+  const text = await response.text();
+
+  if (!text) {
+    return undefined as TResponse;
+  }
+
+  return JSON.parse(text) as TResponse;
 }
 
 function prepareBody(

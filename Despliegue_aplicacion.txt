@@ -1,0 +1,28 @@
+  Lo que hay que hacer
+
+  1. Backend — Dockerfile (no existe todavía)
+  Empaquetar el Spring Boot como imagen Docker para desplegarlo en cualquier servidor.
+
+  2. compose.yaml — añadir el servicio backend
+  Añadir el servicio Spring Boot junto al MySQL, con el volumen de /app/uploads para las imágenes.
+
+  3. application-prod.properties — ajustes pendientes
+  - Deshabilitar Swagger en prod (no exponer la API pública)
+  - Añadir spring.jpa.open-in-view=false
+  - Asegurarse de que JWT_SECRET viene de variable de entorno segura
+
+  4. CORS — restringir el origen
+  Ahora mismo acepta *. En producción hay que poner el dominio real del frontend.
+
+  5. Hosting — elegir dónde desplegarlo
+  Opciones habituales para un proyecto así:
+  - Railway / Render — fácil, gratuito con límites, sin configurar servidor
+  - VPS (Hetzner, DigitalOcean) — más control, Nginx como proxy + HTTPS con Let's Encrypt
+  - Fly.io — buena opción con Docker nativo
+
+  6. Frontend — build y deploy
+  npm run build y subir el resultado a Vercel / Netlify / el mismo VPS.
+
+  7. SSL/HTTPS
+  Si usas VPS: Nginx + Certbot (Let's Encrypt). Si usas Railway/Render/Vercel, lo gestionan ellos
+  automáticamente.

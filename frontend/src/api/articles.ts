@@ -58,6 +58,14 @@ export function getArticle(idArticulo: number) {
   return apiRequest<ArticleResponse>(`/articulos/${idArticulo}`);
 }
 
+export function getArticles() {
+  return apiRequest<ArticleCardResponse[]>('/articulos');
+}
+
+export function getArticlesByCategory(idCategoria: number) {
+  return apiRequest<ArticleCardResponse[]>(`/articulos/categoria/${idCategoria}`);
+}
+
 export function getMyArticles() {
   return apiRequest<ArticleCardResponse[]>('/articulos/propios');
 }

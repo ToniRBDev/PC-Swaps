@@ -1,32 +1,131 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { products } from '../data/products';
-import type { Conversation } from '../types/conversation';
-import { useConversations } from '../context/ConversationsContext';
-import { sellersByArticleId } from '../data/sellers';
+import { useEffect, useState } from 'react';
+import { getArticle } from '../api/articles';
+import type { ArticleResponse } from '../api/articles';
+import {
+  deleteConversation,
+  getMyConversations,
+} from '../api/conversations';
+import type {
+  ConversationResponse,
+  ConversationUserResponse,
+} from '../api/conversations';
+import { getUserContact } from '../api/users';
+import { getOtherConversationUser } from '../utils/conversationUsers';
+import { getBackendImageUrl } from '../utils/images';
+import { getSessionUserId } from '../utils/session';
+
+interface ConversationItem {
+  article?: ArticleResponse;
+  conversation: ConversationResponse;
+  otherUser?: ConversationUserResponse;
+}
+
+type Notification =
+  | { type: 'success'; message: string }
+  | { type: 'error'; message: string }
+  | null;
 
 export default function ConversationsPage() {
-  const { conversations, deleteConversation } = useConversations();
+  const currentUserId = getSessionUserId();
+  const [notification, setNotification] = useState<Notification>(null);
+  const [conversationItems, setConversationItems] = useState<
+    ConversationItem[]
+  >([]);
   const [conversationToDelete, setConversationToDelete] =
-    useState<Conversation | null>(null);
-  const unreadMessages = conversations.reduce(
-    (total, conversation) =>
+    useState<ConversationResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    getMyConversations()
+      .then(async (conversations) => {
+        const items = await Promise.all(
+          conversations.map(async (conversation) => {
+            const otherUserCandidate = getOtherConversationUser(
+              conversation,
+              currentUserId,
+            );
+            let otherUser = otherUserCandidate ?? undefined;
+
+            if (otherUserCandidate) {
+              try {
+                otherUser = await getUserContact(otherUserCandidate.idUsuario);
+              } catch {
+                otherUser = otherUserCandidate;
+              }
+            }
+
+            try {
+              return {
+                conversation,
+                otherUser,
+                article: await getArticle(conversation.idArticulo),
+              };
+            } catch {
+              return { conversation, otherUser };
+            }
+          }),
+        );
+
+        setConversationItems(items);
+      })
+      .catch((error: unknown) => {
+        setNotification({
+          type: 'error',
+          message:
+            error instanceof Error
+              ? error.message
+              : 'No se han podido cargar tus conversaciones',
+        });
+      })
+      .finally(() => setIsLoading(false));
+  }, [currentUserId]);
+
+  const unreadMessages = conversationItems.reduce(
+    (total, item) =>
       total +
-      conversation.mensajes.filter(
-        (message) => !message.enviadoPorMi && !message.leido
+      item.conversation.mensajes.filter(
+        (message) => message.idEmisor !== currentUserId && !message.leido,
       ).length,
-    0
+    0,
   );
-  const totalMessages = conversations.reduce(
-    (total, conversation) => total + conversation.mensajes.length,
-    0
+  const totalMessages = conversationItems.reduce(
+    (total, item) => total + item.conversation.mensajes.length,
+    0,
   );
 
-  const handleDeleteConversation = () => {
+  const handleDeleteConversation = async () => {
     if (!conversationToDelete) return;
 
-    deleteConversation(conversationToDelete.idConversacion);
-    setConversationToDelete(null);
+    setIsDeleting(true);
+    setNotification(null);
+
+    try {
+      await deleteConversation(conversationToDelete.idConversacion);
+      setConversationItems((current) =>
+        current.filter(
+          (item) =>
+            item.conversation.idConversacion !==
+            conversationToDelete.idConversacion,
+        ),
+      );
+      setNotification({
+        type: 'success',
+        message: 'Conversacion eliminada correctamente',
+      });
+      setConversationToDelete(null);
+    } catch (error) {
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'No se ha podido eliminar la conversacion',
+      });
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -49,16 +148,29 @@ export default function ConversationsPage() {
           <div className="h-1 w-24 bg-red-600 mt-4" />
         </header>
 
-        <section className="space-y-4">
-          {conversations.length > 0 ? (
-            conversations.map((conversation) => {
-              const product = products.find(
-                (item) => item.idArticulo === conversation.idArticulo
-              );
-              const seller = sellersByArticleId[conversation.idArticulo];
-              const sellerName = seller?.nombreUsuario ?? conversation.vendedor;
+        {notification && (
+          <div
+            className={`mb-8 border px-5 py-4 text-sm font-bold uppercase tracking-widest ${
+              notification.type === 'success'
+                ? 'border-red-600 bg-red-600/10 text-red-500'
+                : 'border-red-900 bg-red-950/30 text-red-300'
+            }`}
+          >
+            {notification.message}
+          </div>
+        )}
 
-              if (!product) return null;
+        <section className="space-y-4">
+          {isLoading ? (
+            <div className="border border-zinc-800 bg-zinc-900/30 p-10 text-zinc-500">
+              Cargando conversaciones...
+            </div>
+          ) : conversationItems.length > 0 ? (
+            conversationItems.map(({ article, conversation, otherUser }) => {
+              const hasUnreadMessages = conversation.mensajes.some(
+                (message) =>
+                  message.idEmisor !== currentUserId && !message.leido,
+              );
 
               return (
                 <article
@@ -70,40 +182,48 @@ export default function ConversationsPage() {
                     to={`/chat/${conversation.idConversacion}`}
                   >
                     <div className="relative w-24 h-24 bg-black shrink-0 overflow-hidden">
-                      <img
-                        alt={`${product.marca} ${product.modelo}`}
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                        src={product.imagen}
-                      />
-                      {conversation.mensajes.some(
-                        (message) => !message.enviadoPorMi && !message.leido
-                      ) && (
+                      {article?.imagen ? (
+                        <img
+                          alt={`${article.marca} ${article.modelo}`}
+                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                          src={getBackendImageUrl(article.imagen)}
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-zinc-700">
+                          <span className="material-symbols-outlined text-4xl">
+                            memory
+                          </span>
+                        </div>
+                      )}
+                      {hasUnreadMessages && (
                         <div className="absolute top-1 left-1 size-3 bg-red-600 rounded-full shadow-[0_0_15px_rgba(235,0,0,0.8)]" />
                       )}
                     </div>
 
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[10px] tracking-widest text-red-600 uppercase">
-                          Vendedor
-                        </span>
-                        <h2 className="font-headline text-xl font-bold text-white tracking-tight">
-                          {sellerName}
-                        </h2>
-                        <SellerAvatar
-                          image={seller?.imagenUsuario}
-                          name={sellerName}
+                    <div className="flex flex-col min-w-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <UserAvatar
+                          image={getBackendImageUrl(otherUser?.imagenUsuario)}
+                          name={otherUser?.nombreUsuario ?? 'Otro usuario'}
                         />
+                        <h2 className="font-headline text-xl font-bold text-white tracking-tight truncate">
+                          {otherUser?.nombreUsuario ?? 'Otro usuario'}
+                        </h2>
+                        <span className="text-[10px] tracking-widest text-red-600 uppercase">
+                          #{conversation.idConversacion}
+                        </span>
                       </div>
 
-                      <h3 className="text-sm text-zinc-300 uppercase font-bold">
-                        {product.marca} {product.modelo}
+                      <h3 className="font-headline text-xl font-bold text-white tracking-tight uppercase">
+                        {article
+                          ? `${article.marca} ${article.modelo}`
+                          : `Articulo ${conversation.idArticulo}`}
                       </h3>
 
                       <div className="mt-2 flex flex-wrap items-center gap-3 text-[10px] text-zinc-500 uppercase tracking-widest">
-                        <span>{product.estado}</span>
-                        <span>{product.precio} EUR</span>
-                        <span>Inicio: {conversation.fechaInicio}</span>
+                        {article && <span>{article.estado}</span>}
+                        {article && <span>{article.precio} EUR</span>}
+                        <span>Inicio: {formatDate(conversation.fechaInicio)}</span>
                       </div>
                     </div>
                   </Link>
@@ -137,7 +257,11 @@ export default function ConversationsPage() {
         </section>
 
         <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <StatsBox label="Chats activos" value={conversations.length} active />
+          <StatsBox
+            label="Chats activos"
+            value={conversationItems.length}
+            active
+          />
           <StatsBox label="Mensajes totales" value={totalMessages} />
           <StatsBox label="Pendientes de leer" value={unreadMessages} />
         </section>
@@ -161,11 +285,12 @@ export default function ConversationsPage() {
                 No
               </button>
               <button
-                className="bg-red-600 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-red-500"
+                className="bg-red-600 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-red-500 disabled:opacity-60"
+                disabled={isDeleting}
                 onClick={handleDeleteConversation}
                 type="button"
               >
-                Si
+                {isDeleting ? 'Eliminando...' : 'Si'}
               </button>
             </div>
           </div>
@@ -202,27 +327,35 @@ function StatsBox({ active = false, label, value }: StatsBoxProps) {
   );
 }
 
-interface SellerAvatarProps {
+interface UserAvatarProps {
   image?: string;
   name: string;
 }
 
-function SellerAvatar({ image, name }: SellerAvatarProps) {
+function UserAvatar({ image, name }: UserAvatarProps) {
   const initials = name.slice(0, 2).toUpperCase();
 
   if (image) {
     return (
       <img
         alt={name}
-        className="size-8 object-cover border border-zinc-700 bg-black"
+        className="size-8 object-cover border border-zinc-700 bg-black shrink-0"
         src={image}
       />
     );
   }
 
   return (
-    <span className="flex size-8 items-center justify-center border border-zinc-700 bg-black text-[10px] font-black text-white">
+    <span className="flex size-8 shrink-0 items-center justify-center border border-zinc-700 bg-black text-[10px] font-black text-white">
       {initials}
     </span>
   );
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(new Date(value));
 }

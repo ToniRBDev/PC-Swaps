@@ -1,8 +1,9 @@
 import ProductCard from '../ui/ProductCard';
-import type { Product } from '../../types/product';
+import type { ArticleCardResponse } from '../../api/articles';
+import { getBackendImageUrl } from '../../utils/images';
 
 interface Props {
-  products: Product[];
+  products: ArticleCardResponse[];
 }
 
 export default function FollowedProductsSection({ products }: Props) {
@@ -27,7 +28,13 @@ export default function FollowedProductsSection({ products }: Props) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {products.map((product) => (
-          <ProductCard key={product.idArticulo} product={product} />
+          <ProductCard
+            key={product.idArticulo}
+            product={{
+              ...product,
+              imagen: getBackendImageUrl(product.imagen) ?? '',
+            }}
+          />
         ))}
       </div>
     </section>

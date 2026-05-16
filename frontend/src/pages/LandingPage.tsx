@@ -96,12 +96,6 @@ export default function LandingPage() {
             >
               Vender Componente
             </Link>
-            <Link
-              className="border border-white/20 text-white font-bold uppercase tracking-widest px-10 py-5 hover:border-red-600 hover:text-red-600 transition-all duration-200"
-              to="/home"
-            >
-              Ir a marketplace
-            </Link>
           </div>
         </div>
       </section>

@@ -1,41 +1,122 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { products } from '../data/products';
+import { getArticle } from '../api/articles';
+import type { ArticleResponse } from '../api/articles';
+import {
+  getConversation,
+  markConversationAsRead,
+  sendConversationMessage,
+} from '../api/conversations';
+import type {
+  ConversationUserResponse,
+  ConversationResponse,
+  MessageResponse,
+} from '../api/conversations';
+import { getUserContact } from '../api/users';
 import ProductCard from '../components/ui/ProductCard';
-import type { ConversationMessage } from '../types/conversation';
-import { useConversations } from '../context/ConversationsContext';
+import { getOtherConversationUser } from '../utils/conversationUsers';
+import { getBackendImageUrl } from '../utils/images';
+import { getSessionUserId } from '../utils/session';
 
 export default function ChatPage() {
   const { id } = useParams();
-  const { conversations, markConversationAsRead, sendMessage } =
-    useConversations();
-  const conversation = conversations.find(
-    (item) =>
-      item.idConversacion === Number(id) || item.idArticulo === Number(id)
+  const idConversacion = Number(id);
+  const currentUserId = getSessionUserId();
+  const [conversation, setConversation] = useState<ConversationResponse | null>(
+    null
   );
-  const product = products.find(
-    (item) => item.idArticulo === conversation?.idArticulo
+  const [article, setArticle] = useState<ArticleResponse | null>(null);
+  const [otherUser, setOtherUser] = useState<ConversationUserResponse | null>(
+    null
   );
   const [messageText, setMessageText] = useState('');
-  const messages = conversation?.mensajes ?? [];
+  const [isLoading, setIsLoading] = useState(Number.isFinite(idConversacion));
+  const [isSending, setIsSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (conversation) {
-      markConversationAsRead(conversation.idConversacion);
+    if (!Number.isFinite(idConversacion)) {
+      return;
     }
-  }, [conversation?.idConversacion, markConversationAsRead]);
 
-  const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
+    getConversation(idConversacion)
+      .then(async (loadedConversation) => {
+        setConversation(loadedConversation);
+        await markConversationAsRead(loadedConversation.idConversacion);
+
+        const otherUserCandidate = getOtherConversationUser(
+          loadedConversation,
+          currentUserId
+        );
+
+        if (otherUserCandidate) {
+          try {
+            setOtherUser(await getUserContact(otherUserCandidate.idUsuario));
+          } catch {
+            setOtherUser(otherUserCandidate);
+          }
+        } else {
+          setOtherUser(null);
+        }
+
+        try {
+          setArticle(await getArticle(loadedConversation.idArticulo));
+        } catch {
+          setArticle(null);
+        }
+      })
+      .catch((unknownError: unknown) => {
+        setError(
+          unknownError instanceof Error
+            ? unknownError.message
+            : 'Conversacion no encontrada'
+        );
+      })
+      .finally(() => setIsLoading(false));
+  }, [currentUserId, idConversacion]);
+
+  const handleSendMessage = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!conversation || !messageText.trim()) return;
 
-    sendMessage(conversation.idConversacion, messageText.trim());
-    setMessageText('');
+    setIsSending(true);
+    setError(null);
+
+    try {
+      const message = await sendConversationMessage(
+        conversation.idConversacion,
+        messageText.trim()
+      );
+      setConversation((current) =>
+        current
+          ? { ...current, mensajes: [...current.mensajes, message] }
+          : current
+      );
+      setMessageText('');
+    } catch (unknownError) {
+      setError(
+        unknownError instanceof Error
+          ? unknownError.message
+          : 'No se ha podido enviar el mensaje'
+      );
+    } finally {
+      setIsSending(false);
+    }
   };
 
-  if (!conversation || !product) {
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-16">
+        <h1 className="font-headline text-4xl font-black uppercase tracking-tight">
+          Cargando conversacion...
+        </h1>
+      </main>
+    );
+  }
+
+  if (!conversation || error) {
     return (
       <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-16">
         <Link
@@ -48,7 +129,7 @@ export default function ChatPage() {
           Volver a mis conversaciones
         </Link>
         <h1 className="font-headline text-4xl font-black uppercase tracking-tight">
-          Conversacion no encontrada
+          {error ?? 'Conversacion no encontrada'}
         </h1>
       </main>
     );
@@ -67,36 +148,49 @@ export default function ChatPage() {
               <span className="material-symbols-outlined">arrow_back_ios</span>
             </Link>
 
-            <div className="size-10 bg-zinc-900 border border-white/10 flex items-center justify-center text-sm font-black text-white shrink-0">
-              {conversation.vendedor.slice(0, 2).toUpperCase()}
-            </div>
+            <UserAvatar
+              image={getBackendImageUrl(otherUser?.imagenUsuario)}
+              name={otherUser?.nombreUsuario ?? 'Otro usuario'}
+            />
 
             <div className="flex flex-col min-w-0">
               <span className="font-headline font-bold text-sm tracking-tight text-white truncate">
-                {conversation.vendedor}
+                {otherUser?.nombreUsuario ?? 'Otro usuario'}
               </span>
               <span className="text-[10px] text-red-600/80 font-bold uppercase tracking-wider">
-                Conversacion sobre {product.marca} {product.modelo}
+                {article
+                  ? `${article.marca} ${article.modelo}`
+                  : `Articulo ${conversation.idArticulo}`}
               </span>
             </div>
           </div>
 
           <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 hidden md:inline">
-            {messages.length} mensajes
+            {conversation.mensajes.length} mensajes
           </span>
         </header>
+
+        {error && (
+          <div className="border-b border-red-900 bg-red-950/30 px-6 py-3 text-xs font-bold uppercase tracking-widest text-red-300">
+            {error}
+          </div>
+        )}
 
         <div className="flex-1 p-6 md:p-8 overflow-y-auto flex flex-col gap-6">
           <div className="flex items-center gap-4 opacity-20">
             <div className="flex-1 h-px bg-white" />
             <span className="font-headline text-[10px] tracking-[0.4em] uppercase">
-              {conversation.fechaInicio}
+              {formatDate(conversation.fechaInicio)}
             </span>
             <div className="flex-1 h-px bg-white" />
           </div>
 
-          {messages.map((message) => (
-            <MessageBubble key={message.idMensaje} message={message} />
+          {conversation.mensajes.map((message) => (
+            <MessageBubble
+              currentUserId={currentUserId}
+              key={message.idMensaje}
+              message={message}
+            />
           ))}
         </div>
 
@@ -105,12 +199,6 @@ export default function ChatPage() {
           onSubmit={handleSendMessage}
         >
           <div className="flex items-center gap-4 md:gap-6">
-            <button
-              className="material-symbols-outlined text-zinc-500 hover:text-red-600 transition-colors"
-              type="button"
-            >
-              attach_file
-            </button>
             <input
               className="flex-1 bg-black/50 border border-white/10 py-4 px-6 text-xs font-headline tracking-widest text-white focus:outline-none focus:border-red-600 placeholder:text-zinc-700"
               onChange={(event) => setMessageText(event.target.value)}
@@ -119,7 +207,8 @@ export default function ChatPage() {
               value={messageText}
             />
             <button
-              className="bg-red-600 text-black size-14 flex items-center justify-center hover:scale-105 transition-all"
+              className="bg-red-600 text-black size-14 flex items-center justify-center hover:scale-105 transition-all disabled:opacity-60"
+              disabled={isSending}
               type="submit"
             >
               <span className="material-symbols-outlined font-black">send</span>
@@ -132,7 +221,22 @@ export default function ChatPage() {
         <h2 className="font-headline font-black text-[11px] tracking-[0.3em] text-zinc-500 mb-8 uppercase">
           Informacion del articulo
         </h2>
-        <ProductCard product={product} />
+        {article ? (
+          <ProductCard
+            product={{
+              idArticulo: article.idArticulo,
+              imagen: getBackendImageUrl(article.imagen) ?? '',
+              marca: article.marca,
+              modelo: article.modelo,
+              precio: article.precio,
+              estado: article.estado,
+            }}
+          />
+        ) : (
+          <div className="border border-zinc-800 bg-black p-6 text-zinc-500">
+            No se ha podido cargar el articulo.
+          </div>
+        )}
         <div className="mt-12 space-y-4 opacity-30 text-center">
           <div className="font-headline text-[8px] tracking-[0.5em] leading-relaxed">
             CONEXION SEGURA P2P <br />
@@ -146,19 +250,22 @@ export default function ChatPage() {
 }
 
 interface MessageBubbleProps {
-  message: ConversationMessage;
+  currentUserId: number | null;
+  message: MessageResponse;
 }
 
-function MessageBubble({ message }: MessageBubbleProps) {
+function MessageBubble({ currentUserId, message }: MessageBubbleProps) {
+  const isMine = message.idEmisor === currentUserId;
+
   return (
     <div
       className={`flex flex-col max-w-[80%] ${
-        message.enviadoPorMi ? 'self-end' : 'self-start'
+        isMine ? 'self-end' : 'self-start'
       }`}
     >
       <div
         className={`p-5 text-sm leading-relaxed ${
-          message.enviadoPorMi
+          isMine
             ? 'bg-red-600 text-black font-bold'
             : 'bg-[#201f21] border-l-4 border-red-600/40 text-zinc-300'
         }`}
@@ -167,13 +274,55 @@ function MessageBubble({ message }: MessageBubbleProps) {
       </div>
       <span
         className={`mt-2 font-headline text-[9px] tracking-widest uppercase ${
-          message.enviadoPorMi
-            ? 'self-end text-red-600/70'
-            : 'text-zinc-600'
+          isMine ? 'self-end text-red-600/70' : 'text-zinc-600'
         }`}
       >
-        {message.fecha} - {message.leido ? 'Leido' : 'No leido'}
+        {formatDateTime(message.fechaEnvio)} -{' '}
+        {message.leido ? 'Leido' : 'No leido'}
       </span>
     </div>
   );
+}
+
+interface UserAvatarProps {
+  image?: string;
+  name: string;
+}
+
+function UserAvatar({ image, name }: UserAvatarProps) {
+  const initials = name.slice(0, 2).toUpperCase();
+
+  if (image) {
+    return (
+      <img
+        alt={name}
+        className="size-10 object-cover border border-white/10 bg-zinc-900 shrink-0"
+        src={image}
+      />
+    );
+  }
+
+  return (
+    <div className="size-10 bg-zinc-900 border border-white/10 flex items-center justify-center text-sm font-black text-white shrink-0">
+      {initials}
+    </div>
+  );
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(new Date(value));
+}
+
+function formatDateTime(value: string) {
+  return new Intl.DateTimeFormat('es-ES', {
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(new Date(value));
 }

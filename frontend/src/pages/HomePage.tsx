@@ -1,48 +1,137 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { CategoriaSlug } from '../types/product';
 import FollowedProductsSection from '../components/sections/FollowedProductsSection';
-import { followedProducts } from '../data/followedProducts';
 import { categories } from '../data/categories';
-import { products } from '../data/products';
 import ProductCard from '../components/ui/ProductCard';
+import { getArticles, getArticlesByCategory } from '../api/articles';
+import type { ArticleCardResponse } from '../api/articles';
+import { getCategories } from '../api/categories';
+import type { CategoryResponse } from '../api/categories';
+import { getFollowedArticles } from '../api/follows';
+import { getBackendImageUrl } from '../utils/images';
 
 const ITEMS_PER_PAGE = 12;
 const PREVIEW_ITEMS = 3;
+
+const categoryApiTerms: Record<CategoriaSlug, string[]> = {
+  'tarjeta-grafica': ['gpu', 'grafica', 'gráfica', 'rtx', 'radeon'],
+  'placa-base': ['placa', 'motherboard'],
+  procesador: ['cpu', 'ryzen', 'intel', 'procesador'],
+  ram: ['ram', 'ddr'],
+  monitor: ['monitor', 'pantalla'],
+};
+
+type Notification =
+  | { type: 'success'; message: string }
+  | { type: 'error'; message: string }
+  | null;
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] =
     useState<CategoriaSlug | null>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [products, setProducts] = useState<ArticleCardResponse[]>([]);
+  const [apiCategories, setApiCategories] = useState<CategoryResponse[]>([]);
+  const [followedProducts, setFollowedProducts] = useState<
+    ArticleCardResponse[]
+  >([]);
+  const [notification, setNotification] = useState<Notification>(null);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [isLoadingFollowed, setIsLoadingFollowed] = useState(true);
   const [searchParams] = useSearchParams();
   const search = searchParams.get('search')?.trim().toLowerCase() ?? '';
 
+  const loadProducts = async (categoryId?: number) => {
+    setIsLoadingProducts(true);
+    setNotification(null);
+
+    try {
+      const articles =
+        typeof categoryId === 'number'
+          ? await getArticlesByCategory(categoryId)
+          : await getArticles();
+
+      setProducts([...articles].sort((a, b) => b.idArticulo - a.idArticulo));
+    } catch (error) {
+      setProducts([]);
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'No se han podido cargar los articulos',
+      });
+    } finally {
+      setIsLoadingProducts(false);
+    }
+  };
+
+  useEffect(() => {
+    getCategories()
+      .then((loadedCategories) => setApiCategories(loadedCategories))
+      .catch((error: unknown) => {
+        setNotification({
+          type: 'error',
+          message:
+            error instanceof Error
+              ? error.message
+              : 'No se han podido cargar las categorias',
+        });
+      });
+
+    getArticles()
+      .then((articles) =>
+        setProducts(
+          [...articles].sort((a, b) => b.idArticulo - a.idArticulo),
+        ),
+      )
+      .catch((error: unknown) => {
+        setNotification({
+          type: 'error',
+          message:
+            error instanceof Error
+              ? error.message
+              : 'No se han podido cargar los articulos',
+        });
+      })
+      .finally(() => setIsLoadingProducts(false));
+
+    getFollowedArticles()
+      .then((articles) => setFollowedProducts(articles))
+      .catch(() => setFollowedProducts([]))
+      .finally(() => setIsLoadingFollowed(false));
+  }, []);
+
   const selectedCategoryName = categories.find(
-    (category) => category.slug === selectedCategory
+    (category) => category.slug === selectedCategory,
   )?.nombre;
   const hasActiveFilter = Boolean(selectedCategory || search);
-  const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory
-      ? product.categoria === selectedCategory
-      : true;
-    const matchesSearch = search
-      ? [product.marca, product.modelo, product.estado, product.categoria]
+  const filteredProducts = useMemo(
+    () =>
+      products.filter((product) => {
+        const searchableText = [
+          product.marca,
+          product.modelo,
+          product.estado,
+        ]
           .join(' ')
-          .toLowerCase()
-          .includes(search)
-      : true;
+          .toLowerCase();
+        const matchesSearch = search ? searchableText.includes(search) : true;
 
-    return matchesCategory && matchesSearch;
-  });
+        return matchesSearch;
+      }),
+    [products, search],
+  );
   const totalPages = Math.max(
     1,
-    Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
+    Math.ceil(filteredProducts.length / ITEMS_PER_PAGE),
   );
   const visibleProducts = showAllProducts
     ? filteredProducts.slice(
         (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
+        currentPage * ITEMS_PER_PAGE,
       )
     : filteredProducts.slice(0, PREVIEW_ITEMS);
   const shouldHideFollowedProducts = hasActiveFilter || showAllProducts;
@@ -51,9 +140,23 @@ export default function HomePage() {
     : 'Ultimos articulos subidos';
 
   const handleSelectCategory = (category: CategoriaSlug) => {
+    const apiCategory = findApiCategoryBySlug(apiCategories, category);
+
     setSelectedCategory(category);
     setShowAllProducts(false);
     setCurrentPage(1);
+
+    if (apiCategory) {
+      loadProducts(apiCategory.idCategoria);
+      return;
+    }
+
+    setProducts([]);
+    setNotification({
+      type: 'error',
+      message: 'No se ha encontrado esta categoria en la API',
+    });
+    setIsLoadingProducts(false);
   };
 
   const handleShowAll = () => {
@@ -83,6 +186,7 @@ export default function HomePage() {
               onClick={() => {
                 setSelectedCategory(null);
                 setCurrentPage(1);
+                loadProducts();
               }}
               className="text-red-600 font-bold uppercase text-xs tracking-widest"
               type="button"
@@ -144,10 +248,30 @@ export default function HomePage() {
           </div>
         </div>
 
-        {visibleProducts.length > 0 ? (
+        {notification && (
+          <div
+            className={`mb-8 border px-5 py-4 text-sm font-bold uppercase tracking-widest ${
+              notification.type === 'success'
+                ? 'border-red-600 bg-red-600/10 text-red-500'
+                : 'border-red-900 bg-red-950/30 text-red-300'
+            }`}
+          >
+            {notification.message}
+          </div>
+        )}
+
+        {isLoadingProducts ? (
+          <p className="text-zinc-500">Cargando articulos...</p>
+        ) : visibleProducts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {visibleProducts.map((product) => (
-              <ProductCard key={product.idArticulo} product={product} />
+              <ProductCard
+                key={product.idArticulo}
+                product={{
+                  ...product,
+                  imagen: getBackendImageUrl(product.imagen) ?? '',
+                }}
+              />
             ))}
           </div>
         ) : (
@@ -172,15 +296,35 @@ export default function HomePage() {
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
           </div>
         )}
       </section>
 
-      {!shouldHideFollowedProducts && (
+      {!shouldHideFollowedProducts && !isLoadingFollowed && (
         <FollowedProductsSection products={followedProducts} />
       )}
     </main>
   );
+}
+
+function findApiCategoryBySlug(
+  apiCategories: CategoryResponse[],
+  slug: CategoriaSlug,
+) {
+  const terms = categoryApiTerms[slug];
+
+  return apiCategories.find((category) => {
+    const normalizedName = normalizeText(category.nombreCategoria);
+
+    return terms.some((term) => normalizedName.includes(normalizeText(term)));
+  });
+}
+
+function normalizeText(value: string) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
 }

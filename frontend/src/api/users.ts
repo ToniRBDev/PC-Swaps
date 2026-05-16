@@ -17,6 +17,15 @@ export interface UpdateUserRequest {
   numTelefono?: string;
 }
 
+export interface UserContactResponse {
+  idUsuario: number;
+  nombreUsuario: string;
+  correoElectronico?: string;
+  direccion?: string;
+  numTelefono?: string;
+  imagenUsuario?: string;
+}
+
 export interface ChangePasswordRequest {
   passwordActual: string;
   passwordNueva: string;
@@ -31,6 +40,10 @@ export function createUser(user: CreateUserRequest) {
 
 export function getMyProfile() {
   return apiRequest<UserProfile>('/usuarios/me');
+}
+
+export function getUserContact(idUsuario: number) {
+  return apiRequest<UserContactResponse>(`/usuarios/${idUsuario}/contacto`);
 }
 
 export function updateMyProfile(user: UpdateUserRequest) {

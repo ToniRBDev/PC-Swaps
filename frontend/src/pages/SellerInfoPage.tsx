@@ -1,5 +1,8 @@
-import { Link, useParams } from 'react-router-dom';
-import { sellersByArticleId } from '../data/sellers';
+import { Link, useSearchParams, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getUserContact } from '../api/users';
+import type { UserContactResponse } from '../api/users';
+import { getBackendImageUrl } from '../utils/images';
 
 const fieldIcons = {
   correoElectronico: 'mail',
@@ -9,14 +12,44 @@ const fieldIcons = {
 
 export default function SellerInfoPage() {
   const { id } = useParams();
-  const articleId = Number(id);
-  const seller = sellersByArticleId[articleId];
+  const [searchParams] = useSearchParams();
+  const idUsuario = Number(id);
+  const productId = searchParams.get('producto');
+  const backUrl = productId ? `/producto/${productId}` : '/home';
+  const [seller, setSeller] = useState<UserContactResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(Number.isFinite(idUsuario));
+  const [error, setError] = useState<string | null>(null);
 
-  if (!seller) {
+  useEffect(() => {
+    if (!Number.isFinite(idUsuario)) {
+      return;
+    }
+
+    getUserContact(idUsuario)
+      .then((contact) => setSeller(contact))
+      .catch((unknownError: unknown) => {
+        setError(
+          unknownError instanceof Error
+            ? unknownError.message
+            : 'Vendedor no encontrado',
+        );
+      })
+      .finally(() => setIsLoading(false));
+  }, [idUsuario]);
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-20">
+        <h1 className="text-3xl font-bold mb-4">Cargando vendedor...</h1>
+      </main>
+    );
+  }
+
+  if (!seller || error) {
     return (
       <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-20">
         <Link
-          to={`/producto/${articleId}`}
+          to={backUrl}
           className="inline-flex items-center gap-2 mb-8 text-zinc-400 hover:text-red-600 uppercase text-xs font-bold tracking-widest transition-colors"
         >
           <span className="material-symbols-outlined text-sm">
@@ -24,7 +57,9 @@ export default function SellerInfoPage() {
           </span>
           Volver al anuncio
         </Link>
-        <h1 className="text-3xl font-bold mb-4">Vendedor no encontrado</h1>
+        <h1 className="text-3xl font-bold mb-4">
+          {error ?? 'Vendedor no encontrado'}
+        </h1>
       </main>
     );
   }
@@ -43,6 +78,7 @@ export default function SellerInfoPage() {
     },
   ].filter((field) => Boolean(field.value?.trim()));
   const initials = seller.nombreUsuario.slice(0, 2).toUpperCase();
+  const sellerImageUrl = getBackendImageUrl(seller.imagenUsuario);
 
   return (
     <main className="min-h-screen bg-[#0e0e0f] text-white px-6 py-16 flex items-center justify-center relative overflow-hidden">
@@ -54,11 +90,11 @@ export default function SellerInfoPage() {
 
           <div className="relative mb-6">
             <div className="absolute inset-0 border-2 border-red-600 translate-x-2 translate-y-2" />
-            {seller.imagenUsuario ? (
+            {sellerImageUrl ? (
               <img
                 alt={seller.nombreUsuario}
                 className="w-48 h-48 object-cover relative z-10 border border-white/10"
-                src={seller.imagenUsuario}
+                src={sellerImageUrl}
               />
             ) : (
               <div className="w-48 h-48 relative z-10 border border-white/10 bg-zinc-900 flex items-center justify-center text-5xl font-black text-white">
@@ -88,7 +124,7 @@ export default function SellerInfoPage() {
             </div>
             <Link
               className="text-zinc-500 hover:text-white transition-colors"
-              to={`/producto/${articleId}`}
+              to={backUrl}
               aria-label="Volver al anuncio"
             >
               <span className="material-symbols-outlined text-3xl">close</span>
@@ -97,7 +133,7 @@ export default function SellerInfoPage() {
 
           <div className="mb-8">
             <Link
-              to={`/producto/${articleId}`}
+              to={backUrl}
               className="inline-flex items-center gap-2 text-zinc-400 hover:text-red-600 uppercase text-xs font-bold tracking-widest transition-colors"
             >
               <span className="material-symbols-outlined text-sm">
@@ -122,15 +158,6 @@ export default function SellerInfoPage() {
                 value={field.value ?? ''}
               />
             ))}
-          </div>
-
-          <div className="mt-12">
-            <Link
-              className="block w-full bg-red-600 text-white text-center font-headline font-black uppercase tracking-widest py-4 px-6 hover:shadow-[0_0_20px_rgba(235,0,0,0.4)] transition-all active:scale-95"
-              to={`/chat/${articleId}`}
-            >
-              Iniciar chat
-            </Link>
           </div>
         </div>
       </section>

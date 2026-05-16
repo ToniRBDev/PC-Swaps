@@ -18,7 +18,7 @@ export default function MyAdsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [mutatingId, setMutatingId] = useState<number | null>(null);
   const [adToDelete, setAdToDelete] = useState<ArticleCardResponse | null>(
-    null,
+    null
   );
 
   const loadAds = async () => {
@@ -61,7 +61,7 @@ export default function MyAdsPage() {
     try {
       await deleteArticle(adToDelete.idArticulo);
       setAds((currentAds) =>
-        currentAds.filter((ad) => ad.idArticulo !== adToDelete.idArticulo),
+        currentAds.filter((ad) => ad.idArticulo !== adToDelete.idArticulo)
       );
       setNotification({
         type: 'success',
@@ -119,7 +119,7 @@ export default function MyAdsPage() {
             <p className="text-xs tracking-[0.3em] text-zinc-500 uppercase">
               Total: {ads.length}
             </p>
-            <div className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent" />
+            <div className="h-px flex-1 bg-linear-to-r from-zinc-800 to-transparent" />
           </div>
         </header>
 
@@ -127,7 +127,7 @@ export default function MyAdsPage() {
           <div
             className={`mb-8 border px-5 py-4 text-sm font-bold uppercase tracking-widest ${
               notification.type === 'success'
-                ? 'border-red-600 bg-red-600/10 text-red-500'
+                ? 'border-green bg-green-600/10 text-green-500'
                 : 'border-red-900 bg-red-950/30 text-red-300'
             }`}
           >
@@ -245,9 +245,7 @@ function AdRow({ ad, isMutating, onDelete, onOpen, onRenew }: AdRowProps) {
 
       <div className="flex-1 w-full p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <span
-            className="text-[10px] tracking-widest uppercase text-red-600"
-          >
+          <span className="text-[10px] tracking-widest uppercase text-red-600">
             ARTICULO_{ad.idArticulo}
           </span>
           <h2 className="font-headline text-xl font-bold tracking-tight uppercase text-white">
@@ -268,9 +266,7 @@ function AdRow({ ad, isMutating, onDelete, onOpen, onRenew }: AdRowProps) {
             <span className="block text-[10px] text-zinc-500 uppercase tracking-widest">
               Precio
             </span>
-            <span
-              className="font-headline text-2xl font-black tracking-tighter text-red-600"
-            >
+            <span className="font-headline text-2xl font-black tracking-tighter text-red-600">
               {ad.precio} <span className="text-sm">EUR</span>
             </span>
           </div>

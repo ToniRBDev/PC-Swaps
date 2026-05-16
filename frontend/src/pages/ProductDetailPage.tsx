@@ -1,12 +1,24 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getArticle } from '../api/articles';
 import type { ArticleResponse } from '../api/articles';
+import { getMyConversations, startConversation } from '../api/conversations';
+import {
+  followArticle,
+  getFollowedArticles,
+  unfollowArticle,
+} from '../api/follows';
 import { getBackendImageUrl } from '../utils/images';
 import { getSessionUserId } from '../utils/session';
 
+type Notification =
+  | { type: 'success'; message: string }
+  | { type: 'error'; message: string }
+  | null;
+
 export default function ProductDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const idArticulo = Number(id);
   const isValidArticleId = Number.isFinite(idArticulo);
   const currentUserId = getSessionUserId();
@@ -14,6 +26,10 @@ export default function ProductDetailPage() {
   const [isLoading, setIsLoading] = useState(isValidArticleId);
   const [error, setError] = useState<string | null>(null);
   const [isFollowed, setIsFollowed] = useState(false);
+  const [isFollowStatusLoading, setIsFollowStatusLoading] = useState(true);
+  const [isStartingChat, setIsStartingChat] = useState(false);
+  const [isUpdatingFollow, setIsUpdatingFollow] = useState(false);
+  const [notification, setNotification] = useState<Notification>(null);
   const isOwnProduct =
     Boolean(product?.vendedor.idUsuario) &&
     product?.vendedor.idUsuario === currentUserId;
@@ -33,7 +49,85 @@ export default function ProductDetailPage() {
         );
       })
       .finally(() => setIsLoading(false));
+
+    getFollowedArticles()
+      .then((articles) =>
+        setIsFollowed(
+          articles.some((article) => article.idArticulo === idArticulo),
+        ),
+      )
+      .catch(() => setIsFollowed(false))
+      .finally(() => setIsFollowStatusLoading(false));
   }, [idArticulo, isValidArticleId]);
+
+  const handleStartChat = async () => {
+    setIsStartingChat(true);
+    setNotification(null);
+
+    try {
+      const conversation = await startConversation(idArticulo);
+      navigate(`/chat/${conversation.idConversacion}`);
+    } catch (unknownError) {
+      try {
+        const conversations = await getMyConversations();
+        const existingConversation = conversations.find(
+          (conversation) => conversation.idArticulo === idArticulo,
+        );
+
+        if (existingConversation) {
+          navigate(`/chat/${existingConversation.idConversacion}`);
+          return;
+        }
+      } catch {
+        // Preserve the original error below.
+      }
+
+      setNotification({
+        type: 'error',
+        message:
+          unknownError instanceof Error
+            ? unknownError.message
+            : 'No se ha podido iniciar el chat',
+      });
+    } finally {
+      setIsStartingChat(false);
+    }
+  };
+
+  const handleToggleFollow = async () => {
+    const nextFollowState = !isFollowed;
+
+    setIsFollowed(nextFollowState);
+    setIsUpdatingFollow(true);
+    setNotification(null);
+
+    try {
+      if (!nextFollowState) {
+        await unfollowArticle(idArticulo);
+        setNotification({
+          type: 'success',
+          message: 'Articulo eliminado de seguimiento',
+        });
+      } else {
+        await followArticle(idArticulo);
+        setNotification({
+          type: 'success',
+          message: 'Articulo añadido a seguimiento',
+        });
+      }
+    } catch (unknownError) {
+      setIsFollowed(!nextFollowState);
+      setNotification({
+        type: 'error',
+        message:
+          unknownError instanceof Error
+            ? unknownError.message
+            : 'No se ha podido actualizar el seguimiento',
+      });
+    } finally {
+      setIsUpdatingFollow(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -68,6 +162,18 @@ export default function ProductDetailPage() {
           </span>
           Volver al marketplace
         </Link>
+
+        {notification && (
+          <div
+            className={`mb-8 border px-5 py-4 text-sm font-bold uppercase tracking-widest ${
+              notification.type === 'success'
+                ? 'border-red-600 bg-red-600/10 text-red-500'
+                : 'border-red-900 bg-red-950/30 text-red-300'
+            }`}
+          >
+            {notification.message}
+          </div>
+        )}
 
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-0">
           <div className="lg:col-span-7 bg-black relative group overflow-hidden border-l-4 border-red-600">
@@ -148,26 +254,35 @@ export default function ProductDetailPage() {
 
             {!isOwnProduct && (
               <div className="mt-auto space-y-4">
-                <Link
+                <button
                   className="block w-full bg-red-600 text-white text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-500 active:scale-[0.98]"
-                  to={`/chat/${product.idArticulo}`}
+                  disabled={isStartingChat}
+                  onClick={handleStartChat}
+                  type="button"
                 >
-                  Iniciar chat con el vendedor
-                </Link>
+                  {isStartingChat
+                    ? 'Iniciando chat...'
+                    : 'Iniciar chat con el vendedor'}
+                </button>
 
                 <Link
                   className="block w-full border border-zinc-600 text-zinc-200 text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-zinc-800 active:scale-[0.98]"
-                  to={`/vendedor/${product.vendedor.idUsuario}`}
+                  to={`/vendedor/${product.vendedor.idUsuario}?producto=${product.idArticulo}`}
                 >
                   Mostrar informacion del vendedor
                 </Link>
 
                 <button
                   className="w-full border border-red-600/40 hover:border-red-600 text-red-500 font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-600/5 active:scale-[0.98]"
-                  onClick={() => setIsFollowed((current) => !current)}
+                  disabled={isFollowStatusLoading || isUpdatingFollow}
+                  onClick={handleToggleFollow}
                   type="button"
                 >
-                  {isFollowed
+                  {isFollowStatusLoading
+                    ? 'Cargando seguimiento...'
+                    : isUpdatingFollow
+                    ? 'Actualizando seguimiento...'
+                    : isFollowed
                     ? 'Eliminar de seguimiento'
                     : 'Anadir a seguimiento'}
                 </button>

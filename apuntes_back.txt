@@ -6,9 +6,9 @@
 - Hacer tests con mockito
 - Hacer tests con jUnit
 
---Cosas a mejorar a futuro--
+=== Cosas a mejorar a futuro ===
 - Añadir más imágenes a un producto a la hora de publicarlo
-- Añadir más productos a vender
+- Añadir más categorías de productos a vender
 - Añadir características específicas de cada categoría de productos
 - Añadir filtros de búsqueda, tanto en los iconos como en la barra de búsqueda
 - Poder ver el perfil de otros usuarios
@@ -16,3 +16,5 @@
 - Implementar carrito de compra
 - Implementar pago
 - Implementar valoraciones a otros vendedores
+- Desplegar aplicación (Vercel por ejemplo el front) Mirar como desplegar lo demás en contenedores docker
+
