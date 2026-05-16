@@ -2,9 +2,11 @@ package com.tonidev.backend.controller;
 
 import com.tonidev.backend.dto.ConversacionRequest;
 import com.tonidev.backend.dto.ConversacionResponse;
+import com.tonidev.backend.security.UsuarioDetails;
 import com.tonidev.backend.service.ConversacionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,15 +33,15 @@ public class ConversacionController {
     /**
      * Inicia una conversación sobre un artículo.
      *
-     * @param idUsuario el identificador del usuario que inicia la conversación (comprador)
-     * @param request   el DTO con el identificador del artículo
+     * @param usuarioDetails los datos del usuario extraídos del token JWT (comprador)
+     * @param request        el DTO con el identificador del artículo
      * @return el DTO con los datos de la conversación creada con estado 201
      */
     @PostMapping
     public ResponseEntity<ConversacionResponse> iniciar(
-            @RequestParam Long idUsuario,
+            @AuthenticationPrincipal UsuarioDetails usuarioDetails,
             @RequestBody ConversacionRequest request) {
-        ConversacionResponse respuesta = conversacionService.iniciar(idUsuario, request);
+        ConversacionResponse respuesta = conversacionService.iniciar(usuarioDetails.getIdUsuario(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
@@ -47,39 +49,40 @@ public class ConversacionController {
      * Devuelve el detalle de una conversación con todos sus mensajes.
      *
      * @param idConversacion el identificador de la conversación
-     * @param idUsuario      el identificador del usuario autenticado
+     * @param usuarioDetails los datos del usuario extraídos del token JWT
      * @return el DTO con los datos de la conversación y sus mensajes
      */
     @GetMapping("/{idConversacion}")
     public ResponseEntity<ConversacionResponse> obtener(
             @PathVariable Long idConversacion,
-            @RequestParam Long idUsuario) {
-        return ResponseEntity.ok(conversacionService.obtener(idConversacion, idUsuario));
+            @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        return ResponseEntity.ok(conversacionService.obtener(idConversacion, usuarioDetails.getIdUsuario()));
     }
 
     /**
      * Devuelve todas las conversaciones del usuario autenticado, como comprador y como vendedor.
      *
-     * @param idUsuario el identificador del usuario autenticado
+     * @param usuarioDetails los datos del usuario extraídos del token JWT
      * @return lista de conversaciones con sus mensajes
      */
     @GetMapping
-    public ResponseEntity<List<ConversacionResponse>> listar(@RequestParam Long idUsuario) {
-        return ResponseEntity.ok(conversacionService.listar(idUsuario));
+    public ResponseEntity<List<ConversacionResponse>> listar(
+            @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        return ResponseEntity.ok(conversacionService.listar(usuarioDetails.getIdUsuario()));
     }
 
     /**
      * Elimina una conversación y todos sus mensajes.
      *
      * @param idConversacion el identificador de la conversación a eliminar
-     * @param idUsuario      el identificador del usuario autenticado
+     * @param usuarioDetails los datos del usuario extraídos del token JWT
      * @return respuesta vacía con estado 204
      */
     @DeleteMapping("/{idConversacion}")
     public ResponseEntity<Void> eliminar(
             @PathVariable Long idConversacion,
-            @RequestParam Long idUsuario) {
-        conversacionService.eliminar(idConversacion, idUsuario);
+            @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        conversacionService.eliminar(idConversacion, usuarioDetails.getIdUsuario());
         return ResponseEntity.noContent().build();
     }
 }
