@@ -263,7 +263,7 @@ export default function HomePage() {
         {isLoadingProducts ? (
           <p className="text-zinc-500">Cargando articulos...</p>
         ) : visibleProducts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {visibleProducts.map((product) => (
               <ProductCard
                 key={product.idArticulo}

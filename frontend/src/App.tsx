@@ -30,20 +30,22 @@ function AppRoutes() {
   return (
     <>
       {!hideNavbar && <Navbar />}
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/login" element={<AuthPage mode="login" />} />
-        <Route path="/registro" element={<AuthPage mode="register" />} />
-        <Route path="/producto/:id" element={<ProductDetailPage />} />
-        <Route path="/publicar-anuncio" element={<CreateListingPage />} />
-        <Route path="/modificar-perfil" element={<EditProfilePage />} />
-        <Route path="/modificar-password" element={<ChangePasswordPage />} />
-        <Route path="/mis-anuncios" element={<MyAdsPage />} />
-        <Route path="/mis-conversaciones" element={<ConversationsPage />} />
-        <Route path="/chat/:id" element={<ChatPage />} />
-        <Route path="/vendedor/:id" element={<SellerInfoPage />} />
-      </Routes>
+      <div style={{ zoom: 0.8, minHeight: 'calc(100vh / 0.80)' }}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/login" element={<AuthPage mode="login" />} />
+          <Route path="/registro" element={<AuthPage mode="register" />} />
+          <Route path="/producto/:id" element={<ProductDetailPage />} />
+          <Route path="/publicar-anuncio" element={<CreateListingPage />} />
+          <Route path="/modificar-perfil" element={<EditProfilePage />} />
+          <Route path="/modificar-password" element={<ChangePasswordPage />} />
+          <Route path="/mis-anuncios" element={<MyAdsPage />} />
+          <Route path="/mis-conversaciones" element={<ConversationsPage />} />
+          <Route path="/chat/:id" element={<ChatPage />} />
+          <Route path="/vendedor/:id" element={<SellerInfoPage />} />
+        </Routes>
+      </div>
     </>
   );
 }
