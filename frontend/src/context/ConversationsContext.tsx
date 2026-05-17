@@ -1,15 +1,6 @@
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { conversations as initialConversations } from '../data/conversations';
-import type {
-  Conversation,
-  ConversationMessage,
-} from '../types/conversation';
+import type { Conversation, ConversationMessage } from '../types/conversation';
 
 interface ConversationsContextValue {
   conversations: Conversation[];
@@ -30,8 +21,7 @@ interface ConversationsProviderProps {
 export function ConversationsProvider({
   children,
 }: ConversationsProviderProps) {
-  const [conversations, setConversations] =
-    useState<Conversation[]>(initialConversations);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const hasUnreadMessages = conversations.some((conversation) =>
     conversation.mensajes.some(
       (message) => !message.enviadoPorMi && !message.leido
@@ -112,7 +102,9 @@ export function useConversations() {
   const context = useContext(ConversationsContext);
 
   if (!context) {
-    throw new Error('useConversations must be used within ConversationsProvider');
+    throw new Error(
+      'useConversations must be used within ConversationsProvider'
+    );
   }
 
   return context;

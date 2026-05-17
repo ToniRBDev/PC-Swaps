@@ -31,6 +31,7 @@
 
 - Añadir producto a seguimiento.
 - Eliminar producto de seguimiento.
+- Ver todos los seguimientos.
 
 ---
 
@@ -52,6 +53,5 @@
 ---
 
 ## Mensajes
-
 - Gestionar mensajes enviados y recibidos dentro de conversaciones.
 - Recibir notificacion de nuevo mensaje

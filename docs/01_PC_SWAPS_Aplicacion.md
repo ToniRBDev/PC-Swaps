@@ -73,14 +73,26 @@ La primera versión de PC-SWAPS estará enfocada en los componentes más demanda
 
 ## Futuras ampliaciones
 
-El proyecto está diseñado para poder escalar en próximas versiones incorporando nuevas categorías como:
+- El proyecto está diseñado para poder ser escalado en próximas versiones. Posibles mejoras:
 
-- Fuentes de alimentación
-- Cajas de PC
-- Discos duros y sistemas de refrigeración
-- Torres completas
-- Portátiles
-- Periféricos gaming como ratones, teclados y auriculares
+    - Incorporación de nuevas categorías como:
+        - Fuentes de alimentación
+        - Cajas de PC
+        - Discos duros y sistemas de refrigeración
+        - Torres completas
+        - Portátiles
+        - Periféricos gaming como ratones, teclados y auriculares
+
+    - Los usuarios podrán subir más imágenes del producto en la creación del anuncio
+    - Requerir al usuario la introducción de ciertas características según la categoría del artículo a publicar
+    - Añadir filtros de búsqueda por características, una vez implementadas en la plataforma
+    - Chat en tiempo real mediante Web Sockets
+    - Implementar carrito de la compra
+    - Implementar pagos en la aplicación
+    - Implementar valoraciones a otros usuarios con el que se haya realizado alguna operación
+    - Desplegar frontend en aplicaciones como Vercel
+    - Desplegar aplicación en un servidor
+    - Utilizar cloud para el almacenamiento de imagenes en lugar de un volumen local de docker
 
 ---
 
@@ -90,13 +102,22 @@ Actualmente existen plataformas de referencia en España que ofrecen servicios s
 
 ## 6.1 Wallapop
 
+<div align="start">
+  <img src="./img/wallapop_logo.webp" alt="Logo de Wallapop" width="400">
+</div>
+
 Wallapop es una de las plataformas de compraventa más populares entre particulares. Destaca por su facilidad de uso y la localización de productos cercanos, aunque no está centrada específicamente en hardware informático.
 
 ## 6.2 Eneba Marketplace
 
+<div align="start">
+  <img src="./img/eneba_Logo.webp" alt="Logo de Eneba Marketplace" width="400">
+</div>
+
+
 Eneba Marketplace es conocido principalmente por la venta de videojuegos y productos digitales, aunque también dispone de una sección orientada a la venta de equipos informáticos. Sin embargo, este no constituye su enfoque principal.
 
-Frente a estas plataformas, PC-SWAPS se diferencia por ofrecer un marketplace completamente especializado en componentes informáticos de segunda mano.
+- Frente a estas plataformas, PC-SWAPS se diferencia por ofrecer un marketplace completamente especializado en componentes informáticos de segunda mano.
 
 ---
 

@@ -3,6 +3,7 @@ node_modules/
 dist/
 dist-ssr/
 PC-swaps_aplicacion/
+documentacion_tonidev/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

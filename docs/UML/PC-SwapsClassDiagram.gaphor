@@ -473,10 +473,11 @@ clases existentes o incluso clases nuevas con responsabilidades específicas.</v
 <ref refid="f1022d4e-4184-11f1-af05-001a7dda7115"/>
 <ref refid="f7fa9315-4184-11f1-a856-001a7dda7115"/>
 <ref refid="00f794cb-4185-11f1-aed6-001a7dda7115"/>
-<ref refid="0f2fae3e-4185-11f1-8fdc-001a7dda7115"/>
+<ref refid="59f8dac5-51cc-11f1-8bc5-001a7dda7115"/>
 <ref refid="16d8b2a9-418c-11f1-8eb0-001a7dda7115"/>
 <ref refid="06b8dc1c-4194-11f1-bbc7-001a7dda7115"/>
 <ref refid="06a1fc56-4195-11f1-ade4-001a7dda7115"/>
+<ref refid="0f2fae3e-4185-11f1-8fdc-001a7dda7115"/>
 </reflist>
 </ownedAttribute>
 <presentation>
@@ -2364,5 +2365,19 @@ clases existentes o incluso clases nuevas con responsabilidades específicas.</v
 <val>1</val>
 </value>
 </UML:LiteralUnlimitedNatural>
+<UML:Property id="59f8dac5-51cc-11f1-8bc5-001a7dda7115">
+<name>
+<val>numeroVisitas</val>
+</name>
+<structuredClassifier>
+<ref refid="028a3a82-40e1-11f1-aaf0-001a7dda7115"/>
+</structuredClassifier>
+<typeValue>
+<val>Integer</val>
+</typeValue>
+<visibility>
+<val>private</val>
+</visibility>
+</UML:Property>
 </model>
 </gaphor>
