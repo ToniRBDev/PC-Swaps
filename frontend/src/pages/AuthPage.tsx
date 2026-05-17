@@ -120,7 +120,7 @@ export default function AuthPage({ mode }: AuthPageProps) {
           <div
             className={`mb-8 border px-5 py-4 text-sm font-bold uppercase tracking-widest ${
               notification.type === 'success'
-                ? 'border-red-600 bg-red-600/10 text-red-500'
+                ? 'border-green-600 bg-green-600/10 text-green-500'
                 : 'border-red-900 bg-red-950/30 text-red-300'
             }`}
           >
