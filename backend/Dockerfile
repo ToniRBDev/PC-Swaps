@@ -9,7 +9,7 @@ WORKDIR /app
 # Si el código cambia pero el pom.xml no, Docker reutiliza la capa de dependencias.
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+RUN chmod +x mvnw && ./mvnw dependency:go-offline
 
 # Copiamos el código fuente y compilamos saltándonos los tests
 COPY src ./src
