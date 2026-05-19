@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import type { Location } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import Navbar from './components/layout/Navbar';
@@ -25,13 +26,15 @@ function App() {
 
 function AppRoutes() {
   const location = useLocation();
+  const state = location.state as { backgroundLocation?: Location } | null;
+  const backgroundLocation = state?.backgroundLocation;
   const hideNavbar = ['/', '/login', '/registro'].includes(location.pathname);
 
   return (
     <>
       {!hideNavbar && <Navbar />}
       <div style={{ zoom: 0.8, minHeight: 'calc(100vh / 0.80)' }}>
-        <Routes>
+        <Routes location={backgroundLocation ?? location}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<AuthPage mode="login" />} />
@@ -45,6 +48,11 @@ function AppRoutes() {
           <Route path="/chat/:id" element={<ChatPage />} />
           <Route path="/vendedor/:id" element={<SellerInfoPage />} />
         </Routes>
+        {backgroundLocation && (
+          <Routes>
+            <Route path="/chat/:id" element={<ChatPage isOverlay />} />
+          </Routes>
+        )}
       </div>
     </>
   );

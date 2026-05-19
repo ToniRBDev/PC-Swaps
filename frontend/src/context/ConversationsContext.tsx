@@ -1,18 +1,10 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Conversation, ConversationMessage } from '../types/conversation';
-
-interface ConversationsContextValue {
-  conversations: Conversation[];
-  deleteConversation: (idConversacion: number) => void;
-  hasUnreadMessages: boolean;
-  markConversationAsRead: (idConversacion: number) => void;
-  sendMessage: (idConversacion: number, content: string) => void;
-}
-
-const ConversationsContext = createContext<ConversationsContextValue | null>(
-  null
-);
+import {
+  ConversationsContext,
+  type ConversationsContextValue,
+} from './conversationsContextValue';
 
 interface ConversationsProviderProps {
   children: ReactNode;
@@ -96,16 +88,4 @@ export function ConversationsProvider({
       {children}
     </ConversationsContext.Provider>
   );
-}
-
-export function useConversations() {
-  const context = useContext(ConversationsContext);
-
-  if (!context) {
-    throw new Error(
-      'useConversations must be used within ConversationsProvider'
-    );
-  }
-
-  return context;
 }

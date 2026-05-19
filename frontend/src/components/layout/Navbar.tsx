@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useConversations } from '../../context/ConversationsContext';
+import { useConversations } from '../../context/useConversations';
 import { getMyProfile } from '../../api/users';
 import type { UserProfile } from '../../types/user';
 import { getBackendImageUrl } from '../../utils/images';

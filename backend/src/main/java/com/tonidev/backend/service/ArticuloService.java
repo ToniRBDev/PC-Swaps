@@ -136,9 +136,7 @@ public class ArticuloService {
      */
     public List<ArticuloCardResponse> buscar(String texto, Long idUsuario) {
         Usuario usuario = obtenerUsuarioPorId(idUsuario);
-        return articuloRepository
-                .findByActivoTrueAndUsuarioNotAndMarcaContainingIgnoreCaseOrActivoTrueAndUsuarioNotAndModeloContainingIgnoreCase(
-                        usuario, texto, usuario, texto)
+        return articuloRepository.buscarPorTexto(usuario, texto)
                 .stream()
                 .map(articuloMapper::toCardResponse)
                 .toList();

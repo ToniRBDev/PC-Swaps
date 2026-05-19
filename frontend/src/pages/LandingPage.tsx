@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
 
+const supportEmail = 'obt59086@educastur.es';
+const supportMailto = `mailto:${supportEmail}?subject=Soporte%20PC-SWAPS`;
+
 const featuredArticles = [
   {
     category: 'GPU',
@@ -55,12 +58,13 @@ export default function LandingPage() {
           ))}
         </div>
 
-        <Link
+        <a
           className="text-red-600 p-2 hover:bg-white/5 transition-colors"
-          to="/login"
+          href={supportMailto}
+          title="Contactar con soporte"
         >
           <span className="material-symbols-outlined">mail</span>
-        </Link>
+        </a>
       </nav>
 
       <section className="relative flex items-center overflow-hidden px-8 md:px-20 py-20">
@@ -240,16 +244,16 @@ export default function LandingPage() {
             PC-SWAPS
           </span>
           <p className="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600 mt-2">
-            2024 PC-SWAPS
+            2026 PC-SWAPS
           </p>
         </div>
         <div className="flex flex-col items-center md:items-end gap-6">
-          <Link
+          <a
             className="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-zinc-600 hover:text-red-600 underline decoration-2 underline-offset-4 opacity-70 hover:opacity-100 transition-all"
-            to="/login"
+            href={supportMailto}
           >
-            Soporte
-          </Link>
+            Soporte: {supportEmail}
+          </a>
           <div className="flex gap-4">
             {['terminal', 'shield', 'memory'].map((icon) => (
               <Link key={icon} to="/login">

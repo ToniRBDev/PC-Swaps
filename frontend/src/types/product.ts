@@ -1,5 +1,6 @@
 import type { EstadoArticulo } from './enums/estado-articulo';
-// Un Slug es una versión amigable de una cadena de texto.
+
+// Un slug es una version amigable de una cadena de texto.
 export type CategoriaSlug =
   | 'tarjeta-grafica'
   | 'placa-base'

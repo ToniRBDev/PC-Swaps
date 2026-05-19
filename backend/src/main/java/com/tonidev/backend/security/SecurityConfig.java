@@ -1,5 +1,6 @@
 package com.tonidev.backend.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -31,6 +32,10 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UsuarioDetailsService usuarioDetailsService;
+
+    /** Origen(es) permitidos para las peticiones CORS. Se lee de las properties según el perfil activo. */
+    @Value("${app.cors.allowed-origins}")
+    private String allowedOrigins;
 
     /**
      * Constructor con inyección de dependencias.
@@ -78,7 +83,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuracion = new CorsConfiguration();
-        configuracion.setAllowedOriginPatterns(List.of("*"));
+        configuracion.setAllowedOriginPatterns(List.of(allowedOrigins));
         configuracion.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuracion.setAllowedHeaders(List.of("*"));
         configuracion.setAllowCredentials(true);

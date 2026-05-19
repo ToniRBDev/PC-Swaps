@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getArticle } from '../api/articles';
 import type { ArticleResponse } from '../api/articles';
@@ -18,6 +18,7 @@ type Notification =
 
 export default function ProductDetailPage() {
   const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const idArticulo = Number(id);
   const isValidArticleId = Number.isFinite(idArticulo);
@@ -66,7 +67,9 @@ export default function ProductDetailPage() {
 
     try {
       const conversation = await startConversation(idArticulo);
-      navigate(`/chat/${conversation.idConversacion}`);
+      navigate(`/chat/${conversation.idConversacion}`, {
+        state: { backgroundLocation: location },
+      });
     } catch (unknownError) {
       try {
         const conversations = await getMyConversations();
@@ -75,7 +78,9 @@ export default function ProductDetailPage() {
         );
 
         if (existingConversation) {
-          navigate(`/chat/${existingConversation.idConversacion}`);
+          navigate(`/chat/${existingConversation.idConversacion}`, {
+            state: { backgroundLocation: location },
+          });
           return;
         }
       } catch {

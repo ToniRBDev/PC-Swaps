@@ -27,13 +27,14 @@ public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
     List<Articulo> findByCategoriaAndActivoTrueAndUsuarioNot(Categoria categoria, Usuario usuario);
 
     // Búsqueda por marca o modelo entre artículos activos excluyendo los del usuario autenticado
-    List<Articulo> findByActivoTrueAndUsuarioNotAndMarcaContainingIgnoreCaseOrActivoTrueAndUsuarioNotAndModeloContainingIgnoreCase(
-            Usuario usuarioMarca, String marca, Usuario usuarioModelo, String modelo);
+    @Query("SELECT a FROM Articulo a WHERE a.activo = true AND a.usuario <> :usuario AND " +
+           "(LOWER(a.marca) LIKE LOWER(CONCAT('%', :texto, '%')) OR LOWER(a.modelo) LIKE LOWER(CONCAT('%', :texto, '%')))")
+    List<Articulo> buscarPorTexto(@Param("usuario") Usuario usuario, @Param("texto") String texto);
 
     // Artículos activos a los que han pasado más de 7 días desde su última renovación (o publicación si nunca se renovaron)
     @Query("SELECT a FROM Articulo a WHERE a.activo = true AND " +
-           "(a.fechaUltimaRenovacion IS NOT NULL AND a.fechaUltimaRenovacion < :limite) OR " +
-           "(a.fechaUltimaRenovacion IS NULL AND a.fechaPublicacion < :limite)")
+           "((a.fechaUltimaRenovacion IS NOT NULL AND a.fechaUltimaRenovacion < :limite) OR " +
+           "(a.fechaUltimaRenovacion IS NULL AND a.fechaPublicacion < :limite))")
     List<Articulo> findArticulosParaDesactivar(@Param("limite") LocalDateTime limite);
 }
 

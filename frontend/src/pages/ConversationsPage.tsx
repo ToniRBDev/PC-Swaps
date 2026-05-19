@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getArticle } from '../api/articles';
 import type { ArticleResponse } from '../api/articles';
@@ -27,6 +27,7 @@ type Notification =
   | null;
 
 export default function ConversationsPage() {
+  const location = useLocation();
   const currentUserId = getSessionUserId();
   const [notification, setNotification] = useState<Notification>(null);
   const [conversationItems, setConversationItems] = useState<
@@ -179,6 +180,7 @@ export default function ConversationsPage() {
                 >
                   <Link
                     className="flex items-center gap-6 w-full min-w-0"
+                    state={{ backgroundLocation: location }}
                     to={`/chat/${conversation.idConversacion}`}
                   >
                     <div className="relative w-24 h-24 bg-black shrink-0 overflow-hidden">

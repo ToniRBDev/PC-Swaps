@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { FormEvent } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import type { FormEvent, ReactNode } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getArticle } from '../api/articles';
 import type { ArticleResponse } from '../api/articles';
 import {
@@ -19,8 +19,13 @@ import { getOtherConversationUser } from '../utils/conversationUsers';
 import { getBackendImageUrl } from '../utils/images';
 import { getSessionUserId } from '../utils/session';
 
-export default function ChatPage() {
+interface ChatPageProps {
+  isOverlay?: boolean;
+}
+
+export default function ChatPage({ isOverlay = false }: ChatPageProps) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const idConversacion = Number(id);
   const currentUserId = getSessionUserId();
   const [conversation, setConversation] = useState<ConversationResponse | null>(
@@ -34,6 +39,14 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(Number.isFinite(idConversacion));
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const closeChat = () => {
+    if (isOverlay) {
+      navigate(-1);
+      return;
+    }
+
+    navigate('/mis-conversaciones');
+  };
 
   useEffect(() => {
     if (!Number.isFinite(idConversacion)) {
@@ -107,46 +120,54 @@ export default function ChatPage() {
   };
 
   if (isLoading) {
-    return (
-      <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-16">
+    return renderChatShell(
+      isOverlay,
+      closeChat,
+      <main className={`${getChatPanelClassName(isOverlay)} p-8 md:p-12`}>
         <h1 className="font-headline text-4xl font-black uppercase tracking-tight">
           Cargando conversacion...
         </h1>
-      </main>
+      </main>,
     );
   }
 
   if (!conversation || error) {
-    return (
-      <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-16">
-        <Link
-          to="/mis-conversaciones"
+    return renderChatShell(
+      isOverlay,
+      closeChat,
+      <main className={`${getChatPanelClassName(isOverlay)} p-8 md:p-12`}>
+        <button
+          onClick={closeChat}
           className="inline-flex items-center gap-2 mb-8 text-zinc-400 hover:text-red-600 uppercase text-xs font-bold tracking-widest transition-colors"
+          type="button"
         >
           <span className="material-symbols-outlined text-sm">
             arrow_back_ios
           </span>
           Volver a mis conversaciones
-        </Link>
+        </button>
         <h1 className="font-headline text-4xl font-black uppercase tracking-tight">
           {error ?? 'Conversacion no encontrada'}
         </h1>
-      </main>
+      </main>,
     );
   }
 
-  return (
-    <main className="min-h-screen bg-[#0e0e0f] text-white flex overflow-hidden">
+  const chatContent = (
+    <main className={getChatPanelClassName(isOverlay)}>
       <section className="flex-1 flex flex-col bg-[#0e0e0f] relative border-r border-white/5 min-w-0">
-        <header className="h-20 flex items-center justify-between px-6 md:px-8 border-b border-white/5 bg-[#131314]">
+        <header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 border-b border-white/5 bg-[#131314]">
           <div className="flex items-center gap-4 min-w-0">
-            <Link
-              to="/mis-conversaciones"
+            <button
+              onClick={closeChat}
               className="text-zinc-500 hover:text-red-600 transition-colors shrink-0"
               title="Volver a mis conversaciones"
+              type="button"
             >
-              <span className="material-symbols-outlined">arrow_back_ios</span>
-            </Link>
+              <span className="material-symbols-outlined">
+                {isOverlay ? 'close' : 'arrow_back_ios'}
+              </span>
+            </button>
 
             <UserAvatar
               image={getBackendImageUrl(otherUser?.imagenUsuario)}
@@ -176,7 +197,7 @@ export default function ChatPage() {
           </div>
         )}
 
-        <div className="flex-1 p-6 md:p-8 overflow-y-auto flex flex-col gap-6">
+        <div className="flex-1 min-h-0 p-4 md:p-6 overflow-y-auto flex flex-col gap-5">
           <div className="flex items-center gap-4 opacity-20">
             <div className="flex-1 h-px bg-white" />
             <span className="font-headline text-[10px] tracking-[0.4em] uppercase">
@@ -195,7 +216,7 @@ export default function ChatPage() {
         </div>
 
         <form
-          className="p-6 md:p-8 bg-black border-t border-white/5"
+          className="p-4 md:p-6 bg-black border-t border-white/5"
           onSubmit={handleSendMessage}
         >
           <div className="flex items-center gap-4 md:gap-6">
@@ -217,7 +238,7 @@ export default function ChatPage() {
         </form>
       </section>
 
-      <aside className="w-96 bg-[#131314] p-8 hidden lg:block overflow-y-auto">
+      <aside className="w-80 xl:w-96 bg-[#131314] p-6 xl:p-8 hidden lg:block overflow-y-auto">
         <h2 className="font-headline font-black text-[11px] tracking-[0.3em] text-zinc-500 mb-8 uppercase">
           Informacion del articulo
         </h2>
@@ -247,6 +268,38 @@ export default function ChatPage() {
       </aside>
     </main>
   );
+
+  return renderChatShell(isOverlay, closeChat, chatContent);
+}
+
+function renderChatShell(
+  isOverlay: boolean,
+  closeChat: () => void,
+  content: ReactNode,
+) {
+  if (!isOverlay) {
+    return content;
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 px-3 py-4 backdrop-blur-sm md:px-8"
+      onClick={closeChat}
+    >
+      <div
+        className="h-[min(760px,calc(100vh-2rem))] w-full max-w-6xl overflow-hidden border border-white/10 bg-[#0e0e0f] shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        {content}
+      </div>
+    </div>
+  );
+}
+
+function getChatPanelClassName(isOverlay: boolean) {
+  return isOverlay
+    ? 'h-full bg-[#0e0e0f] text-white flex overflow-hidden'
+    : 'min-h-screen bg-[#0e0e0f] text-white flex overflow-hidden';
 }
 
 interface MessageBubbleProps {
