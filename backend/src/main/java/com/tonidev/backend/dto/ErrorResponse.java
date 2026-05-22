@@ -1,4 +1,4 @@
-package com.tonidev.backend.exception;
+package com.tonidev.backend.dto;
 
 /**
  * DTO que representa la estructura de una respuesta de error de la API.

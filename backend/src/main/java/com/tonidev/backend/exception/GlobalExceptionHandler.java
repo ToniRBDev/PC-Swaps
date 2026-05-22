@@ -1,9 +1,11 @@
 package com.tonidev.backend.exception;
 
+import com.tonidev.backend.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.io.IOException;
 
@@ -46,6 +48,33 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ReglaNegocioException.class)
     public ResponseEntity<ErrorResponse> handleReglaNegocio(ReglaNegocioException excepcion) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), excepcion.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    /**
+     * Maneja las subidas que superan el limite configurado para ficheros multipart.
+     *
+     * @return respuesta con estado 413 y un mensaje claro para el usuario
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleMaxUploadSizeExceeded() {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.PAYLOAD_TOO_LARGE.value(),
+                "La imagen no puede superar los 5 MB"
+        );
+        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(error);
+    }
+
+    /**
+     * Maneja argumentos invalidos enviados por el usuario, como imagenes vacias,
+     * formatos no permitidos o ficheros demasiado grandes.
+     *
+     * @param excepcion la excepcion con el detalle del dato invalido
+     * @return respuesta con estado 400 y el mensaje de error
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException excepcion) {
         ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), excepcion.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }

@@ -5,6 +5,7 @@ import { createArticle, getArticle, updateArticle } from '../api/articles';
 import { getCategories } from '../api/categories';
 import type { CategoryResponse } from '../api/categories';
 import type { EstadoArticulo } from '../types/enums/estado-articulo';
+import { MAX_IMAGE_SIZE_LABEL, validateImageSize } from '../utils/files';
 import { getBackendImageUrl } from '../utils/images';
 
 const articleStates: EstadoArticulo[] = [
@@ -153,7 +154,31 @@ export default function CreateListingPage() {
     }
   };
 
-  const imageName = form.imagen?.name ?? 'JPG, PNG (1 imagen)';
+  const imageName =
+    form.imagen?.name ??
+    `JPG, PNG, WebP (1 imagen, max. ${MAX_IMAGE_SIZE_LABEL})`;
+
+  const handleImageChange = (file?: File) => {
+    if (!file) {
+      setForm((current) => ({ ...current, imagen: null }));
+      return;
+    }
+
+    try {
+      validateImageSize(file);
+      setNotification(null);
+      setForm((current) => ({ ...current, imagen: file }));
+    } catch (error) {
+      setForm((current) => ({ ...current, imagen: null }));
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : `La imagen no puede superar los ${MAX_IMAGE_SIZE_LABEL}`,
+      });
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#0e0e0f] text-white px-4 py-10 md:px-8 md:py-16">
@@ -349,15 +374,12 @@ export default function CreateListingPage() {
                 />
               )}
               <input
-                accept="image/png,image/jpeg"
+                accept="image/png,image/jpeg,image/webp"
                 className="hidden"
                 id="imagen"
                 name="imagen"
                 onChange={(event) =>
-                  setForm((current) => ({
-                    ...current,
-                    imagen: event.target.files?.[0] ?? null,
-                  }))
+                  handleImageChange(event.target.files?.[0])
                 }
                 required={!isEditMode}
                 type="file"

@@ -7,6 +7,7 @@ import {
   updateMyProfileImage,
 } from '../api/users';
 import type { UserProfile } from '../types/user';
+import { MAX_IMAGE_SIZE_LABEL, validateImageSize } from '../utils/files';
 import { getBackendImageUrl } from '../utils/images';
 
 type Notification =
@@ -41,6 +42,28 @@ export default function EditProfilePage() {
   );
   const imagePreviewUrl =
     selectedImagePreviewUrl ?? getBackendImageUrl(user?.imagenUsuario);
+
+  const handleProfileImageChange = (file?: File) => {
+    if (!file) {
+      setForm((current) => ({ ...current, imagenUsuario: null }));
+      return;
+    }
+
+    try {
+      validateImageSize(file);
+      setNotification(null);
+      setForm((current) => ({ ...current, imagenUsuario: file }));
+    } catch (error) {
+      setForm((current) => ({ ...current, imagenUsuario: null }));
+      setNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : `La imagen no puede superar los ${MAX_IMAGE_SIZE_LABEL}`,
+      });
+    }
+  };
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -206,13 +229,10 @@ export default function EditProfilePage() {
                     photo_camera
                   </span>
                   <input
-                    accept="image/png,image/jpeg"
+                    accept="image/png,image/jpeg,image/webp"
                     className="hidden"
                     onChange={(event) =>
-                      setForm((current) => ({
-                        ...current,
-                        imagenUsuario: event.target.files?.[0] ?? null,
-                      }))
+                      handleProfileImageChange(event.target.files?.[0])
                     }
                     type="file"
                   />
@@ -222,7 +242,7 @@ export default function EditProfilePage() {
               {form.imagenUsuario && (
                 <div className="bg-black border-l-4 border-red-600 p-6">
                   <p className="text-[10px] tracking-widest text-zinc-500 uppercase mb-2">
-                    Imagen seleccionada
+                    Imagen seleccionada (max. {MAX_IMAGE_SIZE_LABEL})
                   </p>
                   <p className="text-sm text-zinc-300">
                     {form.imagenUsuario.name}

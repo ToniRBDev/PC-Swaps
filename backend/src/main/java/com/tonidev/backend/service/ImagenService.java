@@ -18,6 +18,11 @@ import java.util.UUID;
 public class ImagenService {
 
     /**
+     * Tamano maximo permitido por imagen: 5 MB.
+     */
+    private static final long TAMANO_MAXIMO_BYTES = 5L * 1024L * 1024L;
+
+    /**
      * Tipos de contenido permitidos para las imágenes subidas por los usuarios.
      */
     private static final List<String> TIPOS_PERMITIDOS = List.of("image/jpeg", "image/png", "image/webp");
@@ -41,6 +46,10 @@ public class ImagenService {
     public String guardar(MultipartFile archivo) throws IOException {
         if (archivo.isEmpty()) {
             throw new IllegalArgumentException("El fichero de imagen está vacío");
+        }
+
+        if (archivo.getSize() > TAMANO_MAXIMO_BYTES) {
+            throw new IllegalArgumentException("La imagen no puede superar los 5 MB");
         }
 
         String tipoContenido = archivo.getContentType();
