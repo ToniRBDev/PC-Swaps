@@ -285,16 +285,16 @@ export default function EditProfilePage() {
                   </div>
 
                   <div className="pt-12 flex flex-col md:flex-row items-center justify-end gap-6">
-                    <div className="flex gap-4 w-full md:w-auto">
+                    <div className="flex gap-3 sm:gap-4 w-full md:w-auto">
                       <button
-                        className="flex-1 md:flex-none border border-red-600/40 px-8 py-4 text-xs font-bold uppercase tracking-widest text-red-600 hover:bg-red-600/10 transition-all active:scale-95"
+                        className="flex-1 md:flex-none border border-red-600/40 px-4 py-3 text-[10px] font-bold uppercase tracking-wider text-red-600 hover:bg-red-600/10 transition-all active:scale-95 sm:px-8 sm:py-4 sm:text-xs sm:tracking-widest"
                         onClick={() => navigate('/home')}
                         type="button"
                       >
                         Descartar
                       </button>
                       <button
-                        className="flex-1 md:flex-none bg-linear-to-br from-red-600 to-[#ff7763] px-12 py-4 text-xs font-bold uppercase tracking-widest text-black hover:shadow-[0_0_20px_#eb000080] transition-all active:scale-95 disabled:opacity-60"
+                        className="flex-1 md:flex-none bg-linear-to-br from-red-600 to-[#ff7763] px-4 py-3 text-[10px] font-bold uppercase tracking-wider text-black hover:shadow-[0_0_20px_#eb000080] transition-all active:scale-95 disabled:opacity-60 sm:px-12 sm:py-4 sm:text-xs sm:tracking-widest"
                         disabled={isSubmitting}
                         type="submit"
                       >

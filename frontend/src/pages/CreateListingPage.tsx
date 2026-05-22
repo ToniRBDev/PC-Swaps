@@ -156,7 +156,7 @@ export default function CreateListingPage() {
   const imageName = form.imagen?.name ?? 'JPG, PNG (1 imagen)';
 
   return (
-    <main className="min-h-screen bg-[#0e0e0f] text-white px-8 py-16">
+    <main className="min-h-screen bg-[#0e0e0f] text-white px-4 py-10 md:px-8 md:py-16">
       <div className="max-w-[1440px] mx-auto w-full">
         <Link
           to="/home"
@@ -367,7 +367,7 @@ export default function CreateListingPage() {
 
           <div className="lg:col-span-12 mt-4">
             <button
-              className="w-full py-8 bg-gradient-to-r from-red-600 to-[#ff7763] text-black font-headline text-2xl font-black uppercase tracking-tighter hover:shadow-[0_0_30px_rgba(235,0,0,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-4 group disabled:opacity-60"
+              className="w-full py-4 md:py-8 bg-gradient-to-r from-red-600 to-[#ff7763] text-black font-headline text-lg md:text-2xl font-black uppercase tracking-tight md:tracking-tighter hover:shadow-[0_0_30px_rgba(235,0,0,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 md:gap-4 group disabled:opacity-60"
               disabled={isSubmitting || isLoadingCategories || isLoadingArticle}
               type="submit"
             >

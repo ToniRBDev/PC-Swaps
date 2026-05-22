@@ -219,16 +219,16 @@ export default function ChatPage({ isOverlay = false }: ChatPageProps) {
           className="p-4 md:p-6 bg-black border-t border-white/5"
           onSubmit={handleSendMessage}
         >
-          <div className="flex items-center gap-4 md:gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
             <input
-              className="flex-1 bg-black/50 border border-white/10 py-4 px-6 text-xs font-headline tracking-widest text-white focus:outline-none focus:border-red-600 placeholder:text-zinc-700"
+              className="flex-1 bg-black/50 border border-white/10 py-3 px-4 text-xs font-headline tracking-wider text-white focus:outline-none focus:border-red-600 placeholder:text-zinc-700 md:py-4 md:px-6 md:tracking-widest"
               onChange={(event) => setMessageText(event.target.value)}
               placeholder="ESCRIBE UN MENSAJE..."
               type="text"
               value={messageText}
             />
             <button
-              className="bg-red-600 text-black size-14 flex items-center justify-center hover:scale-105 transition-all disabled:opacity-60"
+              className="bg-red-600 text-black size-11 md:size-14 flex items-center justify-center hover:scale-105 transition-all disabled:opacity-60"
               disabled={isSending}
               type="submit"
             >

@@ -10,10 +10,10 @@ export default function FollowedProductsSection({ products }: Props) {
   if (products.length === 0) return null;
 
   return (
-    <section className="px-8 py-16 max-w-360 mx-auto">
-      <div className="flex justify-between items-end mb-12">
+    <section className="px-4 py-12 md:px-8 md:py-16 max-w-360 mx-auto">
+      <div className="flex justify-between items-end mb-8 md:mb-12">
         <div>
-          <h2 className="font-headline text-2xl font-bold uppercase tracking-widest border-l-4 border-red-600 pl-4">
+          <h2 className="font-headline text-xl md:text-2xl font-bold uppercase tracking-widest border-l-4 border-red-600 pl-4">
             Seguimiento
           </h2>
           <p className="text-zinc-500 text-sm mt-2">
@@ -26,7 +26,7 @@ export default function FollowedProductsSection({ products }: Props) {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {products.map((product) => (
           <ProductCard
             key={product.idArticulo}

@@ -118,14 +118,14 @@ export default function ChangePasswordPage() {
 
             <div className="pt-6 flex flex-col sm:flex-row gap-4">
               <button
-                className="flex-1 bg-br from-red-600 to-[#ff7763] text-white font-white border-2 uppercase tracking-widest text-sm py-4 px-8 hover:shadow-[0_0_20px_rgba(235,0,0,0.3)] transition-all active:scale-95 disabled:opacity-60"
+                className="flex-1 bg-br from-red-600 to-[#ff7763] text-white font-white border-2 uppercase tracking-wider text-xs py-3 px-4 hover:shadow-[0_0_20px_rgba(235,0,0,0.3)] transition-all active:scale-95 disabled:opacity-60 sm:text-sm sm:tracking-widest sm:py-4 sm:px-8"
                 disabled={isSubmitting}
                 type="submit"
               >
                 {isSubmitting ? 'Guardando...' : 'Guardar cambios'}
               </button>
               <button
-                className="flex-1 border border-red-600/40 text-red-600 font-black uppercase tracking-widest text-sm py-4 px-8 hover:bg-red-600/5 transition-all active:scale-95"
+                className="flex-1 border border-red-600/40 text-red-600 font-black uppercase tracking-wider text-xs py-3 px-4 hover:bg-red-600/5 transition-all active:scale-95 sm:text-sm sm:tracking-widest sm:py-4 sm:px-8"
                 onClick={() => navigate('/home')}
                 type="button"
               >

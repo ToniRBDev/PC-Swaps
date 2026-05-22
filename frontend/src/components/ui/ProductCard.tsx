@@ -18,27 +18,27 @@ export default function ProductCard({ product }: Props) {
         />
       </div>
 
-      <div className="p-6 flex flex-col grow">
+      <div className="p-4 sm:p-6 flex flex-col grow">
         <div className="flex items-start mb-2">
-          <div className="w-1 h-6 bg-red-600 mr-2" />
+          <div className="w-1 h-5 sm:h-6 bg-red-600 mr-2" />
 
-          <h3 className="font-headline font-bold uppercase tracking-tight text-lg">
+          <h3 className="font-headline font-bold uppercase tracking-tight text-base sm:text-lg">
             {product.marca} {product.modelo}
           </h3>
         </div>
 
-        <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-6">
+        <p className="text-zinc-400 text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">
           {product.estado}
         </p>
 
-        <div className="mt-auto flex items-center justify-between gap-4">
-          <span className="text-2xl font-black text-white font-headline tracking-tighter">
+        <div className="mt-auto flex items-center justify-between gap-3">
+          <span className="text-xl sm:text-2xl font-black text-white font-headline tracking-tighter">
             {product.precio} EUR
           </span>
 
           <Link
             to={`/producto/${product.idArticulo}`}
-            className="bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase hover:bg-red-500"
+            className="shrink-0 bg-red-600 text-white px-3 py-2 text-[10px] sm:px-4 sm:text-xs font-bold uppercase hover:bg-red-500"
           >
             Ver articulo
           </Link>

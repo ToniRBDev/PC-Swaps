@@ -106,13 +106,13 @@ export default function MyAdsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white px-6 lg:px-12 py-12">
+    <main className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-12 py-10 sm:py-12">
       <div className="max-w-7xl mx-auto">
         <BackButton />
 
         <header className="mb-10 relative">
           <div className="absolute -left-4 top-0 w-1 h-20 bg-red-600" />
-          <h1 className="font-headline text-5xl md:text-7xl font-black italic tracking-tighter text-white uppercase mb-2">
+          <h1 className="font-headline text-4xl md:text-7xl font-black italic tracking-tighter text-white uppercase mb-2">
             Mis <span className="text-red-600">anuncios</span>
           </h1>
           <div className="flex items-center gap-4">
@@ -141,7 +141,7 @@ export default function MyAdsPage() {
           </div>
 
           <Link
-            className="inline-flex items-center justify-center gap-3 bg-red-600 px-6 py-4 text-sm font-black uppercase tracking-widest text-black hover:brightness-125"
+            className="inline-flex items-center justify-center gap-2 bg-red-600 px-4 py-3 text-xs font-black uppercase tracking-widest text-black hover:brightness-125 sm:gap-3 sm:px-6 sm:py-4 sm:text-sm"
             to="/publicar-anuncio"
           >
             Publicar nuevo anuncio
@@ -261,7 +261,7 @@ function AdRow({ ad, isMutating, onDelete, onOpen, onRenew }: AdRowProps) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between md:justify-end gap-8">
+        <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-end md:gap-8">
           <div className="text-right">
             <span className="block text-[10px] text-zinc-500 uppercase tracking-widest">
               Precio
@@ -273,15 +273,15 @@ function AdRow({ ad, isMutating, onDelete, onOpen, onRenew }: AdRowProps) {
 
           <div className="flex items-center gap-2">
             <Link
-              className="size-12 flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 transition-colors"
+              className="size-10 sm:size-12 flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 transition-colors"
               onClick={stopRowNavigation}
               title="Editar"
               to={`/publicar-anuncio?editar=${ad.idArticulo}`}
             >
-              <span className="material-symbols-outlined">edit</span>
+              <span className="material-symbols-outlined text-xl sm:text-2xl">edit</span>
             </Link>
             <button
-              className="size-12 flex items-center justify-center bg-zinc-800 hover:bg-red-600 hover:text-black transition-colors"
+              className="size-10 sm:size-12 flex items-center justify-center bg-zinc-800 hover:bg-red-600 hover:text-black transition-colors"
               disabled={isMutating}
               onClick={(event) => {
                 stopRowNavigation(event);
@@ -290,10 +290,10 @@ function AdRow({ ad, isMutating, onDelete, onOpen, onRenew }: AdRowProps) {
               title="Renovar"
               type="button"
             >
-              <span className="material-symbols-outlined">sync</span>
+              <span className="material-symbols-outlined text-xl sm:text-2xl">sync</span>
             </button>
             <button
-              className="size-12 flex items-center justify-center bg-zinc-800 hover:bg-red-900 transition-colors"
+              className="size-10 sm:size-12 flex items-center justify-center bg-zinc-800 hover:bg-red-900 transition-colors"
               disabled={isMutating}
               onClick={(event) => {
                 stopRowNavigation(event);
@@ -302,7 +302,7 @@ function AdRow({ ad, isMutating, onDelete, onOpen, onRenew }: AdRowProps) {
               title="Eliminar"
               type="button"
             >
-              <span className="material-symbols-outlined">delete</span>
+              <span className="material-symbols-outlined text-xl sm:text-2xl">delete</span>
             </button>
           </div>
         </div>

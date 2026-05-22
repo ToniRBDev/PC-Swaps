@@ -232,12 +232,12 @@ export default function ConversationsPage() {
 
                   <div className="flex items-center gap-2 w-full md:w-auto justify-end shrink-0">
                     <button
-                      className="flex items-center justify-center size-12 bg-zinc-800 hover:bg-red-950 text-white transition-all border border-zinc-700 hover:border-red-600 active:scale-95"
+                      className="flex items-center justify-center size-10 sm:size-12 bg-zinc-800 hover:bg-red-950 text-white transition-all border border-zinc-700 hover:border-red-600 active:scale-95"
                       onClick={() => setConversationToDelete(conversation)}
                       title="Eliminar conversacion"
                       type="button"
                     >
-                      <span className="material-symbols-outlined">delete</span>
+                      <span className="material-symbols-outlined text-xl sm:text-2xl">delete</span>
                     </button>
                   </div>
                 </article>

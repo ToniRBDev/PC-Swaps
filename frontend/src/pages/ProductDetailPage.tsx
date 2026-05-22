@@ -156,7 +156,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0e0e0f] text-white px-4 md:px-12 py-16">
+    <main className="min-h-screen bg-[#0e0e0f] text-white px-4 md:px-12 py-10 md:py-16">
       <div className="max-w-7xl mx-auto">
         <Link
           to="/home"
@@ -191,22 +191,22 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-[#201f21] p-8 md:p-12 flex flex-col">
-            <div className="flex justify-between items-start gap-8 mb-8">
+          <div className="lg:col-span-5 bg-[#201f21] p-5 sm:p-8 md:p-12 flex flex-col">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start sm:gap-8 mb-8">
               <div>
                 <span className="font-label text-xs text-red-500 tracking-[0.2em] uppercase">
                   {product.categoria.nombreCategoria}
                 </span>
-                <h1 className="text-4xl md:text-5xl font-black font-headline uppercase leading-none mt-2 tracking-tighter">
+                <h1 className="text-3xl md:text-5xl font-black font-headline uppercase leading-none mt-2 tracking-tighter">
                   {product.marca} {product.modelo}
                 </h1>
               </div>
 
-              <div className="text-right shrink-0">
+              <div className="text-left sm:text-right shrink-0">
                 <span className="font-label text-[10px] text-zinc-500 uppercase block mb-1">
                   Precio
                 </span>
-                <div className="text-3xl font-headline font-bold text-white">
+                <div className="text-2xl sm:text-3xl font-headline font-bold text-white">
                   {product.precio} EUR
                 </div>
               </div>
@@ -260,7 +260,7 @@ export default function ProductDetailPage() {
             {!isOwnProduct && (
               <div className="mt-auto space-y-4">
                 <button
-                  className="block w-full bg-red-600 text-white text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-500 active:scale-[0.98]"
+                  className="block w-full bg-red-600 text-white text-center font-headline font-bold uppercase py-3.5 text-xs tracking-wider transition-all hover:bg-red-500 active:scale-[0.98] sm:py-5 sm:text-sm sm:tracking-widest"
                   disabled={isStartingChat}
                   onClick={handleStartChat}
                   type="button"
@@ -271,14 +271,14 @@ export default function ProductDetailPage() {
                 </button>
 
                 <Link
-                  className="block w-full border border-zinc-600 text-zinc-200 text-center font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-zinc-800 active:scale-[0.98]"
+                  className="block w-full border border-zinc-600 text-zinc-200 text-center font-headline font-bold uppercase py-3.5 text-xs tracking-wider transition-all hover:bg-zinc-800 active:scale-[0.98] sm:py-5 sm:text-sm sm:tracking-widest"
                   to={`/vendedor/${product.vendedor.idUsuario}?producto=${product.idArticulo}`}
                 >
                   Mostrar informacion del vendedor
                 </Link>
 
                 <button
-                  className="w-full border border-red-600/40 hover:border-red-600 text-red-500 font-headline font-bold uppercase py-5 text-sm tracking-widest transition-all hover:bg-red-600/5 active:scale-[0.98]"
+                  className="w-full border border-red-600/40 hover:border-red-600 text-red-500 font-headline font-bold uppercase py-3.5 text-xs tracking-wider transition-all hover:bg-red-600/5 active:scale-[0.98] sm:py-5 sm:text-sm sm:tracking-widest"
                   disabled={isFollowStatusLoading || isUpdatingFollow}
                   onClick={handleToggleFollow}
                   type="button"
