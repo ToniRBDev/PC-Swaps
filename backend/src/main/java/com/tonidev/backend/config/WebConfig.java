@@ -29,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
      * Ejemplo: una imagen guardada en uploads/foto.jpg será accesible en
      * http://localhost:8080/uploads/foto.jpg
      *
-     * @param registry el registro de handlers de recursos de Spring MVC
+     * @param registry el registro de handlers de recursos de Spring MVC.
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
