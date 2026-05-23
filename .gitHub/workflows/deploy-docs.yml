@@ -3,7 +3,7 @@ name: Desplegar Documentación TypeDoc
 on:
   push:
     branches:
-      - prueba-typedoc # Se ejecutará cuando hagas push a esta rama de pruebas
+      - main
 
 permissions:
   contents: write
@@ -25,9 +25,9 @@ jobs:
       - name: Configura Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
-          cache-dependency-path: 'frontend/pnpm-lock.yaml' # Le dice dónde buscar el candado
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: "frontend/pnpm-lock.yaml" # Le dice dónde buscar el candado
 
       # MODIFICADO: Añadimos 'working-directory' para que entre a tu carpeta frontend
       - name: Instalar dependencias
