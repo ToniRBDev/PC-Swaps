@@ -37,4 +37,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs # La carpeta que genera tu TypeDoc
-          branch: gh-pages # La rama destino donde se guardará la web
+          branch: gh-pages # La rama destino donde se guardará la web.
