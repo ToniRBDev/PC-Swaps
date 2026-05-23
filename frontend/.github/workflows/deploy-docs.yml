@@ -1,0 +1,40 @@
+name: Desplegar Documentación TypeDoc
+
+on:
+  # Se ejecutará automáticamente cuando hagas push a la rama main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write # Permiso clave para que la acción pueda crear la rama gh-pages
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Descarga el código de tu repositorio en el servidor de GitHub
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # 2. Configura Node.js en el entorno
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Usa la versión de Node que prefieras
+          cache: 'pnpm'
+
+      # 3. Instala tus dependencias (incluyendo TypeScript y TypeDoc)
+      - name: Instalar dependencias
+        run: pnpm ci
+
+      # 4. Ejecuta el script que añadimos en el Paso 1
+      - name: Generar documentación con TypeDoc
+        run: pnpm run build:docs
+
+      # 5. Toma la carpeta generada y la sube a la rama 'gh-pages'
+      - name: Desplegar en GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs # La carpeta que genera tu TypeDoc
+          branch: gh-pages # La rama destino donde se guardará la web
