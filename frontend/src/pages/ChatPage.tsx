@@ -19,10 +19,25 @@ import { getOtherConversationUser } from '../utils/conversationUsers';
 import { getBackendImageUrl } from '../utils/images';
 import { getSessionUserId } from '../utils/session';
 
+/**
+ * Propiedades de la pagina de chat.
+ *
+ * Permite renderizar la conversacion como pagina completa o como overlay sobre
+ * la pantalla anterior.
+ */
 interface ChatPageProps {
   isOverlay?: boolean;
 }
 
+/**
+ * Pagina de chat asociada a una conversacion.
+ *
+ * Carga la conversacion, marca sus mensajes como leidos, intenta enriquecer los
+ * datos del otro usuario y permite enviar nuevos mensajes.
+ *
+ * @param props - Propiedades de renderizado del chat.
+ * @returns Vista de conversacion en pagina completa u overlay.
+ */
 export default function ChatPage({ isOverlay = false }: ChatPageProps) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -272,6 +287,14 @@ export default function ChatPage({ isOverlay = false }: ChatPageProps) {
   return renderChatShell(isOverlay, closeChat, chatContent);
 }
 
+/**
+ * Envuelve el contenido del chat en modo pagina o modal.
+ *
+ * @param isOverlay - Indica si el chat debe mostrarse como overlay.
+ * @param closeChat - Accion para cerrar o volver desde el chat.
+ * @param content - Contenido principal de la conversacion.
+ * @returns Estructura final del chat.
+ */
 function renderChatShell(
   isOverlay: boolean,
   closeChat: () => void,
@@ -296,17 +319,32 @@ function renderChatShell(
   );
 }
 
+/**
+ * Calcula las clases base del panel de chat segun su modo de renderizado.
+ *
+ * @param isOverlay - Indica si el chat esta dentro de un overlay.
+ * @returns Clases CSS del contenedor principal.
+ */
 function getChatPanelClassName(isOverlay: boolean) {
   return isOverlay
     ? 'h-full bg-[#0e0e0f] text-white flex overflow-hidden'
     : 'min-h-screen bg-[#0e0e0f] text-white flex overflow-hidden';
 }
 
+/**
+ * Propiedades de una burbuja de mensaje.
+ */
 interface MessageBubbleProps {
   currentUserId: number | null;
   message: MessageResponse;
 }
 
+/**
+ * Burbuja visual para un mensaje enviado o recibido.
+ *
+ * @param props - Propiedades del mensaje.
+ * @returns Mensaje alineado segun el emisor.
+ */
 function MessageBubble({ currentUserId, message }: MessageBubbleProps) {
   const isMine = message.idEmisor === currentUserId;
 
@@ -337,11 +375,20 @@ function MessageBubble({ currentUserId, message }: MessageBubbleProps) {
   );
 }
 
+/**
+ * Propiedades del avatar de usuario del chat.
+ */
 interface UserAvatarProps {
   image?: string;
   name: string;
 }
 
+/**
+ * Muestra la imagen del usuario o sus iniciales en la cabecera del chat.
+ *
+ * @param props - Propiedades del avatar.
+ * @returns Avatar del participante.
+ */
 function UserAvatar({ image, name }: UserAvatarProps) {
   const initials = name.slice(0, 2).toUpperCase();
 
@@ -362,6 +409,12 @@ function UserAvatar({ image, name }: UserAvatarProps) {
   );
 }
 
+/**
+ * Formatea una fecha simple en formato espanol.
+ *
+ * @param value - Fecha recibida desde la API.
+ * @returns Fecha formateada.
+ */
 function formatDate(value: string) {
   return new Intl.DateTimeFormat('es-ES', {
     day: '2-digit',
@@ -370,6 +423,12 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+/**
+ * Formatea fecha y hora para los metadatos de un mensaje.
+ *
+ * @param value - Fecha y hora recibidas desde la API.
+ * @returns Fecha y hora formateadas.
+ */
 function formatDateTime(value: string) {
   return new Intl.DateTimeFormat('es-ES', {
     day: '2-digit',

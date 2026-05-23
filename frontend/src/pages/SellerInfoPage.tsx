@@ -4,12 +4,23 @@ import { getUserContact } from '../api/users';
 import type { UserContactResponse } from '../api/users';
 import { getBackendImageUrl } from '../utils/images';
 
+/**
+ * Mapa de iconos usados para los campos de contacto del vendedor.
+ */
 const fieldIcons = {
   correoElectronico: 'mail',
   direccion: 'location_on',
   numTelefono: 'call',
 };
 
+/**
+ * Pagina publica de informacion de contacto del vendedor.
+ *
+ * Carga los datos disponibles del usuario indicado por ruta y muestra solo los
+ * campos de contacto informados por el backend.
+ *
+ * @returns Tarjeta de contacto del vendedor.
+ */
 export default function SellerInfoPage() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
@@ -165,12 +176,21 @@ export default function SellerInfoPage() {
   );
 }
 
+/**
+ * Propiedades de un campo de contacto del vendedor.
+ */
 interface ContactFieldProps {
   icon: string;
   label: string;
   value: string;
 }
 
+/**
+ * Fila visual para mostrar un dato de contacto con icono.
+ *
+ * @param props - Propiedades del campo.
+ * @returns Bloque de contacto del vendedor.
+ */
 function ContactField({ icon, label, value }: ContactFieldProps) {
   return (
     <div className="group">

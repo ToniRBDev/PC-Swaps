@@ -6,11 +6,22 @@ import { deleteArticle, getMyArticles, renewArticle } from '../api/articles';
 import type { ArticleCardResponse } from '../api/articles';
 import { getBackendImageUrl } from '../utils/images';
 
+/**
+ * Estado de notificacion para operaciones sobre anuncios propios.
+ */
 type Notification =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string }
   | null;
 
+/**
+ * Pagina de gestion de anuncios publicados por el usuario.
+ *
+ * Permite consultar los anuncios propios, renovarlos, abrir su detalle, editar
+ * datos existentes y confirmar su eliminacion.
+ *
+ * @returns Panel de administracion de anuncios del usuario.
+ */
 export default function MyAdsPage() {
   const navigate = useNavigate();
   const [notification, setNotification] = useState<Notification>(null);
@@ -206,6 +217,9 @@ export default function MyAdsPage() {
   );
 }
 
+/**
+ * Propiedades de la fila de anuncio dentro del panel de gestion.
+ */
 interface AdRowProps {
   ad: ArticleCardResponse;
   isMutating: boolean;
@@ -214,6 +228,12 @@ interface AdRowProps {
   onRenew: () => void;
 }
 
+/**
+ * Fila interactiva que representa un anuncio propio.
+ *
+ * @param props - Propiedades y callbacks de la fila.
+ * @returns Fila de anuncio con acciones de editar, renovar y eliminar.
+ */
 function AdRow({ ad, isMutating, onDelete, onOpen, onRenew }: AdRowProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {

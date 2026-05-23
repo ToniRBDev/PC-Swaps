@@ -1,8 +1,18 @@
 import { Link } from 'react-router-dom';
 
+/**
+ * Correo de soporte mostrado en la landing publica.
+ */
 const supportEmail = 'obt59086@educastur.es';
+
+/**
+ * Enlace mailto preconfigurado para contactar con soporte.
+ */
 const supportMailto = `mailto:${supportEmail}?subject=Soporte%20PC-SWAPS`;
 
+/**
+ * Articulos estaticos usados para ilustrar el inventario destacado de la landing.
+ */
 const featuredArticles = [
   {
     category: 'GPU',
@@ -30,6 +40,14 @@ const featuredArticles = [
   },
 ];
 
+/**
+ * Pagina publica de bienvenida de PC-SWAPS.
+ *
+ * Presenta la propuesta de valor, ejemplos de hardware destacado y enlaces a
+ * login, registro y soporte antes de que el usuario acceda al marketplace.
+ *
+ * @returns Landing page publica de la aplicacion.
+ */
 export default function LandingPage() {
   return (
     <main className="min-h-screen bg-[#0e0e0f] text-white">

@@ -15,17 +15,31 @@ import { getOtherConversationUser } from '../utils/conversationUsers';
 import { getBackendImageUrl } from '../utils/images';
 import { getSessionUserId } from '../utils/session';
 
+/**
+ * Conversacion enriquecida con articulo y usuario contrario para pintar el listado.
+ */
 interface ConversationItem {
   article?: ArticleResponse;
   conversation: ConversationResponse;
   otherUser?: ConversationUserResponse;
 }
 
+/**
+ * Estado de notificacion para la bandeja de conversaciones.
+ */
 type Notification =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string }
   | null;
 
+/**
+ * Pagina de conversaciones del usuario autenticado.
+ *
+ * Carga las conversaciones, intenta enriquecer cada una con datos del articulo y
+ * del otro participante, calcula estadisticas y permite eliminar conversaciones.
+ *
+ * @returns Bandeja de conversaciones del usuario.
+ */
 export default function ConversationsPage() {
   const location = useLocation();
   const currentUserId = getSessionUserId();
@@ -302,12 +316,21 @@ export default function ConversationsPage() {
   );
 }
 
+/**
+ * Propiedades del contador estadistico de conversaciones.
+ */
 interface StatsBoxProps {
   active?: boolean;
   label: string;
   value: number;
 }
 
+/**
+ * Caja de estadistica usada para resumir conversaciones y mensajes.
+ *
+ * @param props - Propiedades del contador.
+ * @returns Bloque visual de estadistica.
+ */
 function StatsBox({ active = false, label, value }: StatsBoxProps) {
   return (
     <div
@@ -329,11 +352,20 @@ function StatsBox({ active = false, label, value }: StatsBoxProps) {
   );
 }
 
+/**
+ * Propiedades del avatar de usuario en el listado de conversaciones.
+ */
 interface UserAvatarProps {
   image?: string;
   name: string;
 }
 
+/**
+ * Muestra la imagen del usuario o iniciales cuando no hay imagen disponible.
+ *
+ * @param props - Propiedades del avatar.
+ * @returns Avatar compacto para conversaciones.
+ */
 function UserAvatar({ image, name }: UserAvatarProps) {
   const initials = name.slice(0, 2).toUpperCase();
 
@@ -354,6 +386,12 @@ function UserAvatar({ image, name }: UserAvatarProps) {
   );
 }
 
+/**
+ * Formatea la fecha de inicio de una conversacion.
+ *
+ * @param value - Fecha recibida desde la API.
+ * @returns Fecha en formato numerico espanol.
+ */
 function formatDate(value: string) {
   return new Intl.DateTimeFormat('es-ES', {
     day: '2-digit',

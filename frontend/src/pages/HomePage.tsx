@@ -11,9 +11,19 @@ import type { CategoryResponse } from '../api/categories';
 import { getFollowedArticles } from '../api/follows';
 import { getBackendImageUrl } from '../utils/images';
 
+/**
+ * Numero de productos mostrados por pagina cuando el listado completo esta abierto.
+ */
 const ITEMS_PER_PAGE = 12;
+
+/**
+ * Numero de productos visibles en la vista previa de la portada.
+ */
 const PREVIEW_ITEMS = 3;
 
+/**
+ * Terminos que relacionan los slugs locales con nombres de categorias de la API.
+ */
 const categoryApiTerms: Record<CategoriaSlug, string[]> = {
   'tarjeta-grafica': ['gpu', 'grafica', 'gráfica', 'rtx', 'radeon'],
   'placa-base': ['placa', 'motherboard'],
@@ -22,11 +32,22 @@ const categoryApiTerms: Record<CategoriaSlug, string[]> = {
   monitor: ['monitor', 'pantalla'],
 };
 
+/**
+ * Estado de notificacion usado para errores de carga o acciones informativas.
+ */
 type Notification =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string }
   | null;
 
+/**
+ * Pagina principal del marketplace.
+ *
+ * Carga articulos, categorias y seguimientos del usuario, permite filtrar por
+ * categoria o busqueda, y muestra una vista previa paginable de productos.
+ *
+ * @returns Pantalla de inicio con categorias y articulos.
+ */
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] =
     useState<CategoriaSlug | null>(null);
@@ -309,6 +330,13 @@ export default function HomePage() {
   );
 }
 
+/**
+ * Busca la categoria de la API que corresponde a un slug local.
+ *
+ * @param apiCategories - Categorias recibidas desde el backend.
+ * @param slug - Slug local seleccionado en la interfaz.
+ * @returns Categoria de la API coincidente o `undefined`.
+ */
 function findApiCategoryBySlug(
   apiCategories: CategoryResponse[],
   slug: CategoriaSlug,
@@ -322,6 +350,12 @@ function findApiCategoryBySlug(
   });
 }
 
+/**
+ * Normaliza texto para comparaciones sin acentos ni diferencias de mayusculas.
+ *
+ * @param value - Texto original.
+ * @returns Texto normalizado en minusculas.
+ */
 function normalizeText(value: string) {
   return value
     .normalize('NFD')

@@ -3,17 +3,31 @@ import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { changeMyPassword } from '../api/users';
 
+/**
+ * Estado de notificacion de la pagina de cambio de contrasena.
+ */
 type Notification =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string }
   | null;
 
+/**
+ * Datos locales del formulario de cambio de contrasena.
+ */
 interface PasswordForm {
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;
 }
 
+/**
+ * Pagina que permite modificar la contrasena del usuario autenticado.
+ *
+ * Valida la contrasena actual, la longitud minima de la nueva contrasena y la
+ * confirmacion antes de llamar a la API.
+ *
+ * @returns Formulario de cambio de contrasena.
+ */
 export default function ChangePasswordPage() {
   const navigate = useNavigate();
   const [notification, setNotification] = useState<Notification>(null);
@@ -145,6 +159,9 @@ export default function ChangePasswordPage() {
   );
 }
 
+/**
+ * Propiedades del campo de contrasena reutilizable.
+ */
 interface PasswordInputProps {
   id: string;
   label: string;
@@ -152,6 +169,12 @@ interface PasswordInputProps {
   value: string;
 }
 
+/**
+ * Campo de contrasena con etiqueta y estilos de la pantalla de seguridad.
+ *
+ * @param props - Propiedades del campo.
+ * @returns Control de entrada de tipo password.
+ */
 function PasswordInput({ id, label, onChange, value }: PasswordInputProps) {
   return (
     <label className="relative group block" htmlFor={id}>
@@ -171,6 +194,12 @@ function PasswordInput({ id, label, onChange, value }: PasswordInputProps) {
   );
 }
 
+/**
+ * Valida los datos introducidos antes de solicitar el cambio de contrasena.
+ *
+ * @param form - Datos actuales del formulario.
+ * @throws Error cuando faltan datos o la nueva contrasena no es valida.
+ */
 function validatePasswordForm(form: PasswordForm) {
   if (!form.currentPassword.trim()) {
     throw new Error('Introduce tu contraseña actual');

@@ -10,11 +10,20 @@ import type { UserProfile } from '../types/user';
 import { MAX_IMAGE_SIZE_LABEL, validateImageSize } from '../utils/files';
 import { getBackendImageUrl } from '../utils/images';
 
+/**
+ * Estado de notificacion para la edicion de perfil.
+ */
 type Notification =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string }
   | null;
 
+/**
+ * Campos editables del perfil dentro del formulario.
+ *
+ * Mantiene separados los datos de texto y la imagen seleccionada localmente
+ * antes de enviarla al backend.
+ */
 interface EditableProfile {
   nombreUsuario: string;
   direccion: string;
@@ -22,6 +31,14 @@ interface EditableProfile {
   imagenUsuario: File | null;
 }
 
+/**
+ * Pagina de modificacion del perfil del usuario autenticado.
+ *
+ * Carga los datos actuales, permite actualizar campos editables y subir una
+ * nueva imagen de perfil, notificando al resto de la app cuando el perfil cambia.
+ *
+ * @returns Formulario de edicion de perfil.
+ */
 export default function EditProfilePage() {
   const navigate = useNavigate();
   const [notification, setNotification] = useState<Notification>(null);
@@ -332,11 +349,20 @@ export default function EditProfilePage() {
   );
 }
 
+/**
+ * Propiedades de un campo de perfil solo lectura.
+ */
 interface ReadOnlyFieldProps {
   label: string;
   value: string | number;
 }
 
+/**
+ * Campo visual para datos personales que no se pueden editar.
+ *
+ * @param props - Propiedades del campo.
+ * @returns Entrada de texto bloqueada.
+ */
 function ReadOnlyField({ label, value }: ReadOnlyFieldProps) {
   return (
     <label className="block">
@@ -353,6 +379,9 @@ function ReadOnlyField({ label, value }: ReadOnlyFieldProps) {
   );
 }
 
+/**
+ * Propiedades de un campo editable del perfil.
+ */
 interface EditableFieldProps {
   label: string;
   onChange: (value: string) => void;
@@ -361,6 +390,12 @@ interface EditableFieldProps {
   value: string;
 }
 
+/**
+ * Campo reutilizable para los datos modificables del perfil.
+ *
+ * @param props - Propiedades del campo.
+ * @returns Entrada de texto editable.
+ */
 function EditableField({
   label,
   onChange,

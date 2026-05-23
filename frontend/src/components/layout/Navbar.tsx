@@ -6,6 +6,14 @@ import type { UserProfile } from '../../types/user';
 import { getBackendImageUrl } from '../../utils/images';
 import { clearSession } from '../../utils/session';
 
+/**
+ * Barra de navegacion principal de la aplicacion.
+ *
+ * Gestiona los accesos a anuncios, conversaciones, busqueda, perfil y sesion
+ * del usuario. Tambien adapta la navegacion a escritorio y movil, muestra el
+ * indicador de mensajes no leidos y escucha actualizaciones del perfil para
+ * refrescar la imagen o las iniciales del usuario.
+ */
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

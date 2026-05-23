@@ -11,11 +11,23 @@ import {
 import { getBackendImageUrl } from '../utils/images';
 import { getSessionUserId } from '../utils/session';
 
+/**
+ * Estado de notificacion usado en acciones del detalle de producto.
+ */
 type Notification =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string }
   | null;
 
+/**
+ * Pagina de detalle de un articulo del marketplace.
+ *
+ * Carga la informacion completa del producto, permite iniciar conversacion con
+ * el vendedor y gestionar el seguimiento del articulo cuando no pertenece al
+ * usuario autenticado.
+ *
+ * @returns Vista de detalle del articulo seleccionado.
+ */
 export default function ProductDetailPage() {
   const { id } = useParams();
   const location = useLocation();
@@ -300,6 +312,12 @@ export default function ProductDetailPage() {
   );
 }
 
+/**
+ * Formatea fechas de la API en formato numerico espanol.
+ *
+ * @param value - Fecha recibida desde el backend.
+ * @returns Fecha formateada para la interfaz.
+ */
 function formatDate(value: string) {
   return new Intl.DateTimeFormat('es-ES', {
     day: '2-digit',
@@ -308,11 +326,20 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+/**
+ * Propiedades del bloque informativo del detalle de producto.
+ */
 interface InfoBoxProps {
   label: string;
   value: string | number;
 }
 
+/**
+ * Muestra una pareja etiqueta-valor dentro de la ficha tecnica del producto.
+ *
+ * @param props - Propiedades del bloque.
+ * @returns Caja informativa compacta.
+ */
 function InfoBox({ label, value }: InfoBoxProps) {
   return (
     <div className="bg-[#131314] p-4">
@@ -326,11 +353,20 @@ function InfoBox({ label, value }: InfoBoxProps) {
   );
 }
 
+/**
+ * Propiedades del avatar del vendedor.
+ */
 interface SellerAvatarProps {
   image?: string;
   name: string;
 }
 
+/**
+ * Muestra la imagen del vendedor o sus iniciales como alternativa.
+ *
+ * @param props - Propiedades del avatar.
+ * @returns Avatar visual del vendedor.
+ */
 function SellerAvatar({ image, name }: SellerAvatarProps) {
   const initials = name.slice(0, 2).toUpperCase();
 

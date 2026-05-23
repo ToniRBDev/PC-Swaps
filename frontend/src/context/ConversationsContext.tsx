@@ -6,10 +6,26 @@ import {
   type ConversationsContextValue,
 } from './conversationsContextValue';
 
+/**
+ * Propiedades del proveedor de conversaciones.
+ *
+ * Envuelve el arbol de componentes que necesita acceder al estado local de
+ * conversaciones.
+ */
 interface ConversationsProviderProps {
   children: ReactNode;
 }
 
+/**
+ * Proveedor React para el estado local de conversaciones.
+ *
+ * Mantiene una copia en memoria de las conversaciones, calcula si existen
+ * mensajes sin leer y expone acciones para borrar conversaciones, marcarlas
+ * como leidas o anadir mensajes enviados por el usuario.
+ *
+ * @param props - Propiedades del proveedor.
+ * @returns Proveedor del contexto de conversaciones.
+ */
 export function ConversationsProvider({
   children,
 }: ConversationsProviderProps) {

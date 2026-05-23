@@ -8,6 +8,9 @@ import type { EstadoArticulo } from '../types/enums/estado-articulo';
 import { MAX_IMAGE_SIZE_LABEL, validateImageSize } from '../utils/files';
 import { getBackendImageUrl } from '../utils/images';
 
+/**
+ * Estados disponibles para publicar o editar un articulo.
+ */
 const articleStates: EstadoArticulo[] = [
   'NUEVO_CON_ETIQUETAS',
   'COMO_NUEVO',
@@ -17,6 +20,9 @@ const articleStates: EstadoArticulo[] = [
   'PARA_REPARAR',
 ];
 
+/**
+ * Estado local del formulario de creacion y edicion de anuncios.
+ */
 interface ListingForm {
   marca: string;
   modelo: string;
@@ -27,11 +33,22 @@ interface ListingForm {
   imagen: File | null;
 }
 
+/**
+ * Estado de notificacion para la publicacion de anuncios.
+ */
 type Notification =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string }
   | null;
 
+/**
+ * Pagina para crear un anuncio nuevo o editar uno existente.
+ *
+ * Usa el parametro de busqueda `editar` para activar el modo edicion, cargar el
+ * articulo actual y permitir guardar cambios sin exigir una nueva imagen.
+ *
+ * @returns Formulario de publicacion o edicion de anuncio.
+ */
 export default function CreateListingPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -414,6 +431,9 @@ export default function CreateListingPage() {
   );
 }
 
+/**
+ * Propiedades del campo de texto reutilizado en el formulario de anuncio.
+ */
 interface TextInputProps {
   label: string;
   name: string;
@@ -422,6 +442,12 @@ interface TextInputProps {
   value: string;
 }
 
+/**
+ * Campo de texto con etiqueta y estilos del formulario de anuncio.
+ *
+ * @param props - Propiedades del campo.
+ * @returns Entrada de texto controlada.
+ */
 function TextInput({
   label,
   name,
@@ -447,6 +473,13 @@ function TextInput({
   );
 }
 
+/**
+ * Valida los campos obligatorios del formulario de anuncio.
+ *
+ * @param form - Estado actual del formulario.
+ * @param isEditMode - Indica si se esta editando un anuncio existente.
+ * @throws Error cuando falta algun dato obligatorio o el precio no es valido.
+ */
 function validateListingForm(
   form: ListingForm,
   isEditMode: boolean,
@@ -472,6 +505,13 @@ function validateListingForm(
   }
 }
 
+/**
+ * Garantiza que existe una imagen antes de crear un anuncio nuevo.
+ *
+ * @param image - Imagen seleccionada en el formulario.
+ * @returns Archivo de imagen confirmado.
+ * @throws Error cuando no se ha seleccionado ninguna imagen.
+ */
 function getRequiredImage(image: File | null) {
   if (!image) {
     throw new Error('Selecciona una imagen del producto');

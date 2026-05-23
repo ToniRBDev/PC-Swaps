@@ -1,10 +1,26 @@
 import { Link } from 'react-router-dom';
 import type { ProductCardData } from '../../types/product';
 
+/**
+ * Propiedades del componente {@link ProductCard}.
+ *
+ * Recibe los datos resumidos de un producto ya preparados para mostrarse como
+ * tarjeta dentro de listados, secciones destacadas o resultados filtrados.
+ */
 interface Props {
   product: ProductCardData;
 }
 
+/**
+ * Tarjeta reutilizable para representar un articulo del marketplace.
+ *
+ * Muestra imagen, marca, modelo, estado, precio y un enlace al detalle del
+ * articulo. Esta pensada para usarse en grids de productos manteniendo una
+ * estructura visual consistente en toda la aplicacion.
+ *
+ * @param props - Propiedades del componente.
+ * @returns Tarjeta visual del articulo con enlace a su pagina de detalle.
+ */
 export default function ProductCard({ product }: Props) {
   return (
     <article className="group bg-zinc-900 relative flex flex-col transition-all hover:bg-zinc-800">

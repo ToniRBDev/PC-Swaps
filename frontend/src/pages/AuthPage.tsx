@@ -7,26 +7,47 @@ import { createUser } from '../api/users';
 import type { CreateUserRequest } from '../api/users';
 import { saveSession } from '../utils/session';
 
+/**
+ * Propiedades de la pagina de autenticacion.
+ *
+ * El modo decide si la pantalla muestra el formulario de login o el formulario
+ * completo de registro.
+ */
 interface AuthPageProps {
   mode: 'login' | 'register';
 }
 
+/**
+ * Estado de notificacion mostrado por formularios de autenticacion.
+ */
 type Notification =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string }
   | null;
 
+/**
+ * Datos del formulario de registro incluyendo la confirmacion local de contrasena.
+ */
 interface RegisterForm extends CreateUserRequest {
   confirmPassword: string;
 }
 
+/**
+ * Datos del formulario de inicio de sesion.
+ */
 type LoginForm = LoginRequest;
 
+/**
+ * Estado inicial del formulario de login.
+ */
 const initialLoginForm: LoginForm = {
   correoElectronico: '',
   password: '',
 };
 
+/**
+ * Estado inicial del formulario de registro.
+ */
 const initialRegisterForm: RegisterForm = {
   nombre: '',
   apellidos: '',
@@ -38,6 +59,15 @@ const initialRegisterForm: RegisterForm = {
   confirmPassword: '',
 };
 
+/**
+ * Pagina de inicio de sesion y registro de usuarios.
+ *
+ * Reutiliza la misma vista para autenticar usuarios existentes o crear nuevas
+ * cuentas, validando los campos antes de llamar a la API correspondiente.
+ *
+ * @param props - Propiedades que indican el modo de la pagina.
+ * @returns Formulario de login o registro.
+ */
 export default function AuthPage({ mode }: AuthPageProps) {
   const navigate = useNavigate();
   const isRegister = mode === 'register';
@@ -247,6 +277,9 @@ export default function AuthPage({ mode }: AuthPageProps) {
   );
 }
 
+/**
+ * Propiedades del campo de texto reutilizado por la pagina de autenticacion.
+ */
 interface TextInputProps {
   label: string;
   name: string;
@@ -256,6 +289,12 @@ interface TextInputProps {
   value?: string;
 }
 
+/**
+ * Campo de formulario con etiqueta y estilos comunes para login y registro.
+ *
+ * @param props - Propiedades del campo.
+ * @returns Control de entrada de texto.
+ */
 function TextInput({
   label,
   name,
@@ -281,12 +320,24 @@ function TextInput({
   );
 }
 
+/**
+ * Valida que el formulario de login tenga las credenciales minimas.
+ *
+ * @param form - Datos actuales del formulario de login.
+ * @throws Error cuando faltan correo electronico o contrasena.
+ */
 function validateLoginForm(form: LoginForm) {
   if (!form.correoElectronico.trim() || !form.password.trim()) {
     throw new Error('Introduce tu correo electronico y contrasena');
   }
 }
 
+/**
+ * Valida los datos del formulario de registro antes de enviarlos al backend.
+ *
+ * @param form - Datos actuales del formulario de registro.
+ * @throws Error cuando faltan campos, la contrasena es corta o no coincide.
+ */
 function validateRegisterForm(form: RegisterForm) {
   if (Object.values(form).some((value) => !value.trim())) {
     throw new Error('Completa todos los campos obligatorios');
@@ -301,6 +352,12 @@ function validateRegisterForm(form: RegisterForm) {
   }
 }
 
+/**
+ * Convierte el formulario de registro en el payload esperado por la API.
+ *
+ * @param form - Datos completos del formulario de registro.
+ * @returns Datos de creacion de usuario sin la confirmacion de contrasena.
+ */
 function getCreateUserPayload(form: RegisterForm): CreateUserRequest {
   return {
     nombre: form.nombre,

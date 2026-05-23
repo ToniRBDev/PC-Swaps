@@ -1,17 +1,46 @@
 import { getSessionToken } from '../utils/session';
 
+/**
+ * URL base de la API usada por todas las peticiones del frontend.
+ *
+ * @remarks
+ * Se lee desde `VITE_API_BASE_URL` y, si no existe, usa el backend local por
+ * defecto. Tambien elimina barras finales para construir rutas de forma estable.
+ */
 export const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api').replace(
     /\/+$/,
     '',
   );
 
+/**
+ * Origen del backend sin el sufijo `/api`.
+ *
+ * Se usa para construir URLs absolutas de recursos servidos por el backend,
+ * como imagenes de articulos o perfiles.
+ */
 export const API_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, '');
 
+/**
+ * Opciones aceptadas por el cliente HTTP de la aplicacion.
+ *
+ * @remarks
+ * Amplia `RequestInit` para permitir objetos como `body`; esos objetos se
+ * serializan automaticamente a JSON antes de hacer la peticion.
+ */
 interface ApiRequestOptions extends Omit<RequestInit, 'body'> {
   body?: BodyInit | object | null;
 }
 
+/**
+ * Ejecuta una peticion al backend anadiendo token, serializando el body y normalizando errores.
+ *
+ * @typeParam TResponse - Tipo esperado para la respuesta del backend.
+ * @param path - Ruta relativa dentro de la API, por ejemplo `/articulos`.
+ * @param options - Opciones de `fetch` y cuerpo opcional de la peticion.
+ * @returns Respuesta parseada al tipo indicado.
+ * @throws Error con el mensaje devuelto por el backend o un mensaje generico.
+ */
 export async function apiRequest<TResponse>(
   path: string,
   options: ApiRequestOptions = {},
@@ -47,6 +76,13 @@ export async function apiRequest<TResponse>(
   return JSON.parse(text) as TResponse;
 }
 
+/**
+ * Prepara el cuerpo de la peticion sin modificar `FormData` ni strings ya construidos.
+ *
+ * @param body - Cuerpo recibido por `apiRequest`.
+ * @param headers - Cabeceras que se ajustan cuando el cuerpo se envia como JSON.
+ * @returns Cuerpo compatible con `fetch`.
+ */
 function prepareBody(
   body: ApiRequestOptions['body'],
   headers: Headers,
@@ -59,6 +95,12 @@ function prepareBody(
   return JSON.stringify(body);
 }
 
+/**
+ * Extrae un mensaje de error legible desde la respuesta del backend.
+ *
+ * @param response - Respuesta HTTP no satisfactoria.
+ * @returns Mensaje de error especifico o mensaje generico con el codigo HTTP.
+ */
 async function getErrorMessage(response: Response) {
   const fallback = `Error ${response.status}: no se ha podido completar la peticion`;
 
@@ -75,6 +117,12 @@ async function getErrorMessage(response: Response) {
   return fallback;
 }
 
+/**
+ * Comprueba que la respuesta de error tiene forma de objeto antes de leer sus campos.
+ *
+ * @param value - Valor desconocido parseado desde la respuesta del backend.
+ * @returns `true` si el valor puede contener campos de error.
+ */
 function isErrorResponse(
   value: unknown,
 ): value is { error?: string; message?: string } {

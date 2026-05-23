@@ -1,6 +1,12 @@
 import { useContext } from 'react';
 import { ConversationsContext } from './conversationsContextValue';
 
+/**
+ * Hook de acceso al contexto de conversaciones.
+ *
+ * @returns Valor actual del contexto de conversaciones.
+ * @throws Error cuando se usa fuera de {@link ConversationsProvider}.
+ */
 export function useConversations() {
   const context = useContext(ConversationsContext);
 

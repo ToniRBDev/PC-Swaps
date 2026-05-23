@@ -3,6 +3,18 @@ import type {
   ConversationUserResponse,
 } from '../api/conversations';
 
+/**
+ * Deduce el usuario contrario al usuario autenticado dentro de una conversacion.
+ *
+ * @remarks
+ * La API puede devolver el participante con distintos nombres de propiedad. La
+ * funcion prioriza esos campos explicitos y, si no existen, intenta inferir el
+ * usuario a partir del vendedor o de los mensajes.
+ *
+ * @param conversation - Conversacion recibida desde la API.
+ * @param currentUserId - Identificador del usuario autenticado.
+ * @returns Usuario contrario o `null` si no se puede deducir.
+ */
 export function getOtherConversationUser(
   conversation: ConversationResponse,
   currentUserId: number | null,

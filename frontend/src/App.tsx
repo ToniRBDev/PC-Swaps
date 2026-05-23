@@ -14,6 +14,14 @@ import SellerInfoPage from './pages/SellerInfoPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import { ConversationsProvider } from './context/ConversationsContext';
 
+/**
+ * Componente raiz de la aplicacion.
+ *
+ * Configura React Router y el proveedor global de conversaciones para que todas
+ * las pantallas puedan compartir estado de mensajeria.
+ *
+ * @returns Arbol principal de la aplicacion.
+ */
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +32,15 @@ function App() {
   );
 }
 
+/**
+ * Define las rutas principales y la navegacion modal del chat.
+ *
+ * @remarks
+ * Cuando una ruta llega con `backgroundLocation`, el chat se renderiza como
+ * overlay sobre la pantalla anterior manteniendo la ruta de fondo.
+ *
+ * @returns Rutas renderizables de la aplicacion.
+ */
 function AppRoutes() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location } | null;

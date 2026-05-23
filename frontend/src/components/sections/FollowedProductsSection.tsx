@@ -2,10 +2,26 @@ import ProductCard from '../ui/ProductCard';
 import type { ArticleCardResponse } from '../../api/articles';
 import { getBackendImageUrl } from '../../utils/images';
 
+/**
+ * Propiedades del componente {@link FollowedProductsSection}.
+ *
+ * Contiene los articulos seguidos por el usuario en el formato resumido que
+ * devuelve la API de articulos.
+ */
 interface Props {
   products: ArticleCardResponse[];
 }
 
+/**
+ * Seccion que muestra los articulos seguidos por el usuario.
+ *
+ * No renderiza contenido cuando no hay productos seguidos. Cuando existen
+ * articulos, normaliza la URL de sus imagenes y reutiliza {@link ProductCard}
+ * para mantener el mismo formato de tarjeta del marketplace.
+ *
+ * @param props - Propiedades del componente.
+ * @returns Seccion de productos seguidos o `null` si la lista esta vacia.
+ */
 export default function FollowedProductsSection({ products }: Props) {
   if (products.length === 0) return null;
 

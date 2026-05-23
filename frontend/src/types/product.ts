@@ -1,6 +1,11 @@
 import type { EstadoArticulo } from './enums/estado-articulo';
 
-//Un slug es una version amigable de una cadena de texto.
+/**
+ * Identificador legible usado por la interfaz para representar categorias.
+ *
+ * Un slug permite mapear rutas, filtros y textos visibles sin depender del
+ * identificador numerico que utiliza la API.
+ */
 export type CategoriaSlug =
   | 'tarjeta-grafica'
   | 'placa-base'
@@ -8,6 +13,9 @@ export type CategoriaSlug =
   | 'ram'
   | 'monitor';
 
+/**
+ * Datos minimos de producto necesarios para renderizar tarjetas y listados.
+ */
 export interface ProductCardData {
   idArticulo: number;
   imagen: string;
@@ -17,6 +25,12 @@ export interface ProductCardData {
   estado: EstadoArticulo;
 }
 
+/**
+ * Modelo completo de producto utilizado por vistas que necesitan detalle.
+ *
+ * Extiende los datos de tarjeta con categoria, descripcion, metadatos de
+ * publicacion y especificaciones tecnicas.
+ */
 export interface Product extends ProductCardData {
   categoria: CategoriaSlug;
   descripcion: string;
