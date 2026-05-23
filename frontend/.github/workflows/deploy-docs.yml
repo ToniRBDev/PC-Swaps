@@ -4,7 +4,7 @@ on:
   # Se ejecutará automáticamente cuando hagas push a la rama main
   push:
     branches:
-      - main
+      - prueba-typedoc
 
 permissions:
   contents: write # Permiso clave para que la acción pueda crear la rama gh-pages

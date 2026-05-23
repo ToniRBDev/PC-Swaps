@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(cd \"C:\\\\Users\\\\tonyg\\\\Desktop\\\\PC-Swaps\"; Get-ChildItem -Path . -Force | Format-Table Name, @{Name=\"Type\";Expression={if \\($_.PSIsContainer\\) {\"DIR\"} else {\"FILE\"}}} -AutoSize)"
-    ]
-  }
-}
