@@ -1,5 +1,6 @@
 # Node / frontend
 node_modules/
+pruebas-pcswaps/
 dist/
 dist-ssr/
 PC-swaps_aplicacion/
